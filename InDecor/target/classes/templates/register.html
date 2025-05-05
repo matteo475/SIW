@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registrazione</title>
+</head>
+<body>
+
+    <h2>Registrazione</h2>
+
+    <!-- Modulo di registrazione -->
+    <form action="/register" method="post">
+        <div>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required><br><br>
+        </div>
+
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required><br><br>
+        </div>
+
+        <div>
+            <label for="gender">Sesso:</label>
+            <select id="gender" name="gender" required>
+                <option value="Maschio">Maschio</option>
+                <option value="Femmina">Femmina</option>
+                <option value="Altro">Altro</option>
+            </select><br><br>
+        </div>
+
+        <div>
+            <label for="dateOfBirth">Data di Nascita:</label>
+            <input type="date" id="dateOfBirth" name="dateOfBirth" required><br><br>
+        </div>
+
+        <div>
+            <label for="luogo">Luogo di Nascita o Residenza:</label>
+            <input type="text" id="luogo" name="luogo" required><br><br>
+        </div>
+
+        <div>
+            <label for="role">Ruolo:</label>
+            <select id="role" name="role" required>
+                <option value="Utente">Utente</option>
+                <option value="Admin">Admin</option>
+            </select><br><br>
+        </div>
+
+        <button type="submit">Registrati</button>
+    </form>
+
+</body>
+</html>

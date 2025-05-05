@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Area Personale</title>
+    <link rel="stylesheet" href="/css/areaPersonale.css"> <!-- Collega il tuo file CSS per la personalizzazione -->
+</head>
+<body>
+
+    <header>
+        <h1>Benvenuto nella tua Area Personale, <span th:text="${user.username}">Username</span>!</h1>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="/profile">Il mio Profilo</a></li>
+            <li><a href="/settings">Impostazioni</a></li>
+            <li><a href="/logout">Esci</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section>
+            <h2>Informazioni Personali</h2>
+            <table>
+                <tr>
+                    <th>Nome Utente</th>
+                    <td th:text="${user.username}">Nome Utente</td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td th:text="${user.email}">Email</td>
+                </tr>
+                <tr>
+                    <th>Ruolo</th>
+                    <td th:text="${user.role}">Ruolo</td>
+                </tr>
+                <tr>
+                    <th>Data di Registrazione</th>
+                    <td th:text="${user.registrationDate}">Data di Registrazione</td>
+                </tr>
+            </table>
+        </section>
+
+        <section>
+            <h2>Ultime Attività</h2>
+            <p th:text="'Ultima attività: ' + ${user.lastActivity}">Ultima attività</p>
+        </section>
+
+        <section>
+            <h2>Gestisci il tuo Account</h2>
+            <p><a href="/edit-profile">Modifica Profilo</a></p>
+            <p><a href="/change-password">Cambia Password</a></p>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2025 InDecor - Tutti i diritti riservati</p>
+    </footer>
+
+</body>
+</html>

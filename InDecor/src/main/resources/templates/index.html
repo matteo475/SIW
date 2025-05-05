@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<html lang="it">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Benvenuti in Azienda XYZ</title>
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+    <div class="container">
+        <div class="company-name">
+            <span th:text="${azienda.nome}">InDecor.srl</span>
+        </div>
+
+        <div class="description">
+            <span th:text="'InDecor.srl è un\'azienda che offre soluzioni innovative nel campo dell\'arredamento e design per uffici e abitazioni. Siamo impegnati nel creare ambienti funzionali e moderni per ogni esigenza.'"></span>
+        </div>
+
+        <!-- Pulsanti per Accedere e Visualizzare la lista prodotti -->
+        <div class="buttons">
+            <a href="/login" class="btn">Accedi</a>
+            <a href="/prodotti" class="btn">Lista Prodotti</a>
+        </div>
+    </div>
+
+    <footer>
+        © 2025 <span th:text="${azienda.nome}">InDecor.srl</span> - Tutti i diritti riservati
+    </footer>
+
+</body>
+</html>
