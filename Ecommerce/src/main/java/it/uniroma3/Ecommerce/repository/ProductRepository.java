@@ -12,4 +12,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer>{
 	
 	public List<Product> findByName(String name);
 	public Long countById(Long id);
+	
+	//qui implementeremo le query per cercare i prodotti con una keyword
+	
 }
