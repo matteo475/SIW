@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head>
+	    <meta charset="UTF-8">
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	    <title>Modifica Prodotto</title>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+		<link href="/css/StileInserimentoProdotto.css" rel="stylesheet" type="text/css">
+		
+		<script>
+			function updateCharCounter() {
+			            const textarea = document.getElementById('description');
+			            const counter = document.getElementById('charCounter');
+			            counter.textContent = `${textarea.value.length} / 500 caratteri`;
+			        }
+			function previewImage() {
+			            const fileInput = document.getElementById('imageFile');
+			            const preview = document.getElementById('imagePreview');
+			            const file = fileInput.files[0];
+			            const reader = new FileReader();
+
+			            reader.onloadend = function() {
+			                preview.src = reader.result;
+			                preview.style.display = 'block';
+			            }
+
+			            if (file) {
+			                reader.readAsDataURL(file);
+			            } else {
+			                preview.src = '';
+			                preview.style.display = 'none';
+			            }
+			        }
+		</script>
+		
+	</head>
+	<body>
+		
+		<!-- PER STAMPARE I MESSAGGI DI ERRORE -->
+		<!--
+		<th:block th:if="${session.succMsg}">
+			<p class="text-success fw-bold">[[${session.succMsg}]]</p>
+			<th:block th:text="${@commnServiceImpl.removeSessionMessage()}"></th:block>
+		</th:block>
+
+		<th:block th:if="${session.errorMsg}">
+			<p class="text-danger fw-bold">[[${session.errorMsg}]]</p>
+			<th:block th:text="${@commnServiceImpl.removeSessionMessage()}"></th:block>
+		</th:block>
+		-->
+		<!---->
+		
+		
+	    <div class="container">
+	        <h1>Modifica Prodotti</h1>
+			
+			<!-- FORM DI VALIDAZIONE DEL PRODOTTO-->
+	        <form th:action="@{/product/edit}"	method="post" th:object="${product}" enctype="multipart/form-data">
+				
+				<div class="form-group">
+					<label for="id">Id</label>
+					<input readonly type="text" th:value="${product.id}" name="id" />
+				</div>
+				
+	            <div class="form-group">
+	                <label for="name">Nome del Prodotto:</label>
+	                <input type="text" th:field="${productDto.name}" />
+	            </div>
+				
+	            <div class="form-group">
+	                <label for="brand">Brand:</label>
+					<input type="text" th:field="${productDto.brand}" />
+	            </div>
+				
+	            <div>
+					
+					
+					<div>
+						<label for="categoria">Categoria</label>
+						<select th:field="${productDto.category}">
+							<option value="Altro">Altro</option>
+							<option value="Telefono">Telefono</option>
+							<option value="Computer">Computer</option>
+							<option value="Accessori">Accessiri</option>
+							<option value="Stampanti">Stampanti</option>
+							<option value="Fotocamera">Fotocamera</option> 
+						</select>
+					</div>
+					<div>
+						<label>PREZZO</label>
+						<input type="number" step="0.01" min="0" th:field="${productDto.price}"/>
+					</div>
+		
+					<!-- PER VISUALIZZARE L'IMMAGINE INSERITA-->
+					<div>
+						<div>
+							<img th:src="@{'/images/' + ${product.imageFileName}}" alt="" width="100">	
+						</div>
+					</div>
+					
+					<div>
+						<label>Image</label>
+						<div>
+							<input type="file" th:field="${productDto.imageFile}" onchange="previewImage()"/>
+							<img id="imagePreview" class="image-preview" alt="Anteprima Immagine">
+
+						</div>
+					</div>
+					<br>
+					<div>
+						<label for="description">DESCRIZIONE</label>
+						<textarea th:field="${productDto.description}"></textarea>
+						<div id="charCounter" class="char-counter">0 / 500 caratteri</div>
+					</div>
+					
+					<div>
+						<label>Data Creazione</label>
+						<div>
+							<input readonly th:value="${product.createdAt}"/>
+						</div>
+					</div>
+					
+					
+				</div>
+				
+				
+				<!--
+	            <div class="form-group">
+	                <label for="quantity">Quantità:</label>
+	                <input type="number" id="quantity" name="quantity" th:field="*{quantity}" />
+	            </div>
+				-->
+				
+				<!--
+	            <div class="form-group">
+	                <label for="productImage">Immagine del Prodotto:</label>
+	                <input type="file" id="image" name="image" accept="image/*">
+	            </div>
+				-->
+	            <button type="submit" class="button">Modifica Prodotto</button>
+	        </form>
+	    </div>
+	</body>
+</html>

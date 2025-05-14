@@ -1,0 +1,64 @@
+
+-------------------------------- DATABASE -------------------------------------
+
+	Prima di avviare controllate le application.properties che devono essere uguali per tutti altrimenti springboot
+	non trova il database.
+
+
+---------------------------- ALCUNI ERRORI --------------------------------------------
+
+  	Visto che la registrazione è differenziata a seconda del ruolo alcune pagine sono visibili solo all'azinda che 
+  	rappresenta l'admin. Se delle pagine non compaiono controllare i permessi nel file AuthConfiguration.java.
+  	
+  
+
+---------------- PAGINE LOGIN E REGISTRAZIONE ----------------------------
+	
+	La registrazione funziona. Bisogna solamente prendere alcuni parametri passati in input in modo migliore come 
+	le checkbox per verificare se si è un utente comune o una azienda che vuole inserire prodotti nel portale.
+	
+	Dopo la registrazione viene chiesto all'utente di effettuare il login ( FUNZIONE OPZIONALE ) e successivamente 
+	se l'utente registrato è una azienda si ritroverà in una sua schermata personalizzata dove potrà inserire e 
+	modificare i prodotti. Se è un utente normale ritornerà alla homepage. 
+	
+	La funzionalità appena descritta deve essere migliorata facendo una funzione per vedere chi sia veramente l'utente. 
+	Per questioni di test l'utente per ora è sempre una azienda.
+	
+	Il LOGOUT funziona da dio (immaginare tizio meme che si stroina le guance).
+	
+	
+-------------- INSERIMENTO PRODOTTI DA PARTE DELL'AZIENDA -----------------------------------
+
+	L'inserimento e la modifica dei prodotti da parte dall'azienda funziona bene. Unica pecca è che delle volte 
+	non visualizza le immagini se il database è impostato su "create" (spring.jpa.hibernate.ddl-auto=create), se lo si 
+	imposta su "update" le cose funzionano bene.
+	La cancellazione di un prodotto funziona, bisogna solo decidere che pagina far tornare dopo la sua eliminazione.
+	
+	Non so perchè delle volte quando inserisco un nuovo prodotto non fa vedere l'immagine poi se la vado ad editare si.
+	Il problema è risolto quando metto il database in update.
+  	
+	
+
+
+------------------------------ DA FARE -------------------------------------------------------
+
+	- Visualizzare i prodotti inseriti dall'azienda nella homepage dove poi l'utente può aquistarli. 
+	- Creare un profilo utente dove quest'ultimo può modificare i suoi dati personali ed inserire l'indirizzo di 
+	  consegna e inserire il metodo di pagamento
+	- Creare un carrello della spesa
+	- La ricerca di un prodotto dato il nome (la posso fare anche io ma non ora)
+	
+	- Altro.....
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

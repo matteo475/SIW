@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Tabella Prodotti</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+	<link href="/css/stileProducts.css" rel="stylesheet" type="text/css">
+	<link href="/css/stileIndex.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+
+	<!--il div che segue è per la barra di navigazione in alto-->
+	<div class="navbar" id="navbar">
+		<div class="nav-links">
+			<a href="#">Home</a>
+			<a href="#prodotti">Prodotti</a>
+			<a href="#categorie">Categorie</a>
+			<a href="#contatti">Contatti</a>
+
+			<!--rappresenta il menù a tendina -->
+			<div class="dropdown">
+				<a href="javascript:void(0)">Altro</a>
+				<div class="dropdown-content">
+					<a href="#link1">Link 1</a>
+					<a href="#link2">Link 2</a>
+					<a href="#link3">Link 3</a>
+				</div>
+			</div>
+		</div>
+
+		<!--barra di ricerca-->
+		<div class="search-bar">
+			<input type="text" placeholder="Cerca...">
+			<button type="button">Cerca</button>
+		</div>
+
+		<div th:if="${userDetails}" class="auth-links" )>
+			<span th:text="${userDetails.username}"></span>
+			<a href="/logout">Logout</a>
+		</div>
+
+		<span class="menu-icon" onclick="toggleMenu()">&#9776;</span>
+	</div>
+
+
+	<!-- PAGINA CHE CI MOSTRA I PRODOTTI INSERITI DALL'AZIENDA -->
+	<h1>Qui vediamo le caratteristiche di un Prodotto</h1>
+
+	<div>
+		&nbsp;&nbsp;<a href="/company/indexCompany" class="cta-button">indietro</a>
+	</div>
+	<table>
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Nome</th>
+				<th>Brand</th>
+				<th>Categoria</th>
+				<th>Prezzo</th>
+				<th>Immagine</th>
+				<th>Descrizione</th>
+				<th>Data Creazione</th>
+				<th>Azioni</th>
+			</tr>
+		</thead>
+		<tbody>
+			<!--gli sto dicendo che per ogni prodotto deve fare il seguente procedimento-->
+			<tr th:each="product : ${products}"> <!-- products riprende quello di model.addAttribute nel 
+															 getmapping di /company/product-->
+				<td th:text="${product.id}"></td>
+				<td th:text="${product.name}"></td>
+				<td th:text="${product.brand}"></td>
+				<td th:text="${product.category}"></td>
+				<td th:text="@{${product.price} + '$'}"></td>
+
+				<td class="image-cell">
+					<img th:src="@{'/images/' + ${product.imageFileName}}" alt="foto" width="150">
+				</td>
+
+
+				<td th:text="${product.description}"></td>
+				<td th:text="${product.createdAt}">2025-04-19</td>
+				<td class="action-buttons">
+					<!-- link per modificare il prodotto -->
+					<button class="edit-button">
+						<a th:href="@{/company/edit(id=${product.id})}">
+							<i class="fas fa-edit"></i> Edit</a>
+					</button>
+
+
+					<button class="delete-button">
+						<a th:href="@{/company/delete(id=${product.id})}" onclick="return confirm('Sei Sicuro?')">
+							<i class="fas fa-trash"></i> Delete</a>
+					</button>
+				</td>
+			</tr>
+			<!-- Aggiungi altre righe se necessario -->
+		</tbody>
+	</table>
+</body>
+
+</html>
