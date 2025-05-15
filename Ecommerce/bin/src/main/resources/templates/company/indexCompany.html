@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="it">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Area Privata Azienda</title>
+	<link href="/css/StileIndex.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+
+	<!--il div che segue è per la barra di navigazione in alto-->
+	<div class="navbar" id="navbar">
+		<div class="nav-links">
+			<a href="#">Home</a>
+			<a href="#prodotti">Prodotti</a>
+			<a href="#categorie">Categorie</a>
+			<a href="#contatti">Contatti</a>
+
+			<!--rappresenta il menù a tendina -->
+			<div class="dropdown">
+				<a href="javascript:void(0)">Altro</a>
+				<div class="dropdown-content">
+					<a href="#link1">Link 1</a>
+					<a href="#link2">Link 2</a>
+					<a href="#link3">Link 3</a>
+				</div>
+			</div>
+		</div>
+
+		<!--barra di ricerca-->
+		<div class="search-bar">
+			<input type="text" placeholder="Cerca...">
+			<button type="button">Cerca</button>
+		</div>
+
+		<!--login e registrazione in alto a destra-->
+		<!--
+			<div class="auth-links">
+			  <a href="#">ADMIN</a>
+			  <a href="#">LOGOUT</a>
+			</div>
+			-->
+
+		<div th:if="${userDetails}" class="auth-links" )>
+			<span th:text="${userDetails.username}"></span>
+			<a href="/logout">Logout</a>
+		</div>
+
+
+		<span class="menu-icon" onclick="toggleMenu()">&#9776;</span>
+	</div>
+
+	<!--div principale, rappresenta la prima cosa che vede l'utente quando entra-->
+	<div class="hero">
+		<h1>Benvenuti nella tua Area Riservata</h1>
+		<p>Scopri i nostri vantaggi esclusivi</p>
+		<br><br><br>
+		<a href="/company/showCreateProduct" class="cta-button">Aggiungi Prodotti</a>
+		<br>
+		<a href="/company/products" class="cta-button">Visualizza Prodotti</a>
+	</div>
+
+	<!--praticamente quando lo schermo diventa troppo piccolo questo script fa diminuire in automatico la navbar-->
+	<script>
+		function toggleMenu() {
+			var navbar = document.getElementById('navbar');
+			navbar.classList.toggle('responsive');
+		}
+	</script>
+</body>
+
+</html>
