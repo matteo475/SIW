@@ -1,5 +1,7 @@
 package it.uniroma3.Ecommerce.model;
 
+import java.util.Objects;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -59,16 +61,20 @@ public class User {
 	//metodi hash e equals
 	@Override
 	public int hashCode() {
+		/**
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((surname == null) ? 0 : surname.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		return result;
+		**/
+		return Objects.hash(this.name,this.email,this.surname);
 	}
 
 	@Override
 	public boolean equals(Object obj) {
+		/**
 		if (this == obj)
 			return true;
 		if (obj == null)
@@ -92,5 +98,10 @@ public class User {
 		} else if (!email.equals(other.email))
 			return false;
 		return true;
+		**/
+		if(obj == null || this.getClass() != obj.getClass())
+			return false;
+		User that = (User) obj;
+		return this.name.equals(that.getName()) && this.email.equals(that.getEmail()) && this.surname.equals(that.getSurname());
 	}
 }

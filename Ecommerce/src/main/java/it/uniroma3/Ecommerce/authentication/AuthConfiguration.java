@@ -1,7 +1,7 @@
 package it.uniroma3.Ecommerce.authentication;
 
 import static it.uniroma3.Ecommerce.model.Credentials.PROVIDER_ROLE;
-
+import static it.uniroma3.Ecommerce.model.Credentials.DEFAULT_ROLE;
 
 import javax.sql.DataSource;
 
