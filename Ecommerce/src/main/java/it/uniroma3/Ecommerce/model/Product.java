@@ -24,9 +24,7 @@ public class Product {
 	private String brand; 
 	private String category; 
 	private double price; 
-	@ManyToOne
-	@JoinColumn(name ="carrello_fk")
-	private Carrello carrello;
+	
 	
 	@Column(columnDefinition = "TEXT")
 	private String description; 

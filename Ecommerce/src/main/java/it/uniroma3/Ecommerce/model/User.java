@@ -2,6 +2,8 @@ package it.uniroma3.Ecommerce.model;
 
 import java.util.Objects;
 
+
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -10,6 +12,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.persistence.*;
 
 @Entity 
 @Table(name = "users") //cambio il nome perchè in postgres user è una parola riservata
@@ -27,10 +30,12 @@ public class User {
 	private String surname;	//è il cognome
 	@NotBlank
 	private String email;
-    @OneToOne
-    @JoinColumn(name = "carrello_fk")
+    
+	//ogni utente ha un proprio carrello
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+	@JoinColumn(name = "carrello_fk")     // whenever a Project is retrieved, always retrieve its tasks too
+            
 	private Carrello carrello;
-	
 
 	//metodi getter e setter
 	public Long getId() {
@@ -61,7 +66,12 @@ public class User {
 		this.email = email;
 	}
 
-
+	public Carrello getCarrello() {
+		return carrello;
+	}
+	public void setCarrello(Carrello carrello) {
+		this.carrello = carrello;
+	}
 	//metodi hash e equals
 	@Override
 	public int hashCode() {
