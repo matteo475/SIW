@@ -37,24 +37,8 @@ public class CredentialsService {
 
 	@Transactional
 	public Credentials saveCredentials(Credentials credentials) {
-		//credentials.setRole(Credentials.PROVIDER_ROLE);
 		credentials.setPassword(this.passwordEncoder.encode(credentials.getPassword()));
 		return this.credentialsRepository.save(credentials);
 	}
-
-	//provo a modificare la funzione sopra
-	/*@Transactional 
-	public Credentials saveCredentials(Credentials credentials) {
-
-		if(credentials.getRole() == "azienda"){
-			credentials.setRole(Credentials.PROVIDER_ROLE);
-		}
-
-		if(credentials.getRole() == "utente"){
-			credentials.setRole(Credentials.DEFAULT_ROLE);
-		}
-		credentials.setPassword(this.passwordEncoder.encode(credentials.getPassword()));
-		return this.credentialsRepository.save(credentials);
-	}*/
 
 }

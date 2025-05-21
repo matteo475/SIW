@@ -45,25 +45,6 @@
 			</div>
 			<hr>
 
-
-			<!-- EMAIL -->
-			<!--
-			<label id="icon" for="name"><i class="fas fa-envelope"></i></label>
-			<input type="text" name="name" id="username" placeholder="Email" th:field="${credentials.username}" required />
-			-->
-			<!-- da controllare -->
-
-			<!-- NOME -->
-			<!--
-			<label id="icon" for="name"><i class="fas fa-user"></i></label>
-			<input type="text" name="name" id="name" placeholder="Name" th:field="${user.name}" required />
-			-->
-			<!-- PASSWORD -->
-			<!--
-			<label id="icon" for="name"><i class="fas fa-unlock-alt"></i></label>
-			<input type="password" name="name" id="password" placeholder="Password" th:field="${credentials.password}"
-				required />
-				-->
 			
 			<!-- NAME -->	
 			<label id="icon" for="name"><i class="fas fa-user"></i></label>
@@ -77,13 +58,13 @@
 			<label id="icon" for="name"><i class="fas fa-envelope"></i></label>
 			<input type="text" name="email" id="email" placeholder="Email" th:field="${user.email}"required />
 						
-			<!-- NOME -->			
+			<!-- USERNAME -->			
 			<label id="icon" for="name"><i class="fas fa-envelope"></i></label>
 			<input type="text" name="username" id="username" placeholder="Username" th:field="${credentials.username}" required/>
 			
 			<!-- PASSWORD -->
 			<label id="icon" for="name"><i class="fas fa-unlock-alt"></i></label>
-			<input type="password" name="name" id="password" placeholder="Password" th:field="${credentials.password}" required />
+			<input type="password" name="password" id="password" placeholder="Password" th:field="${credentials.password}" required />
 
 
 
@@ -91,16 +72,16 @@
 
 			<!-- CITTA -->
 			<label id="icon_city" for="name"><i class="fas fa-city"></i></label>
-			<input type="text" name="name" id="citta" placeholder="Citt&aacute;" required />
+			<input type="text" name="citta" id="citta" placeholder="Citt&aacute;"required />
 			<!--devo implementare il th:field-->
 
 			<!-- INDIRIZZO -->
 			<label id="icon_city" for="name"><i class="fas fa-city"></i></label>
-			<input type="text" name="name" id="indirizzo" placeholder="Indirizzo" required />
+			<input type="text" name="indirizzo" id="indirizzo" placeholder="Indirizzo" required />
 
 			<!-- CAP -->
 			<label id="icon_city" for="name"><i class="fas fa-city"></i></label>
-			<input type="text" name="name" id="cap" placeholder="CAP" required />
+			<input type="text" name="cap" id="cap" placeholder="CAP" required />
 
 			<!-- ___________________________________________________________________________________________________________________ -->
 
@@ -110,11 +91,11 @@
 			<hr>
 			<!-- div che contiene i check per impostare il sesso della persona -->
 			<div class="gender">
-				<input type="radio" value="none" id="male" name="gender" th:field="${credentials.gender}" checked />
+				<input type="radio" value="uomo" id="male" name="gender" th:field="${credentials.gender}" checked />
 				<label for="male" class="radio">Uomo</label>
-				<input type="radio" value="none" id="female" name="gender" th:field="${credentials.gender}" />
+				<input type="radio" value="donna" id="female" name="gender" th:field="${credentials.gender}" />
 				<label for="female" class="radio">Donna</label>
-				<input type="radio" value="none" id="altro" name="gender" th:field="${credentials.gender}" />
+				<input type="radio" value="altor" id="altro" name="gender" th:field="${credentials.gender}" />
 				<label for="altro" class="radio">Altro</label>
 			</div>
 			<hr>
