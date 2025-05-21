@@ -33,7 +33,7 @@ public class User {
     
 	//ogni utente ha un proprio carrello
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-	@JoinColumn(name = "carrello_fk")     // whenever a Project is retrieved, always retrieve its tasks too         
+	@JoinColumn(name = "carrello_fk") // whenever a Project is retrieved, always retrieve its cart too
 	private Carrello carrello;
 
 	//metodi getter e setter

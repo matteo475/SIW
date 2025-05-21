@@ -1,6 +1,7 @@
 package it.uniroma3.Ecommerce.model;
 
 import java.util.Date;
+import java.util.Objects;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -84,6 +85,17 @@ public class Product {
 		this.imageFileName = imageFileName;
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj == null || this.getClass() != obj.getClass())
+			return false;
+		Product that = (Product) obj;
+		return this.id == that.getId() && this.name.equals(that.getName());
+	}
 	
+	@Override 
+	public int hashCode() {
+		return Objects.hash(this.id,this.name);
+	}
 	
 }

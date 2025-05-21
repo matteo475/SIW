@@ -9,7 +9,9 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import it.uniroma3.Ecommerce.model.Carrello;
 import it.uniroma3.Ecommerce.model.User;
+import it.uniroma3.Ecommerce.repository.CarrelloRepository;
 import it.uniroma3.Ecommerce.repository.UserRepository;
 
 
@@ -22,7 +24,8 @@ public class UserService {
 
 	@Autowired
 	protected UserRepository userRepository;
-
+	@Autowired
+	private CarrelloRepository carrelloRepository;
 	/**
 	 * This method retrieves a User from the DB based on its ID.
 	 * 
@@ -47,6 +50,10 @@ public class UserService {
 	 */
 	@Transactional
 	public User saveUser(User user) {
+	/*in questo metodo creiamo sia l'utente che il suo carrello associato*/
+		Carrello carrello = new Carrello();
+		user.setCarrello(carrello);
+		this.carrelloRepository.save(carrello);
 		return this.userRepository.save(user);
 	}
 

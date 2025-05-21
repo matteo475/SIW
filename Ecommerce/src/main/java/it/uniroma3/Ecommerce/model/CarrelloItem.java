@@ -33,7 +33,10 @@ public class CarrelloItem {
 	@ManyToOne
 	@JoinColumn(name = "product_id")
 	private Product prodotto;
-
+    @ManyToOne
+    @JoinColumn(name = "carrello_id")
+	private Carrello carrello;
+	private double prezzoPerUnita;
 	private int quantita;
 
 	// Getters e setters
@@ -56,6 +59,26 @@ public class CarrelloItem {
 		this.quantita = quantita; 
 	}
 
+	public Carrello getCarrello() {
+		return carrello;
+	}
+	public void setCarrello(Carrello carrello) {
+		this.carrello = carrello;
+	}
+	
+	public double getPrezzoPerUnita() {
+		return prezzoPerUnita;
+	}
+	public void setPrezzoPerUnita(double prezzoPerUnita) {
+		this.prezzoPerUnita = prezzoPerUnita;
+	}
+	
+	public Product getProdotto() {
+		return prodotto;
+	}
+	public void setProdotto(Product prodotto) {
+		this.prodotto = prodotto;
+	}
 	/*carrello item è un prodotto quindi 2 prodotti sono diversi se gli ID dei prodotti
 	 * sono diversi */
 	@Override 
