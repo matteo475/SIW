@@ -6,6 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Benvenuti su Amazzon</title>
 	<link href="/css/stileIndex.css" rel="stylesheet" type="text/css">
+	<meta http-equiv="refresh" content="10">
 </head>
 
 <body>
@@ -57,13 +58,38 @@
 		<p>Scopri i nostri prodotti esclusivi.</p>
 		<a href="#prodotti" class="cta-button">Scopri di pi&uacute;</a>
 	</div>
+	
+	<div class="products" id="abbigliamento">
+			    <h2>Elettronica</h2>
+			    <ul class="product-list">
+			        <th:block th:if="${products} and ${products.size() > 0}">
+			            <li th:each="product : ${products} " >
+							<th:block th:if="${product.category}=='abbigliamento'">
+			                <div class="product-item">
+								<a th:href="@{/prodotto/{id}(id=${product.id})}">
+			                    <img th:src="@{/images/{image}(image=${product.imageFileName})}" th:alt="${product.name}" /></a>
+			                    <h3 th:text="${product.name}">Nome prodotto</h3>
+			                    <p th:text="${product.description}">Descrizione del prodotto</p>
+			                    <p class="price" th:text="${#numbers.formatDecimal(product.price, 1, 2, 'POINT')}">Prezzo</p>
+			                    <a th:href="@{/product/{id}(id=${product.id})}" class="read-more">Acquista ora</a>
+			                </div>
+							</th:block>
+			            </li>
+			        </th:block>
 
-	<!--div per i prodotti in evidenza che scorre orizzontalmente-->
+			        <th:block th:if="${#lists.isEmpty(products)}">
+			            <li><p>Nessun prodotto disponibile al momento.</p></li>
+			        </th:block>
+			    </ul>
+			</div>
+
+	<!--
+		
 	<div class="products" id="prodotti">
 		<h2>Prodotti in evidenza</h2>
 		<div class="product-list">
 
-			<!--primo prodotto-->
+			
 			<div class="product-item">
 				<img src="/images/fotoGiacca.jpeg" alt="Prodotto1">
 				<h3>Prodotto 1</h3>
@@ -72,7 +98,7 @@
 				<a href="#prodotto1" class="read-more">Acquista ora</a>
 			</div>
 
-			<!--secondo prodotto-->
+			
 			<div class="product-item">
 				<img src="/images/fotoGiaccaUomo.jpeg" alt="Prodotto2">
 				<h3>Prodotto 2</h3>
@@ -81,7 +107,7 @@
 				<a href="#prodotto2" class="read-more">Acquista ora</a>
 			</div>
 
-			<!--terzo prodotto-->
+		
 			<div class="product-item">
 				<img src="/images/fotoGiaccaPelle.jpeg" alt="Prodotto 3">
 				<h3>Prodotto 3</h3>
@@ -90,7 +116,7 @@
 				<a href="#prodotto3" class="read-more">Acquista ora</a>
 			</div>
 
-			<!--quarto prodotto-->
+		
 			<div class="product-item">
 				<img src="/images/fotoGiaccaBrutta.jpeg" alt="Prodotto 4">
 				<h3>Prodotto 4</h3>
@@ -100,14 +126,38 @@
 			</div>
 		</div>
 	</div>
+	-->
+	<div class="products" id="elettronica">
+			    <h2>Elettronica</h2>
+			    <ul class="product-list">
+			        <th:block th:if="${products} and ${products.size() > 0}">
+			            <li th:each="product : ${products} " >
+							<th:block th:if="${product.category}=='Elettronica'">
+			                <div class="product-item">
+								<a th:href="@{/prodotto/{id}(id=${product.id})}">
+			                    <img th:src="@{/images/{image}(image=${product.imageFileName})}" th:alt="${product.name}" /></a>
+			                    <h3 th:text="${product.name}">Nome prodotto</h3>
+			                    <p th:text="${product.description}">Descrizione del prodotto</p>
+			                    <p class="price" th:text="${#numbers.formatDecimal(product.price, 1, 2, 'POINT')}">Prezzo</p>
+			                    <a th:href="@{/product/{id}(id=${product.id})}" class="read-more">Acquista ora</a>
+			                </div>
+							</th:block>
+			            </li>
+			        </th:block>
 
-	<!--div per i nuovi arrivi, i prodotti scorrono orizzontalmente-->
+			        <th:block th:if="${#lists.isEmpty(products)}">
+			            <li><p>Nessun prodotto disponibile al momento.</p></li>
+			        </th:block>
+			    </ul>
+			</div>
+
+	<!--
 	<div class="products" id="nuovi-prodotti">
 		<h2>Nuovi Arrivi</h2>
 
 		<div class="product-list">
 
-			<!--primo prodotto-->
+			primo prodotto
 			<div class="product-item">
 				<img src="/images/fotoPantaloniDonna.jpeg" alt="Nuovo Prodotto 1">
 				<h3>Nuovo Prodotto 1</h3>
@@ -116,7 +166,7 @@
 				<a href="#nuovo-prodotto1" class="read-more">Acquista ora</a>
 			</div>
 
-			<!--secondo prodotto-->
+			secondo prodotto
 			<div class="product-item">
 				<img src="/images/FotoTuta.jpeg" alt="Nuovo Prodotto 2">
 				<h3>Nuovo Prodotto 2</h3>
@@ -125,7 +175,7 @@
 				<a href="#nuovo-prodotto2" class="read-more">Acquista ora</a>
 			</div>
 
-			<!--terzo prodotto-->
+			terzo prodotto
 			<div class="product-item">
 				<img src="/images/fotoPantaloniUomo.jpeg" alt="Nuovo Prodotto 3">
 				<h3>Nuovo Prodotto 3</h3>
@@ -134,7 +184,7 @@
 				<a href="#nuovo-prodotto3" class="read-more">Acquista ora</a>
 			</div>
 
-			<!--quarto prodotto-->
+			
 			<div class="product-item">
 				<img src="/images/fotoPantaloniBrutti.jpeg" alt="Nuovo Prodotto 4">
 				<h3>Nuovo Prodotto 4</h3>
@@ -144,7 +194,7 @@
 			</div>
 		</div>
 	</div>
-
+-->
 	<!--div per i prodotti con offerte speciali, i prodotti scorrono orizzontalmente-->
 	<div class="products" id="offerte-speciali">
 		<h2>Offerte Speciali</h2>

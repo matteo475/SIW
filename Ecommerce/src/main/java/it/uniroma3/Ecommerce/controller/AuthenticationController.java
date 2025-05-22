@@ -1,5 +1,7 @@
 package it.uniroma3.Ecommerce.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -14,7 +16,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import it.uniroma3.Ecommerce.model.Carrello;
 import it.uniroma3.Ecommerce.model.Credentials;
+import it.uniroma3.Ecommerce.model.Product;
 import it.uniroma3.Ecommerce.model.User;
+import it.uniroma3.Ecommerce.repository.ProductRepository;
 import it.uniroma3.Ecommerce.service.CarrelloService;
 import it.uniroma3.Ecommerce.service.CredentialsService;
 import it.uniroma3.Ecommerce.service.UserService;
@@ -22,7 +26,8 @@ import jakarta.validation.Valid;
 
 @Controller
 public class AuthenticationController {
-
+	@Autowired 
+	ProductRepository productRepository;
 	@Autowired
 	private CredentialsService credentialsService;
 	@Autowired
@@ -44,7 +49,7 @@ public class AuthenticationController {
 		return "register.html"; //la pagina html che deve ritornare
 	}
 
-	@GetMapping(value = "/")
+	@GetMapping(value = "/registrazioneeffettuata")
 	public String index(Model model) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (authentication instanceof AnonymousAuthenticationToken) {
@@ -67,7 +72,7 @@ public class AuthenticationController {
 
 		return "index.html"; //torno alla homepage
 	}
-
+	
 	@GetMapping(value = "/success")	//il login ha avuto successo
 	public String defaultAfterLogin(Model model) {
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -75,7 +80,9 @@ public class AuthenticationController {
 		if (credentials.getRole().equalsIgnoreCase(Credentials.PROVIDER_ROLE)) {
 			return "company/indexCompany.html";	//se ho permessi speciali allora posso accedere ad un'altra area
 		}else {
-			return "index.html";
+			List <Product> a=productRepository.findAll();
+	  model.addAttribute("products", a);
+			return "index.html"; 
 		}
 
 		/**

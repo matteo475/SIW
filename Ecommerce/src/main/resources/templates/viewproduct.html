@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="/css/stileviewproduct.css" rel="stylesheet" type="text/css">
+<link href="/css/stileIndex.css" rel="stylesheet" type="text/css">
+  </head>
+  <body><div class="navbar" id="navbar">
+			<div class="nav-links">
+				<a href="/">Home</a>
+				<a href="#prodotti">Prodotti</a>
+				<a href="#contatti">Contatti</a>
+				<!--rappresenta il menù a tendina -->
+				<div class="dropdown">
+					<a href="javascript:void(0)">categorie</a>
+					<div class="dropdown-content">
+						<a href="">Abbigliamento</a>
+						<a href="">Elettronica</a>
+						<a href="">Link 3</a>
+					</div>
+				</div>
+			</div>
+			<!--barra di ricerca-->
+			<div class="search-bar">
+				<input type="text" placeholder="Cerca...">
+				<button type="button">Cerca</button>
+			</div>
+			<!--login e registrazione in alto a destra-->
+			<div class="auth-links">
+				<a href="/login">Login</a>
+				<a href="/register">Registrazione</a>
+			</div>
+			<span class="menu-icon" onclick="toggleMenu()">&#9776;</span>
+		</div>
+<div class="card">
+	  <div class="photo">
+		<img th:src="@{/images/{image}(image=${product.imageFileName})}" th:alt="${product.name}"/>	
+	  </div>
+<div class="description">
+<h2 th:text="${product.name}">nome</h2>
+<h4 th:text="${product.category}">categoria</h4>
+<h1 th:text="${product.price}">prezzo:</h1>
+ <p th:text="${product.description}"> descrizione</p>
+<button>Aggiungi al carrello</button>
+ <button>altri prodotti simili</button>
+	</div>
+ </div></body>
+</html>
