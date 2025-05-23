@@ -17,7 +17,7 @@
 			<a href="/carrello">Home</a>
 			<a href="#prodotti">Prodotti</a>
 			<a href="#categorie">Categorie</a>
-			<a href="#contatti">Contatti</a>
+			<a href="@{/userProfile/{id}(id=${user.id})}">Contatti</a>
 
 			<!--rappresenta il menù a tendina -->
 			<div class="dropdown">
@@ -38,7 +38,9 @@
 
 		<!--login e registrazione in alto a destra-->
 		<div th:if="${userDetails}" class="auth-links">
-			<span th:text="${userDetails.username}"></span>
+			<a href="@{/userProfile/{id}(id=${user.id})}">
+				<span th:text="${userDetails.username}"></span>
+			</a>
 			<a href="/logout">Logout</a>
 		</div>
 		<div th:unless="${userDetails}" class="auth-links">
@@ -46,6 +48,8 @@
 			<a href="/register">Registrazione</a>
 		</div>
 		
+		<!-- APPENA FUNZIONA IL CONTROLLO QUESTA RIGA SI TOGLIE E LOGIN E RESITRAZIONE TORANANO SULLA SINISTRA-->
+		<a th:href="@{'/userProfile/1'}" class="cta-button">Visualizza Profilo (test)</a>
 
 		
 		
