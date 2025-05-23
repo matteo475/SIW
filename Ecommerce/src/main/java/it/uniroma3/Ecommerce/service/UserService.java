@@ -9,7 +9,9 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import it.uniroma3.Ecommerce.authentication.ProductNotFoundException;
 import it.uniroma3.Ecommerce.model.Carrello;
+import it.uniroma3.Ecommerce.model.Product;
 import it.uniroma3.Ecommerce.model.User;
 import it.uniroma3.Ecommerce.repository.CarrelloRepository;
 import it.uniroma3.Ecommerce.repository.UserRepository;
@@ -26,6 +28,9 @@ public class UserService {
 	protected UserRepository userRepository;
 	@Autowired
 	private CarrelloRepository carrelloRepository;
+	
+	
+	
 	/**
 	 * This method retrieves a User from the DB based on its ID.
 	 * 
@@ -37,6 +42,13 @@ public class UserService {
 	public User getUser(Long id) {
 		Optional<User> result = this.userRepository.findById(id);
 		return result.orElse(null);
+	}
+	
+	
+	//funzione che mi fa vedere tutti i prodotti per id
+	public User get(Integer id){
+		Optional<User> result = this.userRepository.findById(id);
+		return result.get();
 	}
 
 	/**
