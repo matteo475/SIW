@@ -1,5 +1,6 @@
 package it.uniroma3.Ecommerce.model;
 
+import java.util.List;
 import java.util.Objects;
 
 
@@ -35,6 +36,10 @@ public class User {
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	@JoinColumn(name = "carrello_fk") // whenever a Project is retrieved, always retrieve its cart too
 	private Carrello carrello;
+	
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+	@JoinColumn(name = "utente_id")
+	private List<Ordine> ordini;
 
 	//metodi getter e setter
 	public Long getId() {

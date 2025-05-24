@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import it.uniroma3.Ecommerce.authentication.SessionData;
 import it.uniroma3.Ecommerce.model.Carrello;
@@ -24,5 +25,11 @@ public class CarrelloController {
 		model.addAttribute("cartItems", cart.getProdotti());
 		model.addAttribute("total", cart.calcolaSpesaTotale());
 		return "carrello.html";
+	}
+	
+	@GetMapping("/{carrelloId}/clear")
+	public String clearCarrello(@PathVariable Long CarrelloId) {
+		this.carrelloService.deleateCart(CarrelloId);
+		return "index.html";
 	}
 }

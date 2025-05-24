@@ -73,12 +73,6 @@ public class CarrelloItem {
 		this.prezzoPerUnita = prezzoPerUnita;
 	}
 	
-	public Product getProdotto() {
-		return prodotto;
-	}
-	public void setProdotto(Product prodotto) {
-		this.prodotto = prodotto;
-	}
 	/*carrello item è un prodotto quindi 2 prodotti sono diversi se gli ID dei prodotti
 	 * sono diversi */
 	@Override 
@@ -86,7 +80,7 @@ public class CarrelloItem {
 		if(obj == null || this.getClass() != obj.getClass())
 			return false;
 		CarrelloItem that = (CarrelloItem) obj;
-		return this.prodotto.getId() != that.getProduct().getId();
+		return this.prodotto.getId() == that.getProduct().getId();
 	}
 
 	@Override
