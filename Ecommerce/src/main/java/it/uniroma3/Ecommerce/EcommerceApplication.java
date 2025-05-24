@@ -12,4 +12,5 @@ public class EcommerceApplication {
   //COMMENTO FATTO DAL PC DI MATTEO SERRA PER PROVA
 
  //COMMENTO DAL PC DI LUCA
+//commento dopo che mi si è sminchiato tutto 
 }
