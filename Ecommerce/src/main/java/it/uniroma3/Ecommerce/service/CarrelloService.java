@@ -6,6 +6,9 @@ import it.uniroma3.Ecommerce.model.Product;
 import it.uniroma3.Ecommerce.repository.CarrelloItemRepository;
 import it.uniroma3.Ecommerce.repository.CarrelloRepository;
 import it.uniroma3.Ecommerce.repository.ProductRepository;
+
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +29,7 @@ public class CarrelloService {
 
 	/*questo carrello è quello dell' utente personale e verrà preso tramite l'oggetto SessionData*/
 	public Carrello getCarrello(Long id) {
-		return this.carrelloRepository.findById(id).get();
+		return this.carrelloRepository.findById(id).orElseThrow(()-> new RuntimeException("Carrello non trovato con id:" + id));
 	}
 
 	public void addProdottoAlCarrello(Long carrelloId, Long prodottoId, int quantita) {
@@ -41,11 +44,8 @@ public class CarrelloService {
 		//l'id del carrello riferito all'utente x lo prendiamo tramite l'oggetto SessionData.
 		Carrello carrello = this.carrelloRepository.findById(carrelloId).get();
 		Product prodotto = this.prodottoRepository.findById(prodottoId).get();
-		CarrelloItem cartitem = carrello.getProdotti()
-				.stream()
-				.filter(item -> item.getProduct().equals(prodottoId))
-				.findFirst().orElse(null);
-		if(cartitem.getId() == null) {
+		CarrelloItem cartitem = this.carrelloItemRepository.getProdottoDalCarrello(carrello, prodottoId).orElseThrow();
+		if(cartitem == null) {
 			cartitem.setCarrello(carrello);
 			cartitem.setProduct(prodotto);
 			cartitem.setQuantita(quantita);
@@ -63,23 +63,28 @@ public class CarrelloService {
 
 
 	public void cancellaProdottoDalCarrello(Long cartId, Long prodottoId) throws Exception {
-		Carrello carrello = this.carrelloRepository.findById(prodottoId).get();
-		CarrelloItem daRimuovere = carrello.getProdottoDalCarrello(prodottoId);
-
-		if(daRimuovere == null)
-			throw new Exception("Prodotto non trovato");
-
-		carrello.rimuoviProdottoDalCarrello(daRimuovere);
+		Carrello carrello = this.carrelloRepository.findById(cartId).get();
+		Optional<CarrelloItem> daRimuovere = this.carrelloItemRepository.getProdottoDalCarrello(carrello, prodottoId);
+		if(daRimuovere.isPresent()) {
+			carrello.rimuoviProdottoDalCarrello(daRimuovere.get());
+			this.carrelloRepository.save(carrello);
+		} else {
+              throw new RuntimeException("Elemento da rimuovere non trovato");
+		}
 		this.carrelloRepository.save(carrello);
 	}
 
 	public void updateProductQuantity(Long carrelloId, Long prodottoId, int quantita) {
 		Carrello carrello = this.carrelloRepository.findById(carrelloId).get();
-		CarrelloItem daAggiornare = carrello.getProdottoDalCarrello(prodottoId);
+		CarrelloItem daAggiornare = this.carrelloItemRepository.getProdottoDalCarrello(carrello, prodottoId).orElseThrow();
 		daAggiornare.setQuantita(quantita);
-		daAggiornare.setPrezzoPerUnita(daAggiornare.getProdotto().getPrice());
+		daAggiornare.setPrezzoPerUnita(daAggiornare.getProduct().getPrice());
 		carrello.calcolaSpesaTotale();
 		this.carrelloRepository.save(carrello);
 	}
 
+	public void deleateCart(Long cartId) {
+		Carrello daEliminare = this.carrelloRepository.findById(cartId).get();
+		this.carrelloRepository.delete(daEliminare);
+	}
 }

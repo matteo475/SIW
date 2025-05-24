@@ -23,7 +23,7 @@ public class Carrello {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@OneToMany(mappedBy = "carrello", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "carrello", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
 	private List<CarrelloItem> prodotti;
 	private double spesaTotale;
 
@@ -58,6 +58,7 @@ public class Carrello {
 	}
 
 	public void addProdottoCarrello(CarrelloItem prodotto) {
+		prodotto.setCarrello(this);
 		this.prodotti.add(prodotto);
 	}
 
@@ -71,18 +72,20 @@ public class Carrello {
 		return this.spesaTotale;
 	}
 	
+	//metodo che funziona solo in locale
 	public CarrelloItem getProdottoDalCarrello(Long id) {
 		 CarrelloItem daCercare = null;
 		 Iterator<CarrelloItem> it = this.prodotti.iterator();
 		 while(it.hasNext()) {
 			 daCercare = it.next();
-			 if(daCercare.getId().equals(id)) {
+			 if(daCercare.getProduct().getId().equals(id)) {
 				 return daCercare;
 			 }
 		 }
 		 return null;
 	}
 	
+	//metodo che funziona solo in locale
 	public void rimuoviProdottoDalCarrello(CarrelloItem item) {
 		this.prodotti.remove(item);
 		item.setCarrello(null);

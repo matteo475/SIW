@@ -17,6 +17,7 @@ public class Company {
 	private Integer p_iva; 	//per la partita iva
 	private Integer num_employee; //numero di dipendenti 
 	
+	
 	//metodi getter e setter
 	public Long getId() {
 		return id;
