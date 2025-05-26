@@ -54,7 +54,7 @@ public class AuthConfiguration {
 				.requestMatchers(HttpMethod.GET, "/", "/index", "/register", "/css/**", "/images/**", "favicon.ico","/carrello","/prodotto/**","/userProfile/**","/ricercaconfiltro","/ricercafiltro").permitAll()
 				// chiunque (autenticato o no) può mandare richieste POST al punto di accesso
 				// per login e register
-				.requestMatchers(HttpMethod.POST, "/register", "/login", "/company/showCreateProduct","/prodotto/**","/","/index","/userProfile","/ricercaconfiltro","/ricercafiltro").permitAll()
+				.requestMatchers(HttpMethod.POST, "/register", "/login", "/company/showCreateProduct","/prodotto/**","/","/index","/userProfile","/ricercaconfiltro","/ricercafiltro","/ricercaHome").permitAll()
 				.requestMatchers(HttpMethod.GET, "/admin/**").hasAnyAuthority(PROVIDER_ROLE)
 				.requestMatchers(HttpMethod.POST, "/admin/**").hasAnyAuthority(PROVIDER_ROLE)
 				// tutti gli utenti autenticati possono accedere alle pagine rimanenti

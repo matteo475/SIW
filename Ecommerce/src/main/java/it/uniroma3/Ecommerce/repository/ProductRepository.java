@@ -26,9 +26,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer>{
 
 
 	/*Query per trovare una lista di prodotti con nome simile a questa stringa*/
-	@Query("select p from Product p where " 
-			+ " CONCAT(p.name,'',p.brand,'',p.id)" 
-			+ "like %?1")
+	@Query("select p from Product p where CONCAT(p.name,'', p.brand,'',p.id) LIKE %?1%")
 	public List<Product> findAllWithThatKeyword(String keyword);
 
 
