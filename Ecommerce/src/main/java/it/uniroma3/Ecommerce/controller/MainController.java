@@ -4,10 +4,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Sort;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import it.uniroma3.Ecommerce.authentication.ProductNotFoundException;
 import it.uniroma3.Ecommerce.model.Product;
@@ -77,7 +80,20 @@ public class MainController {
 		 model.addAttribute("user",user);
 		 return "userProfile";
 	 }
-	 
-	
+	 //ricerca filtrata
+
+	 @PostMapping("/ricercaconfiltro")
+	 public String ricerca_con_filtro( Model model, @RequestParam(name = "name", required = false) String name, @RequestParam(name = "brand", required = false) String brand,@RequestParam(name = "category", required = false) String category) {
+
+	 List<Product> products = productRepository.searchProducts(name, brand, category);
+	  model.addAttribute("products", products);
+	 return "prodottofiltrato.html";
+	 }
+	 	 //pagina di ricerca filtrata
+	 	@GetMapping("/ricercafiltro")
+	 	 public String ricercaf(Model mode) {
+	 		
+	 		 return "ricercafiltro";
+	 	 }
 }
 
