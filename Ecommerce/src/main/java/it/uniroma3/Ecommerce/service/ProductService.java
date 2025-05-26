@@ -50,7 +50,17 @@ public class ProductService {
 		productRepository.deleteById(id);
 	}
 	*/
+<<<<<<< HEAD
 
 
+=======
+	
+	public List<Product> listAll(String keyword){
+		 if(keyword != null) {
+			 return this.productRepository.findAllWithThatKeyword(keyword);
+		 }
+		 return this.listAll();
+	}
+>>>>>>> branch 'main' of https://github.com/matteo475/SIW.git
 }
 
