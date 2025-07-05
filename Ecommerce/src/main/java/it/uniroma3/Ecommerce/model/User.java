@@ -37,8 +37,7 @@ public class User {
 	@JoinColumn(name = "carrello_fk") // whenever a Project is retrieved, always retrieve its cart too
 	private Carrello carrello;
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-	@JoinColumn(name = "utente_id")
+	@OneToMany(mappedBy = "utente",fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	private List<Ordine> ordini;
 
 	//metodi getter e setter

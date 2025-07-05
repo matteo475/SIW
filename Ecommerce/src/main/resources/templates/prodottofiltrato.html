@@ -6,7 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Benvenuti su Amazzon</title>
 	<link href="/css/stileIndex.css" rel="stylesheet" type="text/css">
-	<meta http-equiv="refresh" content="10">
+	
 </head>
 
 <body>
@@ -31,22 +31,15 @@
 		</div>
 
 		<!--barra di ricerca-->
-		<form th:action = "@{/ricercaHome}"  method="post">
 		<div class="search-bar">
-			<input type="text" th:value="${keyword}" placeholder="Cerca...">
-			<button type="submit">Cerca</button>
+			<input type="text" placeholder="Cerca...">
+			<button type="button">Cerca</button>
 		</div>
-		</form>
 		<!-- barra della ricerca  filtrata -->
-		<div class="search-bar">
-
-			<a href="/ricercafiltro">ricerca filtrata</a>
-
-					
-				</div>
+	
 		<!--login e registrazione in alto a destra-->
 		<div th:if="${userDetails}" class="auth-links">
-			<a href="/userProfile/{id}">
+			<a href="@{/userProfile/{id}(id=${user.id})}">
 				<span th:text="${userDetails.username}"></span>
 			</a>
 			<a href="/logout">Logout</a>
@@ -72,11 +65,11 @@
 	</div>
 	
 	<div class="products" id="abbigliamento">
-			    <h2>Elettronica</h2>
+			    <h2>prodotti</h2>
 			    <ul class="product-list">
 			        <th:block th:if="${products} and ${products.size() > 0}">
 			            <li th:each="product : ${products} " >
-							<th:block th:if="${product.category}=='abbigliamento'">
+							
 			                <div class="product-item">
 								<a th:href="@{/prodotto/{id}(id=${product.id})}">
 			                    <img th:src="@{/images/{image}(image=${product.imageFileName})}" th:alt="${product.name}" /></a>
@@ -85,7 +78,7 @@
 			                    <p class="price" th:text="${#numbers.formatDecimal(product.price, 1, 2, 'POINT')}">Prezzo</p>
 			                    <a th:href="@{/product/{id}(id=${product.id})}" class="read-more">Acquista ora</a>
 			                </div>
-							</th:block>
+							
 			            </li>
 			        </th:block>
 
@@ -139,116 +132,7 @@
 		</div>
 	</div>
 	-->
-	<div class="products" id="elettronica">
-			    <h2>Elettronica</h2>
-			    <ul class="product-list">
-			        <th:block th:if="${products} and ${products.size() > 0}">
-			            <li th:each="product : ${products} " >
-							<th:block th:if="${product.category}=='Elettronica'">
-			                <div class="product-item">
-								<a th:href="@{/prodotto/{id}(id=${product.id})}">
-			                    <img th:src="@{/images/{image}(image=${product.imageFileName})}" th:alt="${product.name}" /></a>
-			                    <h3 th:text="${product.name}">Nome prodotto</h3>
-			                    <p th:text="${product.description}">Descrizione del prodotto</p>
-			                    <p class="price" th:text="${#numbers.formatDecimal(product.price, 1, 2, 'POINT')}">Prezzo</p>
-			                    <a th:href="@{/product/{id}(id=${product.id})}" class="read-more">Acquista ora</a>
-			                </div>
-							</th:block>
-			            </li>
-			        </th:block>
 
-			        <th:block th:if="${#lists.isEmpty(products)}">
-			            <li><p>Nessun prodotto disponibile al momento.</p></li>
-			        </th:block>
-			    </ul>
-			</div>
-
-	<!--
-	<div class="products" id="nuovi-prodotti">
-		<h2>Nuovi Arrivi</h2>
-
-		<div class="product-list">
-
-			primo prodotto
-			<div class="product-item">
-				<img src="/images/fotoPantaloniDonna.jpeg" alt="Nuovo Prodotto 1">
-				<h3>Nuovo Prodotto 1</h3>
-				<p>Descrizione del nuovo prodotto 1.</p>
-				<div class="price">&euro;69.99</div>
-				<a href="#nuovo-prodotto1" class="read-more">Acquista ora</a>
-			</div>
-
-			secondo prodotto
-			<div class="product-item">
-				<img src="/images/FotoTuta.jpeg" alt="Nuovo Prodotto 2">
-				<h3>Nuovo Prodotto 2</h3>
-				<p>Descrizione del nuovo prodotto 2.</p>
-				<div class="price">&euro;89.99</div>
-				<a href="#nuovo-prodotto2" class="read-more">Acquista ora</a>
-			</div>
-
-			terzo prodotto
-			<div class="product-item">
-				<img src="/images/fotoPantaloniUomo.jpeg" alt="Nuovo Prodotto 3">
-				<h3>Nuovo Prodotto 3</h3>
-				<p>Descrizione del nuovo prodotto 3.</p>
-				<div class="price">&euro;109.99</div>
-				<a href="#nuovo-prodotto3" class="read-more">Acquista ora</a>
-			</div>
-
-			
-			<div class="product-item">
-				<img src="/images/fotoPantaloniBrutti.jpeg" alt="Nuovo Prodotto 4">
-				<h3>Nuovo Prodotto 4</h3>
-				<p>Descrizione del nuovo prodotto 4.</p>
-				<div class="price">&euro;129.99</div>
-				<a href="#nuovo-prodotto4" class="read-more">Acquista ora</a>
-			</div>
-		</div>
-	</div>
--->
-	<!--div per i prodotti con offerte speciali, i prodotti scorrono orizzontalmente-->
-	<div class="products" id="offerte-speciali">
-		<h2>Offerte Speciali</h2>
-
-		<!--primo prodotto-->
-		<div class="product-list">
-			<div class="product-item">
-				<img src="/images/fotoScarpeBianche.jpeg" alt="Offerta 1">
-				<h3>Offerta 1</h3>
-				<p>Descrizione dell'offerta 1.</p>
-				<div class="price">&euro;39.99</div>
-				<a href="#offerta1" class="read-more">Acquista ora</a>
-			</div>
-
-			<!--secondo prodotto-->
-			<div class="product-item">
-				<img src="/images/fotoScarpeDonna.jpeg" alt="Offerta 2">
-				<h3>Offerta 2</h3>
-				<p>Descrizione dell'offerta 2.</p>
-				<div class="price">&euro;49.99</div>
-				<a href="#offerta2" class="read-more">Acquista ora</a>
-			</div>
-
-			<!--terzo prodotto-->
-			<div class="product-item">
-				<img src="/images/fotoScarpeEleganti.jpeg" alt="Offerta 3">
-				<h3>Offerta 3</h3>
-				<p>Descrizione dell'offerta 3.</p>
-				<div class="price">&euro;59.99</div>
-				<a href="#offerta3" class="read-more">Acquista ora</a>
-			</div>
-
-			<!--quarto prodotto-->
-			<div class="product-item">
-				<img src="/images/fotoScarpeVerdi.jpeg" alt="Offerta 4">
-				<h3>Offerta 4</h3>
-				<p>Descrizione dell'offerta 4.</p>
-				<div class="price">&euro;69.99</div>
-				<a href="#offerta4" class="read-more">Acquista ora</a>
-			</div>
-		</div>
-	</div>
 
 	<!--praticamente quando lo schermo diventa troppo piccolo questo script fa diminuire in automatico la navbar-->
 	<script>

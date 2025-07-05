@@ -44,12 +44,6 @@ public class UserService {
 		return result.orElse(null);
 	}
 	
-	
-	//funzione che mi fa vedere tutti i prodotti per id
-	public User get(Integer id){
-		Optional<User> result = this.userRepository.findById(id);
-		return result.get();
-	}
 
 	/**
 	 * This method saves a User in the DB.

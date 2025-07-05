@@ -16,4 +16,6 @@ public class EcommerceApplication {
 	//Commento matteo dopo commento Jacopo dopo che si è sminchiato tutto
 	
 	//commento prova MAtteo 25/05
+//commento di riabilitazione gay
+//commento di riabilitazione gay
 }
