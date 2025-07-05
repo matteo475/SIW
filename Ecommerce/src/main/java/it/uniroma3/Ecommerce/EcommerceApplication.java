@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package it.uniroma3.Ecommerce;
 
 import org.springframework.boot.SpringApplication;
@@ -19,3 +20,22 @@ public class EcommerceApplication {
 //commento di riabilitazione gay
 //commento di riabilitazione gay
 }
+=======
+package it.uniroma3.Ecommerce;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class EcommerceApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(EcommerceApplication.class, args);
+	}
+  //COMMENTO FATTO DAL PC DI MATTEO SERRA PER PROVA
+
+ //COMMENTO DAL PC DI LUCA
+//commento dopo che mi si è sminchiato tutto 
+//commento di riabilitazione gay
+}
+>>>>>>> branch 'main' of https://github.com/matteo475/SIW.git
