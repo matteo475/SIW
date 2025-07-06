@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
 	<title> Registrazione </title>
@@ -12,107 +12,73 @@
 </head>
 
 <body>
-
-	<!-- STA PARTE FA ROBA CARUCCETTA non so se lasciarla-->
-	<div th:if="${userDetails}">
-		<span th:text="${userDetails.username}"></span>
-		<a href="/logout">Logout</a>
-	</div>
-	<div th:unless="${user}">
-		<a href="/login">Login</a>
-	</div>
-	<!-- __________________________________________________________ -->
-
-	<!--qui inizia il div principale-->
 	<div class="main-block">
 		<h1>Creazione Account</h1>
 
-		<!-- FORM DI REGISTAZIONE -->
-		<form th:action="@{/register}" method="POST">
-			<hr>
+		<form th:action="@{/register}" th:object="${credentials}" method="POST">
 
-			<!-- contiene i check per vedere su l'utente che si sta registrando è una azienda o un 
-				 semplice cliente -->
+			<!-- Scegli il ruolo -->
 			<div class="account-type">
-
-				<!-- UTENTE -->
-				<input type="radio" value="USER" id="radioOne" name="USER" checked th:field="${credentials.role}" />
+				<input type="radio" th:field="*{role}" value="USER" id="radioOne" name="USER" checked />
 				<label for="radioOne" class="radio">Utente</label>
-
-				<!-- AZIENDA -->
-				<input type="radio" value="PROVIDER" id="radioTwo" name="PROVIDER" checked th:field="${credentials.role}" />
+				<input type="radio" th:field="*{role}" value="PROVIDER" id="radioTwo" name="PROVIDER" checked />
 				<label for="radioTwo" class="radio">Azienda</label>
+				</label>
 			</div>
-			<hr>
 
-			
-			<!-- NAME -->	
+			<hr />
+
+			<!-- Dati personali (nested in Credentials.user) -->
 			<label id="icon" for="name"><i class="fas fa-user"></i></label>
-			<input type="text" name="name" id="name" placeholder="Name" th:field="${user.name}" required/>
-				
-			<!-- SURNAME -->	
+			<input type="text" id="name" name="name" placeholder="Nome" th:field="*{user.name}" required />
+
 			<label id="icon" for="name"><i class="fas fa-unlock-alt"></i></label>
-			<input type="text" name="surname" id="surname" placeholder="Cognome" th:field="${user.surname}" required/>
-			
-			<!-- EMAIL -->		
+			<input type="text" id="surname" name="surname" placeholder="Cognome" th:field="*{user.surname}" required />
+
 			<label id="icon" for="name"><i class="fas fa-envelope"></i></label>
-			<input type="text" name="email" id="email" placeholder="Email" th:field="${user.email}"required />
-						
-			<!-- USERNAME -->			
+			<input type="text" name="email" id="email" placeholder="Email" th:field="*{user.email}" required />
+
+			<hr />
+
+			<!-- Credenziali di accesso -->
 			<label id="icon" for="name"><i class="fas fa-envelope"></i></label>
-			<input type="text" name="username" id="username" placeholder="Username" th:field="${credentials.username}" required/>
-			
-			<!-- PASSWORD -->
+			<input type="text" id="username" name="username" placeholder="Username" th:field="*{username}" required />
+
 			<label id="icon" for="name"><i class="fas fa-unlock-alt"></i></label>
-			<input type="password" name="password" id="password" placeholder="Password" th:field="${credentials.password}" required />
+			<input type="password" id="password" name="password" placeholder="Password" th:field="*{password}"
+				required />
 
+			<hr />
 
-
-			<!-- ___________________________________________________________________________________________________________________-->
-
-			<!-- CITTA -->
-			<label id="icon_city" for="name"><i class="fas fa-city"></i></label>
-			<input type="text" name="citta" id="citta" placeholder="Citt&aacute;"required />
-			<!--devo implementare il th:field-->
-
-			<!-- INDIRIZZO -->
-			<label id="icon_city" for="name"><i class="fas fa-city"></i></label>
-			<input type="text" name="indirizzo" id="indirizzo" placeholder="Indirizzo" required />
-
-			<!-- CAP -->
-			<label id="icon_city" for="name"><i class="fas fa-city"></i></label>
-			<input type="text" name="cap" id="cap" placeholder="CAP" required />
-
-			<!-- ___________________________________________________________________________________________________________________ -->
-
-
-
-
-			<hr>
-			<!-- div che contiene i check per impostare il sesso della persona -->
+			<!-- Genere -->
 			<div class="gender">
-				<input type="radio" value="uomo" id="male" name="gender" th:field="${credentials.gender}" checked />
-				<label for="male" class="radio">Uomo</label>
-				<input type="radio" value="donna" id="female" name="gender" th:field="${credentials.gender}" />
-				<label for="female" class="radio">Donna</label>
-				<input type="radio" value="altor" id="altro" name="gender" th:field="${credentials.gender}" />
+				<input type="radio" th:field="*{gender}" value="uomo" id="male" name="gender" checked />
+				<label for="male" class="radio"> Uomo</label>
+				<input type="radio" th:field="*{gender}" value="donna" id="female" name="gender" />
+				<label for="female" class="radio"> Donna</label>
+				<input type="radio" th:field="*{gender}" value="altro" id="altro" name="gender" />
 				<label for="altro" class="radio">Altro</label>
 			</div>
-			<hr>
 
-			<!-- qui ci ho messo l'informativa per la privacy da modificare in seguito quando troveremo un nome al sito -->
+			<hr />
+
+			<!-- Privacy -->
 			<div class="btn-block">
-				<p>Creando un account accetti le Condizioni d' uso e vendita. Consulta la nostra Informativa sulla
+				<p>
+					Creando un account accetti le Condizioni d' uso e vendita. Consulta la nostra Informativa sulla
 					privacy,
 					l'Informativa sui cookie e l'Informativa sulla pubblicit&aacute; definita in base agli interessi.
 					<a href="#">Privacy Policy</a>.
+
 				</p>
 				<button type="submit">Conferma</button>
 			</div>
-
-
 		</form>
 	</div>
+
+	<script src="https://use.fontawesome.com/releases/v5.4.1/js/all.js"
+		integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz"
+		crossorigin="anonymous"></script>
 </body>
 
 </html>

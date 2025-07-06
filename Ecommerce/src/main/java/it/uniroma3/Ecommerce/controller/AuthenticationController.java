@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -32,6 +33,8 @@ public class AuthenticationController {
 	private CredentialsService credentialsService;
 	@Autowired
 	private CarrelloService carrelloService;
+	//@Autowired
+   // private PasswordEncoder passwordEncoder;
 
 	@Autowired
 	private UserService userService;
@@ -81,7 +84,7 @@ public class AuthenticationController {
 			return "company/indexCompany.html";	//se ho permessi speciali allora posso accedere ad un'altra area
 		}else {
 			List <Product> a=productRepository.findAll();
-	  model.addAttribute("products", a);
+			model.addAttribute("products", a);
 			return "index.html"; 
 		}
 
@@ -94,6 +97,7 @@ public class AuthenticationController {
 		//	return "index.html"; //se mi sono autenticato e sono un utente normale torno alla homepage
 	}
 
+	/*
 	@PostMapping(value = { "/register" })
 	public String registerUser(@Valid @ModelAttribute("user") User user, BindingResult userBindingResult,
 			@Valid @ModelAttribute("credentials") Credentials credentials, BindingResult credentialsBindingResult,
@@ -109,6 +113,74 @@ public class AuthenticationController {
 			return "registrationSuccessful.html";	//torna la pagina che mi dice che la registrazione è avvenuta con successo
 		}
 		return "register.html";	//pagina di ritorno
+	}*/
+	
+	/*
+	@PostMapping("/register")
+	public String registerUser(@Valid @ModelAttribute("user") User user, BindingResult userBindingResult,
+			@Valid @ModelAttribute("credentials") Credentials credentials, BindingResult credentialsBindingResult,
+			Model model) {
+		
+		 if (userBindingResult.hasErrors() || credentialsBindingResult.hasErrors()) {
+	            return "register";
+	        }
+
+	        // 1) Imposta la password codificata
+	        //credentials.setPassword(passwordEncoder.encode(credentials.getPassword()));
+
+	        // 2) Collega i due oggetti l’uno all’altro
+	        credentials.setUser(user);
+	        user.setCredentials(credentials);
+
+	        // 3) Salva SOLO le credentials (cascade ALL persiste anche User)
+	        credentialsService.saveCredentials(credentials);
+
+	        model.addAttribute("user", user);
+	        return "registrationSuccessful";
+		
+	}
+	*/
+
+	/*
+	@PostMapping("/register")
+	public String registerUser(BindingResult userBindingResult,
+			@Valid @ModelAttribute("credentials") Credentials credentials, 
+			Model model) {
+		
+		 if (userBindingResult.hasErrors()) {
+	            return "register";
+	        }
+
+	        // 1) Imposta la password codificata
+	        //credentials.setPassword(passwordEncoder.encode(credentials.getPassword()));
+
+	        // 2) Collega i due oggetti l’uno all’altro
+	       
+
+	        // 3) Salva SOLO le credentials (cascade ALL persiste anche User)
+	        credentialsService.saveCredentials(credentials);
+
+	        model.addAttribute("user", credentials.getUser());
+	        return "registrationSuccessful";
+		
+	}
+	*/
+	@PostMapping("/register")
+	public String registerUser(
+	    @Valid 
+	    @ModelAttribute("credentials") Credentials credentials,  // 1) il modello
+	    BindingResult bindingResult,                             // 2) subito dopo il BindingResult
+	    Model model) {                                           // 3) gli altri parametri
+	    if (bindingResult.hasErrors()) {
+	        return "register";
+	    }
+
+	    // codifica e persisti
+	   // credentials.setPassword(passwordEncoder.encode(credentials.getPassword()));
+	    credentialsService.saveCredentials(credentials);
+	    model.addAttribute("user", credentials.getUser());
+	    return "registrationSuccessful";
 	}
 
+	
 }
