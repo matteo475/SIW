@@ -2,11 +2,16 @@ package it.uniroma3.Ecommerce.model;
 
 import java.util.Objects;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "address")
 public class Address {
 
 	@Id 
@@ -17,6 +22,11 @@ public class Address {
 	private String way;	//rappresenta la via 
 	private Integer house_number;	//numero civico
 	private Integer cap;
+	
+	// lato “molti” del rapporto verso User
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
 	//metodi setter e getter
 	public Long getId() {
@@ -52,6 +62,14 @@ public class Address {
 	}
 	public void setCap(Integer cap) {
 		this.cap = cap;
+	}
+	
+	
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	//metodi hash e equals
