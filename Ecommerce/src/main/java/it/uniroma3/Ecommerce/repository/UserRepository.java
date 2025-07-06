@@ -7,5 +7,4 @@ import org.springframework.data.repository.CrudRepository;
 import it.uniroma3.Ecommerce.model.User;
 
 public interface UserRepository extends JpaRepository<User, Long>{
-	//public Optional <User> findById(Integer id);
 }
