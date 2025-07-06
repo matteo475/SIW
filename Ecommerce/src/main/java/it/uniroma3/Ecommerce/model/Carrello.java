@@ -11,100 +11,87 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
-
+import jakarta.persistence.JoinColumn;
 
 @Entity
 public class Carrello {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	@OneToMany(mappedBy = "carrello", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
-	private List<CarrelloItem> prodotti;
-	private double spesaTotale;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	/*come passo l'utente tramite l'oggetto SessionData che mi da l'utente corrente in quella sessione*/
-	public Carrello() {
-		this.prodotti = new ArrayList<CarrelloItem>();
-		this.spesaTotale = 0;
-	}
+    @OneToMany(mappedBy = "carrello",
+               cascade = CascadeType.REMOVE,
+               fetch = FetchType.EAGER)
+    private List<CarrelloItem> prodotti = new ArrayList<>();
 
-	public Long getId() {
-		return id;
-	}
+    private double spesaTotale = 0;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    // Nuovo mapping bidirezionale verso User
+    @OneToOne
+    @JoinColumn(name = "user_id", nullable = false, unique = true)
+    private User user;
 
-	public double getSpesaTotale() {
-		return spesaTotale;
-	}
+    public Carrello() { }
 
-	public void setSpesaTotale(double spesaTotale) {
-		this.spesaTotale = spesaTotale;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public List<CarrelloItem> getProdotti() {
-		return prodotti;
-	}
+    public List<CarrelloItem> getProdotti() {
+        return prodotti;
+    }
 
-	public void setProdotti(List<CarrelloItem> prodotti) {
-		this.prodotti = prodotti;
-	}
+    public double getSpesaTotale() {
+        return spesaTotale;
+    }
 
-	public void addProdottoCarrello(CarrelloItem prodotto) {
-		prodotto.setCarrello(this);
-		this.prodotti.add(prodotto);
-	}
+    public User getUser() {
+        return user;
+    }
 
+    public void setUser(User user) {
+        this.user = user;
+    }
 
-	public double calcolaSpesaTotale() {
-		double app = 0;
-		for(CarrelloItem ci : this.prodotti) {
-			app += ci.getPrezzoPerUnita() * ci.getQuantita();
-		}
-		this.spesaTotale = app;
-		return this.spesaTotale;
-	}
-	
-	//metodo che funziona solo in locale
-	public CarrelloItem getProdottoDalCarrello(Long id) {
-		 CarrelloItem daCercare = null;
-		 Iterator<CarrelloItem> it = this.prodotti.iterator();
-		 while(it.hasNext()) {
-			 daCercare = it.next();
-			 if(daCercare.getProduct().getId().equals(id)) {
-				 return daCercare;
-			 }
-		 }
-		 return null;
-	}
-	
-	//metodo che funziona solo in locale
-	public void rimuoviProdottoDalCarrello(CarrelloItem item) {
-		this.prodotti.remove(item);
-		item.setCarrello(null);
-		this.calcolaSpesaTotale();
-	}
+    public void addProdottoCarrello(CarrelloItem prodotto) {
+        prodotto.setCarrello(this);
+        this.prodotti.add(prodotto);
+        this.calcolaSpesaTotale();
+    }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
-	}
+    public void rimuoviProdottoDalCarrello(CarrelloItem item) {
+        this.prodotti.remove(item);
+        item.setCarrello(null);
+        this.calcolaSpesaTotale();
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if(obj == null || this.getClass() != obj.getClass()) 
-			return false;
-		Carrello other = (Carrello) obj;
-		return this.id == other.getId();
-	}
+    public double calcolaSpesaTotale() {
+        this.spesaTotale = prodotti.stream()
+            .mapToDouble(ci -> ci.getPrezzoPerUnita() * ci.getQuantita())
+            .sum();
+        return spesaTotale;
+    }
 
+    public CarrelloItem getProdottoDalCarrello(Long id) {
+        return prodotti.stream()
+            .filter(ci -> ci.getProduct().getId().equals(id))
+            .findFirst()
+            .orElse(null);
+    }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Carrello)) return false;
+        Carrello other = (Carrello) o;
+        return Objects.equals(id, other.id);
+    }
 
-} 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+}

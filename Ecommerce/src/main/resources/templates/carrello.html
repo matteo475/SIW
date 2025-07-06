@@ -1,53 +1,113 @@
 <!DOCTYPE html>
-<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<html lang="it">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carrello - Il Mio E-commerce</title>
-	<!--
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body { background-color: #f8f9fa; }
-        .cart-container { max-width: 1200px; margin: 50px auto; }
-        .cart-item { border-bottom: 1px solid #dee2e6; padding: 15px 0; }
-        .cart-item img { max-width: 80px; border-radius: 5px; }
-        .total-section { font-size: 1.2rem; font-weight: bold; }
-        .btn-checkout { background-color: #28a745; border: none; }
-        .btn-checkout:hover { background-color: #218838; }
-        @media (max-width: 768px) {
-            .cart-item img { max-width: 60px; }
-            .cart-item h5 { font-size: 1rem; }
-        }
-    </style>-->
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Il Mio Carrello</title>
+	<link rel="stylesheet" href="/css/stileIndex.css">
 </head>
+
 <body>
-    <div class="cart-container">
-        <h1 class="mb-4 text-center">Il Tuo Carrello</h1>
-        <div id="cart-items" class="mb-4">
-            <!-- Ciclo sui prodotti del carrello -->
-            <div th:each="item : ${cartItems}" class="cart-item d-flex align-items-center">
-                <img th:src="@{/images/{file}(file=${item.prodotto.imageFileName})}" alt="Prodotto" class="me-3">
-                <div class="flex-grow-1">
-                    <h5 th:text="${item.prodotto.name}">Prodotto</h5>
-                    <p class="text-muted" th:text="'Prezzo unitario: €' + ${#numbers.formatDecimal(item.prezzoPerUnita, 1, 2)}">Prezzo unitario</p>
-                    <p class="text-muted" th:text="'Quantità: ' + ${item.quantita}">Quantità</p>
-                </div>
-                <div class="ms-3 text-end">
-                    <p class="fw-bold" th:text="'€' + ${#numbers.formatDecimal(item.prezzoPerUnita * item.quantita, 1, 2)}">Subtotale</p>
-                </div>
-            </div>
-            <!-- Messaggio se il carrello è vuoto -->
-            <div th:if="${cartItems.isEmpty()}" class="text-center">
-                <p class="text-muted">Il tuo carrello è vuoto.</p>
-            </div>
-        </div>
-        <div class="total-section d-flex justify-content-between align-items-center p-3 bg-white rounded">
-            <span>Totale:</span>
-            <span th:text="'€' + ${#numbers.formatDecimal(total, 1, 2)}">€0.00</span>
-        </div>
-        <div class="text-end mt-4">
-            <a th:href="@{/checkout}" class="btn btn-checkout text-white px-5">Procedi al Checkout</a>
-        </div>
-    </div>
+	<div class="navbar">
+		<div class="nav-links">
+			<a href="/">Home</a>
+			<a href="/prodotti">Prodotti</a>
+			<a href="/categorie">Categorie</a>
+			<a href="/contatti">Contatti</a>
+			<div class="dropdown">
+				<a href="#">Altro</a>
+				<div class="dropdown-content">
+					<a href="/offerte">Offerte</a>
+					<a href="/faq">FAQ</a>
+				</div>
+			</div>
+		</div>
+
+		<!--barra di ricerca-->
+		<div class="search-bar">
+			<form th:action="@{/ricercaHome}" method="post">
+				<input type="text" th:value="${keyword}" placeholder="Cerca...">
+				<button type="submit">Cerca</button>
+			</form>
+		</div>
+
+		<!--login e registrazione in alto a destra-->
+		<div th:if="${userDetails}" class="auth-links">
+			<a href="@{/userProfile/{id}(id=${user.id})}">
+				<span th:text="${userDetails.username}"></span>
+			</a>
+			<a href="/logout">Logout</a>
+		</div>
+		<div th:unless="${userDetails}" class="auth-links">
+			<a href="/login">Login</a>
+			<a href="/register">Registrazione</a>
+		</div>
+	</div>
+
+	<div class="products" th:unless="${cartItems.isEmpty()}">
+		<h2>Il tuo Carrello</h2>
+
+		<!-- è tipo un carosello dove ci sono tutti i prodotti-->
+		<ul class="product-list">
+			<li>
+				<div class="product-item">
+					<img src="/images/prodotto1.jpg" alt="Prodotto nel carrello">
+					<h3>Nome prodotto</h3>
+					<p>Descrizione breve del prodotto.</p>
+					<p class="price">&euro;59.99</p>
+					<form action="/rimuoviDalCarrello" method="post">
+						<button class="cta-button">Rimuovi</button>
+					</form>
+				</div>
+			</li>
+
+			<li>
+				<div class="product-item">
+					<img src="/images/prodotto2.jpg" alt="Altro prodotto nel carrello">
+					<h3>Secondo prodotto</h3>
+					<p>Descrizione breve.</p>
+					<p class="price">&euro;79.99</p>
+					<form action="/rimuoviDalCarrello" method="post">
+						<button class="cta-button">Rimuovi</button>
+					</form>
+				</div>
+			</li>
+
+			<li>
+				<!-- Ciclo sui prodotti del carrello -->
+				<div th:each="item : ${cartItems}" class="cart-item d-flex align-items-center">
+					<img th:src="@{/images/{file}(file=${item.prodotto.imageFileName})}" alt="Prodotto" class="me-3">
+					<div class="flex-grow-1">
+						<h5 th:text="${item.prodotto.name}">Prodotto</h5>
+						<p class="text-muted"
+							th:text="'Prezzo unitario: €' + ${#numbers.formatDecimal(item.prezzoPerUnita, 1, 2)}">Prezzo
+							unitario</p>
+						<p class="text-muted" th:text="'Quantità: ' + ${item.quantita}">Quantità</p>
+					</div>
+					<div class="ms-3 text-end">
+						<p class="fw-bold"
+							th:text="'€' + ${#numbers.formatDecimal(item.prezzoPerUnita * item.quantita, 1, 2)}">
+							Subtotale</p>
+					</div>
+				</div>
+			</li>
+			<!-- Aggiungi altri prodotti dinamicamente -->
+		</ul>
+		<div style="margin-top: 40px;">
+			<h3>Totale:
+				<span th:text="'$' + ${#numbers.formatDecimal(total, 1, 2)}">0.00</span>
+			</h3>
+			<a href="/checkout" class="cta-button">Procedi al pagamento</a>
+		</div>
+	</div>
+
+
+	<!-- Messaggio se il carrello è vuoto -->
+	<div th:if="${cartItems.isEmpty()}" class="hero">
+		<p class="text-muted">Il tuo carrello &egrave; vuoto.</p>
+		<a href="/" class="cta-button">Inizia A Fare Acquisti</a>
+	</div>
 </body>
+
 </html>
