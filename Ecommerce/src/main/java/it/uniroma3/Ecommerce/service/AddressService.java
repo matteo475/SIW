@@ -5,7 +5,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import it.uniroma3.Ecommerce.model.Address;
 import it.uniroma3.Ecommerce.model.AddressDTO;
@@ -14,132 +17,80 @@ import it.uniroma3.Ecommerce.repository.AddressRepository;
 import it.uniroma3.Ecommerce.repository.UserRepository;
 
 @Service
+@Transactional
 public class AddressService {
 
-	@Autowired
-	private UserRepository userRepository;
+	private final UserRepository userRepo;
+	private final AddressRepository addrRepo;
 
-	@Autowired
-	private AddressRepository addressRepository;
+	public AddressService(UserRepository userRepo, AddressRepository addrRepo) {
+		this.userRepo = userRepo;
+		this.addrRepo = addrRepo;
+	}
 
 	/**
-	 * aggiunge un nuovo indirizzo per l'utente specificato.
-	 * 
-	 * @exception se l'utente non esiste
-	 **/
-	public Address addAddress(Long userId, AddressDTO addressDto) {
+	 * Aggiunge un nuovo indirizzo all'utente indicato. Lancia
+	 * ResponseStatusException 404 se l'utente non esiste.
+	 */
+	public AddressDTO addAddress(Long userId, AddressDTO dto) {
+		User user = userRepo.findById(userId)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Utente non trovato: " + userId));
 
-		// recupero l'utente
-		Optional<User> optUser = userRepository.findById(userId);
-
-		// se non è presente
-		if (!optUser.isPresent()) {
-			throw new RuntimeException("Utente con id = " + userId + " non trovato");
-		}
-
-		User user = optUser.get();
-
-		// DTO --> ENTITY
-		Address address = addressDto.toEntity();
-
-		// collego l'indirizzo all'utente
+		// DTO → Entity
+		Address address = dto.toEntity();
 		address.setUser(user);
-		user.getAllAddress().add(address);
 
-		// salvo l'utente che persiste anche nell'indirizzo (CASCADE ALL)
-		userRepository.save(user);
-		return address;
+		// Salva direttamente l'entità indirizzo
+		Address saved = addrRepo.save(address);
+		return AddressDTO.fromEntity(saved);
 	}
 
 	/**
-	 * rimuove un indirizzo esistente dall'utente.
+	 * Elenca tutti gli indirizzi dell'utente.
 	 * 
-	 * @exception se l'indirizzo o l'utente non esistono
-	 **/
-	public void removeAddress(Long userId, Long addressId) {
-
-		// recupero l'indirizzo
-		Optional<Address> optAddress = addressRepository.findById(addressId);
-		if (!optAddress.isPresent() || optAddress.get().getUser() == null
-				|| !optAddress.get().getUser().getId().equals(userId)) {
-			throw new RuntimeException("Indirizzo con id = " + addressId + " non trovato");
-		}
-
-		Address address = optAddress.get();
-
-		// verifico che appartiene all'utente
-		User user = address.getUser();
-		if (user == null || !user.getId().equals(userId)) {
-			throw new RuntimeException("Indirizzo non appartiene all'utente id = " + userId);
-		}
-
-		// rimuovo l'associazione e poi salvo
-		user.getAllAddress().remove(address);
-		address.setUser(null);
-		userRepository.save(user);
-	}
-
-	/**
-	 * restituisce la lista di ogni indirizzo di un utente
-	 * 
-	 * @exception se l'utente non esiste
-	 **/
+	 * @return DTO mappati
+	 */
+	@Transactional(readOnly = true)
 	public List<AddressDTO> getAllAddresses(Long userId) {
-
-		// verifico se esiste l'utente
-		Optional<User> optUser = userRepository.findById(userId);
-		if (!optUser.isPresent()) {
-			throw new RuntimeException("User con id = " + userId + " non trovato");
+		// Verifica esistenza utente (opzionale, ma consigliata)
+		if (!userRepo.existsById(userId)) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Utente non trovato: " + userId);
 		}
 
-		List<Address> entita = addressRepository.findByUserId(userId);
-		List<AddressDTO> dto = new ArrayList<>();
-		for (Address a : entita) {
-			dto.add(AddressDTO.fromEntity(a));
-		}
-
-		// utilizzo la funzione della repository
-		return dto;
+		return addrRepo.findByUserId(userId).stream().map(AddressDTO::fromEntity).toList();
 	}
 
 	/**
-	 * aggiorna l'indirizzo esistente
-	 * 
-	 * @return l'indirizzo DTO aggiornato
-	 * @exception se non esiste l'utente
-	 * @exception se l'indirizzo non esiste
-	 * 
-	 **/
-	public AddressDTO updateAdress(Long userId, Long addressId, AddressDTO dto) {
+	 * Aggiorna un indirizzo esistente.
+	 */
+	public AddressDTO updateAddress(Long userId, Long addressId, AddressDTO dto) {
+		Address addr = addrRepo.findById(addressId).orElseThrow(
+				() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Indirizzo non trovato: " + addressId));
 
-		// verifico l'utente
-		Optional<User> optUser = userRepository.findById(userId);
-		if (!optUser.isPresent()) {
-			throw new RuntimeException("User con id = " + userId + " non esiste");
+		if (!addr.getUser().getId().equals(userId)) {
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Indirizzo non appartiene all'utente");
 		}
 
-		// prendo l'utente
-		User user = optUser.get();
+		// Applica modifiche
+		addr.setCity(dto.getCity());
+		addr.setWay(dto.getWay());
+		addr.setHouse_number(dto.getHouseNumber());
+		addr.setCap(dto.getCap());
 
-		// cerco l'indirizzo
-		Optional<Address> optAddress = addressRepository.findById(addressId);
-		if (!optAddress.isPresent() || !optAddress.get().getUser().getId().equals(userId)) {
-			throw new RuntimeException("Address id" + addressId);
-		}
-
-		// prendo l'indirizzo
-		Address address = optAddress.get();
-
-		// applico le modifiche dal DTO
-		address.setCity(dto.getCity());
-		address.setWay(dto.getWay());
-		address.setHouse_number(dto.getHouseNumber());
-		address.setCap(dto.getCap());
-
-		//salvo le modifiche
-		addressRepository.save(address);
-		return AddressDTO.fromEntity(address);
-
+		Address updated = addrRepo.save(addr);
+		return AddressDTO.fromEntity(updated);
 	}
 
+	/**
+	 * Rimuove un indirizzo esistente.
+	 */
+	public void removeAddress(Long userId, Long addressId) {
+		Address addr = addrRepo.findById(addressId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Indirizzo non trovato: " + addressId));
+
+		if (!addr.getUser().getId().equals(userId)) {
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Indirizzo non appartiene all'utente");
+		}
+
+		addrRepo.delete(addr);
+	}
 }

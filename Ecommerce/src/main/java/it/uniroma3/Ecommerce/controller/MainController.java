@@ -1,5 +1,6 @@
 package it.uniroma3.Ecommerce.controller;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -59,9 +60,6 @@ public class MainController {
 		return "index.html"; 
 	}
 
-
-
-
 	@GetMapping("/index")
 	public String showHomepage(Model model) {
 		List<Product> products = productRepository.findAll();	//per visualizzare la lista
@@ -77,7 +75,7 @@ public class MainController {
 	//visualizzazione del singolo prodotto
 	@GetMapping("/prodotto/{id}")
 	public String visualizza_prodotto(@PathVariable("id") Integer id, Model model) throws ProductNotFoundException {
-		Product product=this.productService.get(id);	
+		Product product = this.productService.get(id);	
 		model.addAttribute("product",product);
 		return "viewproduct.html";
 	}
@@ -159,8 +157,8 @@ public class MainController {
 	    model.addAttribute("user", user);
 	    return "userProfile";
 	}
-
-
+	
+	
 	
 	//ricerca filtrata
 	@PostMapping("/ricercaconfiltro")
