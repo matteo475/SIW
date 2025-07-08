@@ -1,56 +1,69 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="/css/stileviewproduct.css" rel="stylesheet" type="text/css">
-<link href="/css/stileIndex.css" rel="stylesheet" type="text/css">
-  </head>
-  <body><div class="navbar" id="navbar">
-			<div class="nav-links">
-				<a href="/">Home</a>
-				<a href="#prodotti">Prodotti</a>
-				<a href="#contatti">Contatti</a>
-				<!--rappresenta il menù a tendina -->
-				<div class="dropdown">
-					<a href="javascript:void(0)">categorie</a>
-					<div class="dropdown-content">
-						<a href="">Abbigliamento</a>
-						<a href="">Elettronica</a>
-						<a href="">Link 3</a>
-					</div>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="/css/stileviewproduct.css" rel="stylesheet" type="text/css">
+	<link href="/css/stileIndex.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+	<!--il div che segue è per la barra di navigazione in alto-->
+	<div class="navbar" id="navbar">
+		<div class="nav-links">
+			<a href="/">Home</a>
+			<a href="/carrello">Prodotti</a>
+
+			<!--PER FARE LA RICERCA FILTRATA-->
+			<a href="/ricercafiltro">Ricerca Filtrata</a>
+			<a href="@{'/userProfile/' + ${user.id}}">Contatti</a>
+
+			<!--<a href="/ricercafiltro">ricerca filtrata</a>-->
+
+			<!--rappresenta il menù a tendina -->
+			<div class="dropdown">
+				<a href="javascript:void(0)">Altro</a>
+				<div class="dropdown-content">
+					<a href="#link1">Link 1</a>
+					<a href="#link2">Link 2</a>
+					<a href="#link3">Link 3</a>
 				</div>
 			</div>
-			<!--barra di ricerca-->
-			<div class="search-bar">
-				<input type="text" placeholder="Cerca...">
-				<button type="button">Cerca</button>
-			</div>
-			<!--login e registrazione in alto a destra-->
-			<div class="auth-links">
-				<a href="/login">Login</a>
-				<a href="/register">Registrazione</a>
-			</div>
-			<span class="menu-icon" onclick="toggleMenu()">&#9776;</span>
 		</div>
 
-		
-			<form th:action="@{/ricercaconfiltro}" method="post">
-
-
-		    <label for="name">Nome:</label>
-		    <input type="text" id="name" name="name" th:value="${name}"  placeholder="Inserisci il nome">
-
-		    <label for="brand">Brand:</label>
-		    <input type="text" id="brand" name="brand" th:value="${brand}"  placeholder="Inserisci il brand">
-
-		    <label for="category">Categoria:</label>
-		    <input type="text" id="category" name="category"   th:value="${category}" placeholder="Inserisci la categoria">
-
-		    <button type="submit" class="cta-button">Ricerca filtrata</button>
-		</form>
-
-
+		<!--barra di ricerca-->
+		<div class="search-bar">
+			<form th:action="@{/ricercaHome}" method="post">
+				<input type="text" th:value="${keyword}" placeholder="Cerca...">
+				<button type="submit">Cerca</button>
+			</form>
+		</div>
+		<!--login e registrazione in alto a destra-->
+		<div class="auth-links">
+			<a href="/login">Login</a>
+			<a href="/register">Registrazione</a>
+		</div>
+		<span class="menu-icon" onclick="toggleMenu()">&#9776;</span>
 	</div>
- </div></body>
+
+
+
+	<div class="hero">
+		<form th:action="@{/ricercaconfiltro}" method="post">
+
+			<label for="name">Nome:</label>
+			<input type="text" id="name" name="name" th:value="${name}" placeholder="Inserisci il nome">
+
+			<label for="brand">Brand:</label>
+			<input type="text" id="brand" name="brand" th:value="${brand}" placeholder="Inserisci il brand">
+
+			<label for="category">Categoria:</label>
+			<input type="text" id="category" name="category" th:value="${category}"dplaceholder="Inserisci la categoria">
+
+			<button type="submit" class="cta-button">Ricerca filtrata</button>
+		</form>
+	</div>
+</body>
+
 </html>

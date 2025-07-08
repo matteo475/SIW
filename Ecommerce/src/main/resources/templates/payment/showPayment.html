@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="it" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Tabella Indirizzi</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+	<link href="/css/stileProducts.css" rel="stylesheet" type="text/css">
+	<link href="/css/stileIndex.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+
+	<!--il div che segue è per la barra di navigazione in alto-->
+	<div class="navbar" id="navbar">
+		<div class="nav-links">
+			<a href="/">Home</a>
+			<a href="#prodotti">Prodotti</a>
+			<a href="#categorie">Categorie</a>
+			<a href="#contatti">Contatti</a>
+
+			<!--rappresenta il menù a tendina -->
+			<div class="dropdown">
+				<a href="javascript:void(0)">Altro</a>
+				<div class="dropdown-content">
+					<a href="#link1">Link 1</a>
+					<a href="#link2">Link 2</a>
+					<a href="#link3">Link 3</a>
+				</div>
+			</div>
+		</div>
+
+		<!--barra di ricerca-->
+		<div class="search-bar">
+			<input type="text" placeholder="Cerca...">
+			<button type="button">Cerca</button>
+		</div>
+
+		<div th:if="${userDetails}" class="auth-links" )>
+			<span th:text="${userDetails.username}"></span>
+			<a href="/logout">Logout</a>
+		</div>
+
+		<span class="menu-icon" onclick="toggleMenu()">&#9776;</span>
+	</div>
+
+	<h1>Qui vediamo i vari metodi di pagamento</h1>
+	<div th:if="${payment}">
+		<span> Ecco a te i metodi di pagamento</span>
+	</div>
+	<div th:unless="${payment}">
+		<span>NON HAI INSERITO ANCORA NESSUN METODO ID PAGAMENTO</span>
+		<button class="edit-button">
+			<a th:href="@{/profile/newPayment}">
+				<i class="fas fa-edit"></i> Aggiungi</a>
+		</button>
+	</div>
+
+
+	<div>
+		&nbsp;&nbsp;<a href="/profile" class="cta-button">indietro</a>
+	</div>
+	<table>
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Numero Carta</th>
+				<th>Intestatario</th>
+				<th>Scadenza</th>
+				<th>CVV</th>
+				<th>Azioni</th>
+			</tr>
+		</thead>
+		<tbody>
+			<!--gli sto dicendo che per ogni indirizzo deve fare il seguente procedimento-->
+			<tr th:each="pay : ${payments}"> <!-- products riprende quello di model.addAttribute nel 
+															 getmapping di /company/product-->
+				<td th:text="${pay.id}"></td>
+				<td th:text="${pay.cardnumber}"></td>
+				<td th:text="${pay.cardholder}"></td>
+				<td th:text="${pay.expiration}"></td>
+				<td th:text="${pay.cvv}"></td>
+
+				<td class="action-buttons">
+					<!-- link per modificare il prodotto -->
+					<button class="edit-button">
+						<a href="#">
+							<i class="fas fa-edit"></i> Edit</a>
+					</button>
+					<button class="delete-button">
+						<a href="#" onclick="return confirm('Sei Sicuro?')">
+							<i class="fas fa-trash"></i> Delete</a>
+					</button>
+				</td>
+			</tr>
+			<!-- Aggiungi altre righe se necessario -->
+		</tbody>
+	</table>
+</body>
+
+</html>

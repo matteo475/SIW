@@ -1,32 +1,42 @@
 <!-- src/main/resources/templates/address/form.html -->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <title>Nuovo Indirizzo</title>
+	<title>Nuovo Indirizzo</title>
+	<link href="/css/StileInserimentoProdotto.css" rel="stylesheet" type="text/css">
 </head>
+
 <body>
-    <h1 th:text="${#fields.hasErrors()} ? 'Modifica Indirizzo' : 'Nuovo Indirizzo'"></h1>
 
-    <form th:action="@{'/user/' + ${userId} + '/addresses'}" th:object="${addressDTO}" method="post">
-        <label for="city">Città:</label>
-        <input type="text" id="city" th:field="*{city}" required />
-        <div th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></div>
+	<div class="container">
+		<h1>INSERISCI UN NUOVO INDIRIZZO</h1>
+		<!--<h1 th:text="${#fields.hasErrors()} ? 'Modifica Indirizzo' : 'Nuovo Indirizzo'"></h1>-->
 
-        <label for="way">Via:</label>
-        <input type="text" id="way" th:field="*{way}" required />
-        <div th:if="${#fields.hasErrors('way')}" th:errors="*{way}"></div>
+		<form th:action="@{/profile/newAddress}" method="POST" th:object="${addressDTO}">
+			<label for="city">Città:</label>
+			<input type="text" id="city" th:field="*{city}" required />
+			<div th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></div>
 
-        <label for="houseNumber">Numero Civico:</label>
-        <input type="number" id="houseNumber" th:field="*{houseNumber}" required />
-        <div th:if="${#fields.hasErrors('houseNumber')}" th:errors="*{houseNumber}"></div>
+			<label for="way">Via:</label>
+			<input type="text" id="way" th:field="*{way}" required />
+			<div th:if="${#fields.hasErrors('way')}" th:errors="*{way}"></div>
 
-        <label for="cap">CAP:</label>
-        <input type="number" id="cap" th:field="*{cap}" required />
-        <div th:if="${#fields.hasErrors('cap')}" th:errors="*{cap}"></div>
+			<label for="houseNumber">Numero Civico:</label>
+			<input type="number" id="houseNumber" th:field="*{houseNumber}" required />
+			<div th:if="${#fields.hasErrors('houseNumber')}" th:errors="*{houseNumber}"></div>
 
-        <button type="submit">Salva</button>
-    </form>
+			<label for="cap">CAP:</label>
+			<input type="number" id="cap" th:field="*{cap}" required />
+			<div th:if="${#fields.hasErrors('cap')}" th:errors="*{cap}"></div>
 
-    <a th:href="@{'/user/' + ${userId} + '/addresses'}">Torna alla lista</a>
+			<button type="submit">Salva</button>
+		</form>
+	</div>
+	
+	<!--
+	<a th:href="@{'/profile/addresses'}">Torna alla lista</a>
+	-->
 </body>
+
 </html>

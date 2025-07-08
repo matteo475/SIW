@@ -1,0 +1,44 @@
+<!-- src/main/resources/templates/address/form.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Nuovo Pagamento</title>
+	<link href="/css/StileInserimentoProdotto.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+
+	<div class="container">
+		<h1>INSERISCI UN NUOVO METODO DI PAGAMENTO</h1>
+
+
+		<!--<h1 th:text="${#fields.hasErrors()} ? 'Modifica Indirizzo' : 'Nuovo Indirizzo'"></h1>-->
+
+		<form th:action="@{/profile/newPayment}" method="POST" th:object="${paymentDTO}">
+			<label for="cardnumber">Numero Carta:</label>
+			<input type="text" id="cardnumber" th:field="*{cardnumber}" required />
+			<div th:if="${#fields.hasErrors('cardnumber')}" th:errors="*{cardnumber}"></div>
+
+			<label for="cardholder">Intestatario:</label>
+			<input type="text" id="cardholder" th:field="*{cardholder}" required />
+			<div th:if="${#fields.hasErrors('cardholder')}" th:errors="*{cardholder}"></div>
+
+			<label for="expiration">Scadenza:</label>
+			<input type="text" id="expiration" th:field="*{expiration}" required />
+			<div th:if="${#fields.hasErrors('expiration')}" th:errors="*{expiration}"></div>
+
+			<label for="cvv">CVV:</label>
+			<input type="number" id="cvv" th:field="*{cvv}" required />
+			<div th:if="${#fields.hasErrors('cvv')}" th:errors="*{cvv}"></div>
+
+			<button type="submit">Salva</button>
+		</form>
+	</div>
+
+	<!--
+	<a th:href="@{'/profile/payments'}">Torna alla lista</a>
+	-->
+</body>
+
+</html>
