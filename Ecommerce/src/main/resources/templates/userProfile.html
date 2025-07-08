@@ -62,15 +62,10 @@
 			<p>Nome: <span th:text="${user.name}">Mario</span></p>
 			<p>Cognome: <span th:text="${user.surname}">Rossi</span></p>
 
-			<p>Indirizzo:
-				<!--<span th:text="${userDetails.indirizzo != null ? userDetails.indirizzo : 'Non specificato'}">Via di default</span>-->
-			</p>
-
-
 			<!-- Pulsanti/Link per le azioni -->
 			<div class="profile-actions">
 				<a th:href="@{/profile/addresses}" class="cta-button">Inserisci Indirizzo di Consegna</a>
-				<a th:href="@{/metodoPagamento}" class="cta-button">Metodo di Pagamento</a>
+				<a th:href="@{/profile/payments}" class="cta-button">Metodo di Pagamento</a>
 				<a th:href="@{/ordini}" class="cta-button">Visualizza Ordini</a>
 			</div>
 		</section>
