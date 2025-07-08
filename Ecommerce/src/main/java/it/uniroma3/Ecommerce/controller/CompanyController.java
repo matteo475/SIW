@@ -33,7 +33,6 @@ import jakarta.validation.Valid;
 
 /*classe che si occupa di gestire le operazioni fatte dall'azienda all'interno della sua area privata*/
 
-
 @Controller
 public class CompanyController {
 

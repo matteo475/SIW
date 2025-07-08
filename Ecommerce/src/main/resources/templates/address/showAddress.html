@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<html lang="it" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <head>
 	<meta charset="UTF-8">
@@ -15,7 +15,7 @@
 	<!--il div che segue è per la barra di navigazione in alto-->
 	<div class="navbar" id="navbar">
 		<div class="nav-links">
-			<a href="#">Home</a>
+			<a href="/">Home</a>
 			<a href="#prodotti">Prodotti</a>
 			<a href="#categorie">Categorie</a>
 			<a href="#contatti">Contatti</a>
@@ -45,24 +45,22 @@
 		<span class="menu-icon" onclick="toggleMenu()">&#9776;</span>
 	</div>
 
+	<h1>Qui vediamo i vari indirizzi</h1>
+	<div th:if="${address}">
+		<span> Ecco a te gli indirizzi</span>
+	</div>
+	<div th:unless="${address}">
+		<span>NON HAI INSERITO ANCORA NESSUN INDIRIZZO</span>
+		<button class="edit-button">
+			<a th:href="@{/profile/newAddress}">
+				<i class="fas fa-edit"></i> Aggiungi</a>
+		</button>
+	</div>
 
-	<!-- PAGINA CHE CI MOSTRA I PRODOTTI INSERITI DALL'AZIENDA -->
-	<!--
-	<h1>Qui vediamo le caratteristiche di un Prodotto</h1>
-	<div class="products" th:if="${addressDTO}">
-		<span> TUTTO VUOTO</span>
-	</div>
-	<div th:unless="{$addressDTO}">
-		<span>FUNZIONA TUTTO</span>
-	</div>
-	
+
 	<div>
 		&nbsp;&nbsp;<a href="/profile" class="cta-button">indietro</a>
 	</div>
-	<button class="edit-button">
-		<a th:href="@{/user/{userId}/addresses}">
-		<i class="fas fa-edit"></i> Aggiungi</a>
-	</button>
 	<table>
 		<thead>
 			<tr>
@@ -71,32 +69,34 @@
 				<th>Via</th>
 				<th>Numero Civico</th>
 				<th>CAP</th>
+				<th>Azioni</th>
 			</tr>
 		</thead>
-		<tbody>-->
-			<!--gli sto dicendo che per ogni prodotto deve fare il seguente procedimento-->
-			<!--<tr th:each="address : ${address}">--> <!-- products riprende quello di model.addAttribute nel 
+		<tbody>
+			<!--gli sto dicendo che per ogni indirizzo deve fare il seguente procedimento-->
+			<tr th:each="address : ${addresses}"> <!-- products riprende quello di model.addAttribute nel 
 															 getmapping di /company/product-->
-				<!--<td th:text="${address.id}"></td>
+				<td th:text="${address.id}"></td>
 				<td th:text="${address.city}"></td>
 				<td th:text="${address.way}"></td>
-				<td th:text="${address.house_number}"></td>
-				<td th:text="@{address.cap}"></td>-->
+				<td th:text="${address.houseNumber}"></td>
+				<td th:text="${address.cap}"></td>
 
-				<!-- link per modificare il prodotto -->
-				<!--<button class="edit-button">
-					<a th:href="@{/company/edit(id=${product.id})}">
-						<i class="fas fa-edit"></i> Edit</a>
-				</button>
-				<button class="delete-button">
-					<a th:href="@{/company/delete(id=${product.id})}" onclick="return confirm('Sei Sicuro?')">
-						<i class="fas fa-trash"></i> Delete</a>
-				</button>
+				<td class="action-buttons">
+					<!-- link per modificare il prodotto -->
+					<button class="edit-button">
+						<a href="#">
+							<i class="fas fa-edit"></i> Edit</a>
+					</button>
+					<button class="delete-button">
+						<a href="#" onclick="return confirm('Sei Sicuro?')">
+							<i class="fas fa-trash"></i> Delete</a>
+					</button>
 				</td>
-			</tr>-->
-			<!-- Aggiungi altre righe se necessario 
+			</tr>
+			<!-- Aggiungi altre righe se necessario -->
 		</tbody>
-	</table>-->
+	</table>
 </body>
 
 </html>
