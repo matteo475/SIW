@@ -12,6 +12,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import it.uniroma3.Ecommerce.model.Address;
 import it.uniroma3.Ecommerce.model.AddressDTO;
+import it.uniroma3.Ecommerce.model.Product;
 import it.uniroma3.Ecommerce.model.User;
 import it.uniroma3.Ecommerce.repository.AddressRepository;
 import it.uniroma3.Ecommerce.repository.UserRepository;
@@ -44,15 +45,19 @@ public class AddressService {
 		Address saved = addrRepo.save(address);
 		return AddressDTO.fromEntity(saved);
 	}
+	
+	//funzione per salvare il prodotto 
+		public void save(Address address) {
+			addrRepo.save(address);
+		}
 
 	/**
 	 * Elenca tutti gli indirizzi dell'utente.
-	 * 
 	 * @return DTO mappati
 	 */
 	@Transactional(readOnly = true)
 	public List<AddressDTO> getAllAddresses(Long userId) {
-		// Verifica esistenza utente (opzionale, ma consigliata)
+		// Verifica esistenza utente
 		if (!userRepo.existsById(userId)) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Utente non trovato: " + userId);
 		}

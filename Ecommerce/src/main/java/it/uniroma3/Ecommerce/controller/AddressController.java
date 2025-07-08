@@ -32,11 +32,12 @@ public class AddressController {
 		return "address/showAddress";
 	}*/
 
+	/*
 	@GetMapping("/new")
 	public String showCreateForm(Model model) {
 		model.addAttribute("addressDTO", new AddressDTO());
 		return "address/newAddress";
-	}
+	}*/
 
 	/*
 	@PostMapping
