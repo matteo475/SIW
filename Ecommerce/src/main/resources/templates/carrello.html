@@ -34,7 +34,7 @@
 
 		<!--login e registrazione in alto a destra-->
 		<div th:if="${userDetails}" class="auth-links">
-			<a href="@{/userProfile/{id}(id=${user.id})}">
+			<a th:href="@{/profile}">
 				<span th:text="${userDetails.username}"></span>
 			</a>
 			<a href="/logout">Logout</a>
@@ -47,8 +47,8 @@
 
 	<div class="products" th:unless="${cartItems.isEmpty()}">
 		<h2>Il tuo Carrello</h2>
-
-		<!-- è tipo un carosello dove ci sono tutti i prodotti-->
+		
+		<!-- è tipo un carosello dove ci sono tutti i prodotti"-->
 		<ul class="product-list">
 			<li>
 				<div class="product-item">
@@ -61,7 +61,7 @@
 					</form>
 				</div>
 			</li>
-
+			
 			<li>
 				<div class="product-item">
 					<img src="/images/prodotto2.jpg" alt="Altro prodotto nel carrello">
@@ -103,11 +103,10 @@
 	</div>
 
 
-	<!-- Messaggio se il carrello è vuoto -->
+	<!-- Messaggio se il carrello è vuoto-->
 	<div th:if="${cartItems.isEmpty()}" class="hero">
 		<p class="text-muted">Il tuo carrello &egrave; vuoto.</p>
 		<a href="/" class="cta-button">Inizia A Fare Acquisti</a>
 	</div>
 </body>
-
 </html>
