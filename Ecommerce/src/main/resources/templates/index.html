@@ -83,7 +83,7 @@
 							<p th:text="${product.description}">Descrizione del prodotto</p>
 							<p class="price" th:text="${#numbers.formatDecimal(product.price, 1, 2, 'POINT')}">Prezzo
 							</p>
-							<a th:href="@{/product/{id}(id=${product.id})}" class="read-more">Acquista ora</a>
+							<a th:href="@{/prodotto/{id}(id=${product.id})}" class="read-more">Acquista ora</a>
 						</div>
 					</th:block>
 				</li>

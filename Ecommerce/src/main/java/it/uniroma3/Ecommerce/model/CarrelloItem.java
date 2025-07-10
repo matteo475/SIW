@@ -33,6 +33,8 @@ public class CarrelloItem {
 	@ManyToOne
 	@JoinColumn(name = "product_id")
 	private Product prodotto;
+	
+	
     @ManyToOne
     @JoinColumn(name = "carrello_id")
 	private Carrello carrello;

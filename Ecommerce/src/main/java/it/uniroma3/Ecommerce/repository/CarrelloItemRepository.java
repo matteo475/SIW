@@ -14,17 +14,19 @@ import it.uniroma3.Ecommerce.model.Product;
 public interface CarrelloItemRepository extends CrudRepository<CarrelloItem, Long>{
  
 	/*cercare prodotto assocciato al carrelloItem ed dal carrello corrispondente, il carrelloItem fa riferimento ad un prodotto*/
-	@Query("select ci from CarrelloItem ci where  ci.carrello=?1and ci.prodotto.id =?2")
-    public Optional<CarrelloItem> getProdottoDalCarrello(Carrello carrello, Long productId);
+	@Query("select ci from CarrelloItem ci where  ci.carrello.id=?1 and ci.prodotto.id =?2")
+    public Optional<CarrelloItem> getProdottoDalCarrello(Long carrello, Integer productId);
 	
 	/*questa restituisce proprio il prodotto*/
 	@Query("select ci.prodotto from CarrelloItem ci where ci.carrello =?1 and ci.prodotto.id=?2")
-	public Optional<Product> getProductReal(Carrello carrello, Long productId);
+	public Optional<Product> getProductReal(Carrello carrello, Integer productId);
 	
 	@Query("select ci from CarrelloItem ci where ci.carrello =?1")
 	public List<CarrelloItem> getAllItemFromCart(Carrello carrello);
 	
 	@Modifying
-	@Query("delete from CarrelloItem ci where ci.carrello =?1 and ci.prodotto.id =?2")
-	public void cancellaProdottoDalCarrello(Carrello carrello, Long productId);
+	@Query("delete from CarrelloItem ci where ci.carrello.id =?1 and ci.prodotto.id =?2")
+	public void cancellaProdottoDalCarrello(Long carrello, Integer productId);
+	
+	 public boolean existsByCarrelloIdAndProdottoId(Long carrelloId, Integer prodottoId);
 }
