@@ -48,13 +48,13 @@ public class CarrelloController {
 	}
 
 
-	@PostMapping("/carrello/carrelloItem/cancella/{id}")
+	@GetMapping("/carrello/carrelloItem/cancella/{id}")
 	public String rimuoviDalCarrello(@PathVariable("id") Integer id,Model model) throws Exception {
 		Carrello cart = this.carrelloService.getCarrello(this.userLogged.getLoggedUser().getCarrello().getId());
 		this.carrelloService.cancellaProdottoDalCarrello(cart.getId(), id);
 		model.addAttribute("cartItems", cart.getProdotti());
 		model.addAttribute("total", cart.calcolaSpesaTotale());
-		return "carrello.html";
+		return "redirect:/carrello";
 	}
 
 	@GetMapping("/{carrelloId}/clear")

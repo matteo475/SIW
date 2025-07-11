@@ -66,8 +66,7 @@ public class CarrelloService {
 	}
 
 
-
-
+    @Transactional
 	public void cancellaProdottoDalCarrello(Long cartId, Integer prodottoId) throws Exception {
 		Carrello carrello = this.carrelloRepository.findById(cartId).get();
 		Optional<CarrelloItem> daRimuovere = this.carrelloItemRepository.getProdottoDalCarrello(carrello.getId(), prodottoId);

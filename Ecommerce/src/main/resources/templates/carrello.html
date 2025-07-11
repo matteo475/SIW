@@ -85,7 +85,7 @@
 							th:text="'Prezzo unitario: €' + ${#numbers.formatDecimal(item.prezzoPerUnita, 1, 2)}">Prezzo
 							unitario</p>
 						<p class="text-muted" th:text="'Quantità: ' + ${item.quantita}">Quantità</p>
-						<a th:href="@{/carrello/carrelloItem/{id}(id=${item.product.id})}">
+						<a th:href="@{/carrello/carrelloItem/cancella/{id}(id=${item.product.id})}">
 							<button class="cta-button">Rimuovi</button>
 						</a>
 					</div>
