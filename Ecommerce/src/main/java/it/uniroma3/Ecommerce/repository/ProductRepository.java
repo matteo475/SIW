@@ -14,7 +14,7 @@ import it.uniroma3.Ecommerce.model.Product;
 public interface ProductRepository extends JpaRepository<Product, Integer>{
 
 	public List<Product> findByName(String name);
-	public Long countById(Long id);
+	public int countById(Integer id);
 	public Optional<Product> findById(Long id);
 
 	//qui implementeremo le query per cercare i prodotti con una keyword
@@ -29,7 +29,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer>{
 	
 	@Query("select p from Product p where CONCAT(p.name,'', p.brand,'',p.id) LIKE %?1%")
 	public List<Product> findAllWithThatKeyword(String keyword);
-
-
+    
+    
 }
 

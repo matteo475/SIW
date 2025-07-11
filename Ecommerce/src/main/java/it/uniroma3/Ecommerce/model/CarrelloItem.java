@@ -39,7 +39,7 @@ public class CarrelloItem {
     @JoinColumn(name = "carrello_id")
 	private Carrello carrello;
 	private double prezzoPerUnita;
-	private int quantita;
+	private Integer quantita;
 
 	// Getters e setters
 	public Long getId() { 
@@ -54,10 +54,10 @@ public class CarrelloItem {
 	public void setProduct(Product product) { 
 		this.prodotto = product; 
 	}
-	public int getQuantita() { 
+	public Integer getQuantita() { 
 		return quantita; 
 	}
-	public void setQuantita(int quantita) { 
+	public void setQuantita(Integer quantita) { 
 		this.quantita = quantita; 
 	}
 

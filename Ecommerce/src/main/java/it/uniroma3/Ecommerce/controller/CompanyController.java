@@ -23,10 +23,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import it.uniroma3.Ecommerce.authentication.ProductNotFoundException;
+import it.uniroma3.Ecommerce.model.Company;
 import it.uniroma3.Ecommerce.model.Product;
 import it.uniroma3.Ecommerce.model.ProductDto;
 import it.uniroma3.Ecommerce.repository.CompanyRepository;
 import it.uniroma3.Ecommerce.repository.ProductRepository;
+import it.uniroma3.Ecommerce.service.CompanyService;
 import it.uniroma3.Ecommerce.service.ProductService;
 import jakarta.validation.Valid;
 
@@ -37,7 +39,7 @@ import jakarta.validation.Valid;
 public class CompanyController {
 
 	@Autowired
-	CompanyRepository companyRepository;
+	CompanyService companyService;
 	
 	@Autowired 
 	ProductRepository productRepository;
@@ -45,10 +47,11 @@ public class CompanyController {
 	@Autowired
 	ProductService productService;
 	
+	private Company azienda;
+	
 	//per visualizzare l'home page dell'azienda
 	@GetMapping("/company/indexCompany")
 	public String showHomePageCompany(){
-		
 		return "/company/indexCompany.html";
 	}
 	
@@ -111,6 +114,7 @@ public class CompanyController {
 		}
 		
 		/*passo i valori di productDto a product in modo da creare l'oggetto prodotto vero e proprio*/
+		this.azienda = this.companyService.creaCompany();
 		Product product = new Product(); 
 		product.setName(productDto.getName());
 		product.setBrand(productDto.getBrand());
@@ -119,7 +123,7 @@ public class CompanyController {
 		product.setDescription(productDto.getDescription());
 		product.setCreatedAt(createdAt);
 		product.setImageFileName(storageFileName);
-		
+		this.azienda.addProdotto(product);
 		productService.save(product);	//ho effettivamente salvato il prodotto creato
 		
 		return "redirect:/company/products";	//ridireziono l'azienda

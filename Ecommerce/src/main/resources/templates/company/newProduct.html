@@ -41,8 +41,7 @@
 		<h1>Inserisci Prodotto</h1>
 
 		<!-- FORM DI VALIDAZIONE DEL PRODOTTO-->
-		<form th:action="@{/company/showCreateProduct}" method="POST" th:object="${productDto}"
-			enctype="multipart/form-data">
+		<form th:action="@{/company/showCreateProduct}" method="POST" th:object="${productDto}" enctype="multipart/form-data">
 			<div>
 				<label for="name">Nome Prodotto:</label>
 				<input type="text" id="name" name="name" th:field="${productDto.name}" />

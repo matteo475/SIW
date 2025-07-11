@@ -76,7 +76,9 @@ public class MainController {
 	@GetMapping("/prodotto/{id}")
 	public String visualizza_prodotto(@PathVariable("id") Integer id, Model model) throws ProductNotFoundException {
 		Product product = this.productService.get(id);	
+		int quantita = this.productService.numeroProdotti(id);
 		model.addAttribute("product",product);
+	    model.addAttribute("disponibilita", quantita);
 		return "viewproduct.html";
 	}
 	

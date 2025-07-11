@@ -31,22 +31,20 @@ public class CarrelloController {
 		return "carrello.html";
 	}
 
+	/*
+	@GetMapping("/carrello/carrelloItem/{id}")
+	public String aggiungiProdotto(Model model) {
+		model.addAttribute("cartItems", this.userLogged.getLoggedUser().getCarrello().getProdotti());		return "carrello.html";
+	}*/
+
 
 	@GetMapping("/carrello/carrelloItem/{id}")
-	public String aggiungiProdotto(@PathVariable("id") Integer id, Model model) {
+	public String antiRefresh(@PathVariable("id") Integer id,Model model) {
 		Carrello cart = this.carrelloService.getCarrello(this.userLogged.getLoggedUser().getCarrello().getId());
 		this.carrelloService.addProdottoAlCarrello(cart.getId(), id, 1);
 		model.addAttribute("cartItems", cart.getProdotti());
-		model.addAttribute("total", cart.calcolaSpesaTotale());		return "carrello.html";
-	}
-
-
-	@PostMapping("/carrello/carrelloItem/{id}")
-	public String antiRefresh(Model model) {
-		Carrello cart = this.carrelloService.getCarrello(this.userLogged.getLoggedUser().getCarrello().getId());
-		model.addAttribute("cartItems", cart.getProdotti());
 		model.addAttribute("total", cart.calcolaSpesaTotale());
-		return "redirect:/carrello.html";
+		return "redirect:/";
 	}
 
 

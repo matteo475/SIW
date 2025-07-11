@@ -34,7 +34,7 @@ public class CarrelloService {
 	}
      
     @Transactional
-	public void addProdottoAlCarrello(Long carrelloId, Integer prodottoId, int quantita) {
+	public void addProdottoAlCarrello(Long carrelloId, Integer prodottoId, Integer quantita) {
 		/**
 		 * 1- prendiamo il carrello
 		 * 2-prendiamo il prodotto

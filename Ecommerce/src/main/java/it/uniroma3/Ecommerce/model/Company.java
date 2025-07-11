@@ -1,22 +1,25 @@
 package it.uniroma3.Ecommerce.model;
 
+import java.util.List;
 import java.util.Objects;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Company {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name; 
 	private Integer p_iva; 	//per la partita iva
 	private Integer num_employee; //numero di dipendenti 
-	
+	@OneToMany(mappedBy= "azienda")
+	private List<Product> prodotti;
 	
 	//metodi getter e setter
 	public Long getId() {
@@ -45,6 +48,18 @@ public class Company {
 	}
 	public void setNum_employee(Integer num_employee) {
 		this.num_employee = num_employee;
+	}
+	
+	public List<Product> getProdotti() {
+		return prodotti;
+	}
+	public void setProdotti(List<Product> prodotti) {
+		this.prodotti = prodotti;
+	}
+	
+	public void addProdotto(Product p) {
+	    p.setAzienda(this);
+		this.prodotti.add(p);
 	}
 	
 	@Override 

@@ -57,5 +57,9 @@ public class ProductService {
 		 }
 		 return this.listAll();
 	}
+	
+	public int numeroProdotti(Integer id) {
+		return this.productRepository.countById(id);
+	}
 
 }
