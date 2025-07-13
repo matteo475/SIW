@@ -32,8 +32,8 @@ public class CarrelloService {
 	public Carrello getCarrello(Long id) {
 		return this.carrelloRepository.findById(id).orElseThrow(()-> new RuntimeException("Carrello non trovato con id:" + id));
 	}
-     
-    @Transactional
+
+	@Transactional
 	public void addProdottoAlCarrello(Long carrelloId, Integer prodottoId, Integer quantita) {
 		/**
 		 * 1- prendiamo il carrello
@@ -66,18 +66,30 @@ public class CarrelloService {
 	}
 
 
-    @Transactional
-	public void cancellaProdottoDalCarrello(Long cartId, Integer prodottoId) throws Exception {
-		Carrello carrello = this.carrelloRepository.findById(cartId).get();
-		Optional<CarrelloItem> daRimuovere = this.carrelloItemRepository.getProdottoDalCarrello(carrello.getId(), prodottoId);
-		if(daRimuovere.isPresent()) {
-			carrello.rimuoviProdottoDalCarrello(daRimuovere.get());
-			this.carrelloItemRepository.cancellaProdottoDalCarrello(cartId, prodottoId);
+	@Transactional
+	public void cancellaProdottoDalCarrello(Long cartId, Integer prodottoId) {
+		Carrello carrello = this.carrelloRepository.findById(cartId)
+				.orElseThrow(() -> new RuntimeException("Carrello non trovato"));
+
+		Optional<CarrelloItem> daRimuovereOpt = this.carrelloItemRepository.getProdottoDalCarrello(carrello.getId(), prodottoId);
+
+		if (daRimuovereOpt.isPresent()) {
+			CarrelloItem daRimuovere = daRimuovereOpt.get();
+
+			if (daRimuovere.getQuantita() > 1) {
+				daRimuovere.setQuantita(daRimuovere.getQuantita() - 1);
+				this.carrelloItemRepository.save(daRimuovere);
+			} else {
+				carrello.rimuoviProdottoDalCarrello(daRimuovere);
+				this.carrelloItemRepository.cancellaProdottoDalCarrello(cartId, prodottoId);
+			}
+
+			carrello.calcolaSpesaTotale();
 			this.carrelloRepository.save(carrello);
+
 		} else {
 			throw new RuntimeException("Elemento da rimuovere non trovato");
 		}
-		this.carrelloRepository.save(carrello);
 	}
 
 	public void updateProductQuantity(Long carrelloId, Integer prodottoId, int quantita) {
@@ -93,9 +105,9 @@ public class CarrelloService {
 		Carrello daEliminare = this.carrelloRepository.findById(cartId).get();
 		this.carrelloRepository.delete(daEliminare);
 	}
-	
+
 	public boolean prodottoGiaNelCarrello(Long id1,Integer id) {
 		return this.carrelloItemRepository.existsByCarrelloIdAndProdottoId(id1, id);
 	}
-	
+
 }

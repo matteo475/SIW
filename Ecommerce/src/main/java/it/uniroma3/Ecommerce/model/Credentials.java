@@ -1,6 +1,7 @@
 package it.uniroma3.Ecommerce.model;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,6 +23,8 @@ public class Credentials {	//gestisce le credenziali di accesso al sito
 	private String password; 
 	private String role; 
 	private String gender;
+	@Column(name ="reset_passwors_token")
+	private String resetPasswordToken;
 	
 	
 	@OneToOne(cascade = CascadeType.ALL)
@@ -75,5 +78,15 @@ public class Credentials {	//gestisce le credenziali di accesso al sito
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
+
+	public String getResetPasswordToken() {
+		return resetPasswordToken;
+	}
+
+	public void setResetPasswordToken(String resetPasswordToken) {
+		this.resetPasswordToken = resetPasswordToken;
+	}
+	
+	
 	
 }

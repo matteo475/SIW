@@ -13,6 +13,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
 @Entity
@@ -30,6 +31,7 @@ public class User {
 	private String surname;
 
 	@NotBlank
+	@Email
 	private String email;
 
 	//mapping bidirezionale OneToOne verso Carrello

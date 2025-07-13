@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.uniroma3.Ecommerce.model.Credentials;
+import it.uniroma3.Ecommerce.model.User;
 import it.uniroma3.Ecommerce.repository.CredentialsRepository;
 
 
@@ -41,4 +42,6 @@ public class CredentialsService {
 		return this.credentialsRepository.save(credentials);
 	}
 
+	
+	
 }

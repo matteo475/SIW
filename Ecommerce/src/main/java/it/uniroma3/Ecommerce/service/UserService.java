@@ -6,14 +6,17 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.uniroma3.Ecommerce.authentication.ProductNotFoundException;
 import it.uniroma3.Ecommerce.model.Carrello;
+import it.uniroma3.Ecommerce.model.Credentials;
 import it.uniroma3.Ecommerce.model.Product;
 import it.uniroma3.Ecommerce.model.User;
 import it.uniroma3.Ecommerce.repository.CarrelloRepository;
+import it.uniroma3.Ecommerce.repository.CredentialsRepository;
 import it.uniroma3.Ecommerce.repository.UserRepository;
 
 
@@ -28,7 +31,8 @@ public class UserService {
 	protected UserRepository userRepository;
 	@Autowired
 	private CarrelloRepository carrelloRepository;
-	
+	@Autowired
+	private CredentialsRepository credentialsRepository;
 	
 	
 	/**
@@ -44,7 +48,13 @@ public class UserService {
 		return result.orElse(null);
 	}
 	
-
+	
+	@Transactional
+	public User getUser(String email) {
+	   Optional<User> user = this.userRepository.findByEmail(email);
+	   return user.orElse(null);
+	}
+	
 	/**
 	 * This method saves a User in the DB.
 	 * 
@@ -76,5 +86,40 @@ public class UserService {
 			result.add(user);
 		return result;
 	}
+	
+	@Transactional
+	public void updateResetPassword(String email,String token) throws UserNotFoundException {
+		User user = this.getUser(email);
+		if(user != null) {
+			Credentials credenziali = user.getCredentials();
+			credenziali.setResetPasswordToken(token);
+			this.credentialsRepository.save(credenziali);
+		}else {
+			throw new UserNotFoundException("non abbiamo trovato alcun credenziali associata a: " + email);
+		}
+	}
+	
+	@Transactional
+	public User getByResetPasswordToken(String resetPasswordToken) {
+		  Credentials credenziali = this.credentialsRepository.findByResetPasswordToken(resetPasswordToken).orElse(null);
+		  User user = credenziali.getUser();
+		  return user;
+	}
+
+	@Transactional
+	public void updatePassword(String email, String newPassword) throws UserNotFoundException {
+		BCryptPasswordEncoder codificatore = new BCryptPasswordEncoder();
+		String encodePassword = codificatore.encode(newPassword);
+	    User user = this.getUser(email);
+		if(user != null) {
+			Credentials credenziali = user.getCredentials();
+			credenziali.setPassword(encodePassword);
+			credenziali.setResetPasswordToken(null);
+			this.credentialsRepository.save(credenziali);
+		}else {
+			throw new UserNotFoundException("non abbiamo trovato alcun credenziali associata a: " + email);
+		}
+	}
+	
 }
 
