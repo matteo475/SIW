@@ -64,7 +64,6 @@ public class Address {
 		this.cap = cap;
 	}
 	
-	
 	public User getUser() {
 		return user;
 	}
