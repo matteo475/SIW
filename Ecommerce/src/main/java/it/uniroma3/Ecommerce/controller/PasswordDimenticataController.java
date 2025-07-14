@@ -57,7 +57,7 @@ public class PasswordDimenticataController {
 	private void sendEmail(String email, String resetPasswordLink) throws UnsupportedEncodingException, MessagingException {
 		MimeMessage message = this.mailSender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message);
-		helper.setFrom("contact@ecommerce.com","Ecommerce support");
+		helper.setFrom("ContactEcommerce@gmail.com","Ecommerce support");
 		helper.setTo(email);
 		String subject = "questo e' il link per resettare la password!";
 		String content = "<p>Ciao!</p>"
