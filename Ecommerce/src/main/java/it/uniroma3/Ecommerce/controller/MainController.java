@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import it.uniroma3.Ecommerce.authentication.ProductNotFoundException;
+import it.uniroma3.Ecommerce.authentication.SessionData;
 import it.uniroma3.Ecommerce.model.*;
 import it.uniroma3.Ecommerce.repository.ProductRepository;
 import it.uniroma3.Ecommerce.repository.UserRepository;
@@ -43,9 +44,11 @@ public class MainController {
 
 	@Autowired
 	UserService userService;
-	
+
 	@Autowired
 	CredentialsService credentialsService;
+
+	@Autowired private SessionData sessionData;
 
 	//mapping  che permette di avere tutti i prodotti
 	@GetMapping("/")
@@ -62,12 +65,13 @@ public class MainController {
 
 	@GetMapping("/index")
 	public String showHomepage(Model model) {
+		UserDetails username = this.sessionData.getUserDetails();
 		List<Product> products = productRepository.findAll();	//per visualizzare la lista
 		//dei prodotti ordinata per id, in modo che i prodotti più recenti siano in alto
 		if(products.isEmpty()) {
 			return "redirect:/login.html"; 
 		}
-
+		model.addAttribute("userDetails", username);
 		model.addAttribute("products", products); 
 		return "index.html"; 
 	}
@@ -78,10 +82,10 @@ public class MainController {
 		Product product = this.productService.get(id);	
 		int quantita = this.productService.numeroProdotti(id);
 		model.addAttribute("product",product);
-	    model.addAttribute("disponibilita", quantita);
+		model.addAttribute("disponibilita", quantita);
 		return "viewproduct.html";
 	}
-	
+
 	/*
 	@GetMapping("/userProfile/{id}")
 	public String showUserProfile(@PathVariable Long id, Model model) throws Exception {
@@ -103,17 +107,17 @@ public class MainController {
 	    model.addAttribute("user", this.userRepository.findById(id).get());
 	    return "userProfile.html";
 	  }*/
-	
+
 
 	//visualizzazione profilo utente
-	
+
 	@GetMapping("/userProfile/{id}")
 	public String showUserProfile(@PathVariable("id") Long id, Model model) {
 		User user = this.userService.getUser(id);
 		model.addAttribute("user",user);
 		return "userProfile";
 	}
-	
+
 	/*
 	@GetMapping("/profile")
 	public String myProfile(@AuthenticationPrincipal Credentials creds, Model model) {
@@ -123,45 +127,45 @@ public class MainController {
 	  model.addAttribute("user", creds.getUser());
 	  return "userProfile";
 	}*/
-	
+
 	@GetMapping("/profile")
 	public String showMyProfile(Authentication authentication, Model model) {
-	    // 1) utente non autenticato → login
-	    if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
-	        return "redirect:/login";
-	    }
+		// 1) utente non autenticato → login
+		if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
+			return "redirect:/login";
+		}
 
-	    // 2) ricava lo username dal Principal (qualsiasi tipo sia)
-	    Object principal = authentication.getPrincipal();
-	    String username;
-	    if (principal instanceof UserDetails) {
-	        username = ((UserDetails) principal).getUsername();
-	    } else {
-	        // fallback: usa toString() o gestisci come errore
-	        username = principal.toString();
-	    }
+		// 2) ricava lo username dal Principal (qualsiasi tipo sia)
+		Object principal = authentication.getPrincipal();
+		String username;
+		if (principal instanceof UserDetails) {
+			username = ((UserDetails) principal).getUsername();
+		} else {
+			// fallback: usa toString() o gestisci come errore
+			username = principal.toString();
+		}
 
-	    // 3) recupera sempre le credentials dal repo
-	    Credentials creds = credentialsService.getCredentials(username);
-	    if (creds == null) {
-	        // log di debug: non trovato in DB?
-	        // logger.warn("Nessuna credentials per username=" + username);
-	        return "redirect:/login?error";
-	    }
+		// 3) recupera sempre le credentials dal repo
+		Credentials creds = credentialsService.getCredentials(username);
+		if (creds == null) {
+			// log di debug: non trovato in DB?
+			// logger.warn("Nessuna credentials per username=" + username);
+			return "redirect:/login?error";
+		}
 
-	    // 4) usa creds.getUser() solo se non null
-	    User user = creds.getUser();
-	    if (user == null) {
-	        // impossibile ma difensivo
-	        return "redirect:/login?error";
-	    }
+		// 4) usa creds.getUser() solo se non null
+		User user = creds.getUser();
+		if (user == null) {
+			// impossibile ma difensivo
+			return "redirect:/login?error";
+		}
 
-	    model.addAttribute("user", user);
-	    return "userProfile";
+		model.addAttribute("user", user);
+		return "userProfile";
 	}
-	
-	
-	
+
+
+
 	//ricerca filtrata
 	@PostMapping("/ricercaconfiltro")
 	public String ricerca_con_filtro( Model model, @RequestParam(name = "name", required = false) String name, @RequestParam(name = "brand", required = false) String brand,@RequestParam(name = "category", required = false) String category) {
@@ -172,7 +176,8 @@ public class MainController {
 	}
 	//pagina di ricerca filtrata
 	@GetMapping("/ricercafiltro")
-	public String ricercaf(Model mode) {
+	public String ricercaf(Model model) {
+		model.addAttribute("userDetails", this.sessionData.getUserDetails());
 		return "ricercafiltro";
 	}
 
@@ -183,9 +188,9 @@ public class MainController {
 		model.addAttribute("keyword", keyword);
 		return "prodottoFiltrato.html";
 	}
-	
-	
-	
-	
+
+
+
+
 }
 

@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import it.uniroma3.Ecommerce.authentication.ProductNotFoundException;
+import it.uniroma3.Ecommerce.authentication.SessionData;
 import it.uniroma3.Ecommerce.model.Company;
 import it.uniroma3.Ecommerce.model.Product;
 import it.uniroma3.Ecommerce.model.ProductDto;
@@ -47,11 +48,15 @@ public class CompanyController {
 	@Autowired
 	ProductService productService;
 	
+	@Autowired 
+	private SessionData sessionData;
+
 	private Company azienda;
 	
 	//per visualizzare l'home page dell'azienda
 	@GetMapping("/company/indexCompany")
-	public String showHomePageCompany(){
+	public String showHomePageCompany(Model model){
+		model.addAttribute("userDetails", this.sessionData.getUserDetails());
 		return "/company/indexCompany.html";
 	}
 	
@@ -61,7 +66,7 @@ public class CompanyController {
 	public String showProductList(Model model) {
 		List<Product> products = productRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));	//per visualizzare la lista
 		//dei prodotti ordinata per id, in modo che i prodotti più recenti siano in alto
-		
+		model.addAttribute("userDetails", this.sessionData.getUserDetails());
 		model.addAttribute("products", products); 
 		return "company/products.html";
 	}

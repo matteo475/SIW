@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import it.uniroma3.Ecommerce.authentication.SessionData;
 import it.uniroma3.Ecommerce.model.Carrello;
 import it.uniroma3.Ecommerce.model.Credentials;
 import it.uniroma3.Ecommerce.model.Product;
@@ -33,8 +34,11 @@ public class AuthenticationController {
 	private CredentialsService credentialsService;
 	@Autowired
 	private CarrelloService carrelloService;
+	@Autowired 
+	private SessionData sessionData;
+
 	//@Autowired
-   // private PasswordEncoder passwordEncoder;
+	// private PasswordEncoder passwordEncoder;
 
 	@Autowired
 	private UserService userService;
@@ -75,14 +79,16 @@ public class AuthenticationController {
 
 		return "index.html"; //torno alla homepage
 	}
-	
+
 	@GetMapping(value = "/success")	//il login ha avuto successo
 	public String defaultAfterLogin(Model model) {
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
 		if (credentials.getRole().equalsIgnoreCase(Credentials.PROVIDER_ROLE)) {
+			model.addAttribute("userDetails", userDetails);
 			return "company/indexCompany.html";	//se ho permessi speciali allora posso accedere ad un'altra area
 		}else {
+			model.addAttribute("userDetails", userDetails);
 			List <Product> a=productRepository.findAll();
 			model.addAttribute("products", a);
 			return "index.html"; 
@@ -114,13 +120,13 @@ public class AuthenticationController {
 		}
 		return "register.html";	//pagina di ritorno
 	}*/
-	
+
 	/*
 	@PostMapping("/register")
 	public String registerUser(@Valid @ModelAttribute("user") User user, BindingResult userBindingResult,
 			@Valid @ModelAttribute("credentials") Credentials credentials, BindingResult credentialsBindingResult,
 			Model model) {
-		
+
 		 if (userBindingResult.hasErrors() || credentialsBindingResult.hasErrors()) {
 	            return "register";
 	        }
@@ -137,16 +143,16 @@ public class AuthenticationController {
 
 	        model.addAttribute("user", user);
 	        return "registrationSuccessful";
-		
+
 	}
-	*/
+	 */
 
 	/*
 	@PostMapping("/register")
 	public String registerUser(BindingResult userBindingResult,
 			@Valid @ModelAttribute("credentials") Credentials credentials, 
 			Model model) {
-		
+
 		 if (userBindingResult.hasErrors()) {
 	            return "register";
 	        }
@@ -155,32 +161,32 @@ public class AuthenticationController {
 	        //credentials.setPassword(passwordEncoder.encode(credentials.getPassword()));
 
 	        // 2) Collega i due oggetti l’uno all’altro
-	       
+
 
 	        // 3) Salva SOLO le credentials (cascade ALL persiste anche User)
 	        credentialsService.saveCredentials(credentials);
 
 	        model.addAttribute("user", credentials.getUser());
 	        return "registrationSuccessful";
-		
+
 	}
-	*/
+	 */
 	@PostMapping("/register")
 	public String registerUser(
-	    @Valid 
-	    @ModelAttribute("credentials") Credentials credentials,  // 1) il modello
-	    BindingResult bindingResult,                             // 2) subito dopo il BindingResult
-	    Model model) {                                           // 3) gli altri parametri
-	    if (bindingResult.hasErrors()) {
-	        return "register";
-	    }
+			@Valid 
+			@ModelAttribute("credentials") Credentials credentials,  // 1) il modello
+			BindingResult bindingResult,                             // 2) subito dopo il BindingResult
+			Model model) {                                           // 3) gli altri parametri
+		if (bindingResult.hasErrors()) {
+			return "register";
+		}
 
-	    // codifica e persisti
-	   // credentials.setPassword(passwordEncoder.encode(credentials.getPassword()));
-	    credentialsService.saveCredentials(credentials);
-	    model.addAttribute("user", credentials.getUser());
-	    return "registrationSuccessful";
+		// codifica e persisti
+		// credentials.setPassword(passwordEncoder.encode(credentials.getPassword()));
+		credentialsService.saveCredentials(credentials);
+		model.addAttribute("user", credentials.getUser());
+		return "registrationSuccessful";
 	}
 
-	
+
 }

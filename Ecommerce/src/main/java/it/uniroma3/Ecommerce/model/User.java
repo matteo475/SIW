@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -34,6 +37,11 @@ public class User {
 	@Email
 	private String email;
 
+	@Enumerated(EnumType.STRING)
+	@Column(name ="auth_provider")
+	private AuthenticationProvider provider;
+	
+	
 	//mapping bidirezionale OneToOne verso Carrello
 	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private Carrello carrello;
@@ -125,7 +133,34 @@ public class User {
 		this.indirizzi.remove(address); 
 		address.setUser(null);
 	}
-	
+
+	public AuthenticationProvider getProvider() {
+		return provider;
+	}
+
+	public void setProvider(AuthenticationProvider provider) {
+		this.provider = provider;
+	}
+
+	public List<Ordine> getOrdini() {
+		return ordini;
+	}
+
+	public void setOrdini(List<Ordine> ordini) {
+		this.ordini = ordini;
+	}
+
+	public List<Address> getIndirizzi() {
+		return indirizzi;
+	}
+
+	public void setIndirizzi(List<Address> indirizzi) {
+		this.indirizzi = indirizzi;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	// equals e hashCode su campi univoci
 	@Override
@@ -143,4 +178,5 @@ public class User {
 		return Objects.equals(this.name, other.name) && Objects.equals(this.surname, other.surname)
 				&& Objects.equals(this.email, other.email);
 	}
+	
 }

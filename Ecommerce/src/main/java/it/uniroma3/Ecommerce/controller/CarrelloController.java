@@ -26,6 +26,7 @@ public class CarrelloController {
 	public String showCart(Model model) {
 		User loggato = this.userLogged.getLoggedUser();
 		Carrello cart = this.carrelloService.getCarrello(loggato.getCarrello().getId());
+		model.addAttribute("userDetails", this.userLogged.getUserDetails());
 		model.addAttribute("cartItems", cart.getProdotti());
 		model.addAttribute("total", cart.calcolaSpesaTotale());
 		return "carrello.html";
