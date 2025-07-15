@@ -57,6 +57,11 @@ public class SessionData {
 		UserDetails userLoggato = (UserDetails) obj;
 		return userLoggato;
 	}
+	
+	public Object getUserDetailsObject() {
+		Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		return obj;
+	}
 
 }
 

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import it.uniroma3.Ecommerce.authentication.CustomOauth2User;
 import it.uniroma3.Ecommerce.authentication.SessionData;
 import it.uniroma3.Ecommerce.model.Carrello;
 import it.uniroma3.Ecommerce.model.Credentials;
@@ -82,18 +83,29 @@ public class AuthenticationController {
 
 	@GetMapping(value = "/success")	//il login ha avuto successo
 	public String defaultAfterLogin(Model model) {
-		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
-		if (credentials.getRole().equalsIgnoreCase(Credentials.PROVIDER_ROLE)) {
-			model.addAttribute("userDetails", userDetails);
-			return "company/indexCompany.html";	//se ho permessi speciali allora posso accedere ad un'altra area
-		}else {
-			model.addAttribute("userDetails", userDetails);
+		Object tipoDiLogin = this.sessionData.getUserDetailsObject();
+		UserDetails userDetails = null;
+
+		if(tipoDiLogin instanceof CustomOauth2User) {
+			CustomOauth2User oauth = (CustomOauth2User) tipoDiLogin;
+			this.userService.processOAuthPostLogin(oauth);
 			List <Product> a=productRepository.findAll();
 			model.addAttribute("products", a);
-			return "index.html"; 
+			model.addAttribute("googleDetails", oauth.getName());
+			return "index.html";
+		}else {
+			userDetails = (UserDetails) tipoDiLogin;
+			Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+			if (credentials.getRole().equalsIgnoreCase(Credentials.PROVIDER_ROLE)) {
+				model.addAttribute("userDetails", userDetails);
+				return "company/indexCompany.html";	//se ho permessi speciali allora posso accedere ad un'altra area
+			}else {
+				model.addAttribute("userDetails", userDetails);
+				List <Product> a=productRepository.findAll();
+				model.addAttribute("products", a);
+				return "index.html"; 
+			}
 		}
-
 		/**
 		//implementazione ruolo di defoult 
 		if(credentials.getRole().equals(Credentials.DEFAULT_ROLE)) {

@@ -65,13 +65,12 @@ public class MainController {
 
 	@GetMapping("/index")
 	public String showHomepage(Model model) {
-		UserDetails username = this.sessionData.getUserDetails();
 		List<Product> products = productRepository.findAll();	//per visualizzare la lista
 		//dei prodotti ordinata per id, in modo che i prodotti più recenti siano in alto
 		if(products.isEmpty()) {
 			return "redirect:/login.html"; 
 		}
-		model.addAttribute("userDetails", username);
+		model.addAttribute("userDetails", this.sessionData.getUserDetails());
 		model.addAttribute("products", products); 
 		return "index.html"; 
 	}

@@ -45,16 +45,24 @@
 
 
 		<!--login e registrazione in alto a destra-->
-		<div th:if="${userDetails}" class="auth-links">
+		<div th:if="${userDetails != null && googleDetails == null}" class="auth-links">
 			<a th:href="@{/profile}">
 				<span th:text="${userDetails.username}"></span>
 			</a>
 			<a href="/logout">Logout</a>
 		</div>
-		<div th:unless="${userDetails}" class="auth-links">
+		<div th:if="${userDetails == null && googleDetails != null}" class="auth-links">
+		   <a th:href="@{/profile}">
+			  <span th:text="${googleDetails}"></span>
+		  </a>
+		  <a href="/logout">Logout</a>
+		</div>
+		<div th:if="${userDetails == null && googleDetails == null}" class="auth-links">
 			<a href="/login">Login</a>
 			<a href="/register">Registrazione</a>
 		</div>
+		
+		
 
 		<!-- APPENA FUNZIONA IL CONTROLLO QUESTA RIGA SI TOGLIE E LOGIN E RESITRAZIONE TORANANO SULLA SINISTRA-->
 		<!--<a th:href="@{'/userProfile/1'}" class="cta-button">Visualizza Profilo (test)</a>-->
