@@ -18,12 +18,18 @@ public class CarrelloService {
 
 	@Autowired
 	private CarrelloItemRepository carrelloItemRepository;
+	
 	@Autowired
 	private CarrelloRepository carrelloRepository;
+	
 	@Autowired
 	private ProductRepository prodottoRepository;
 
-
+	/**
+	 * metodo per salvare l'oggetto carrello
+	 * @param oggetto carrello da salvare
+	 * @return l'oggetto carrello viene salvato
+	 **/
 	public Carrello salvaCarrello(Carrello carrello) {
 		return this.carrelloRepository.save(carrello);
 	}

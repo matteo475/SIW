@@ -10,9 +10,12 @@ import it.uniroma3.Ecommerce.repository.ProductRepository;
 @Service
 public class CompanyService {
 
-	@Autowired private CompanyRepository companyRepository;
-	@Autowired private ProductRepository prodRepository;
+	@Autowired
+	private CompanyRepository companyRepository;
 	
+	@Autowired
+	private ProductRepository prodRepository;
+
 	public Company creaCompany() {
 		Company azienda = new Company();
 		azienda.setName("amazzon");
@@ -22,7 +25,5 @@ public class CompanyService {
 		this.companyRepository.save(azienda);
 		return azienda;
 	}
-	
-	
-	
+
 }

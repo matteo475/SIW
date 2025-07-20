@@ -20,18 +20,29 @@ public class ProductService {
 	@Autowired 
 	private ProductRepository productRepository;
 	
-	//funzione che mi ritorna la lista di tutti i prodotti
+	/**
+	 * metodo per vedere tutti i prodotti 
+	 * @return la lista contenente tutti i prodotti 
+	 **/
 	public List<Product> listAll(){
 		return (List<Product>) productRepository.findAll();
 	}
 	
-	//funzione per salvare il prodotto 
+	/**
+	 * metodo per salvare il prodotto 
+	 * @param prodotto da salvare 
+	 * @return il prodotto viene salvato grazie alla Repository 
+	 **/
 	public void save(Product product) {
 		productRepository.save(product);
 	}
 	
 	
-	//funzione che mi fa vedere tutti i prodotti per id
+	/**
+	 * metodo che mi permette di avere i prodotti in base al loro id 
+	 * @param id del prodotto che voglio
+	 * @exception ProductNotFoundException se il prodotto cercato non esiste
+	 * */
 	public Product get(Integer id) throws ProductNotFoundException{
 		Optional<Product> result = productRepository.findById(id);
 		if(result.isPresent()) {
@@ -40,17 +51,11 @@ public class ProductService {
 		throw new ProductNotFoundException("Non troviamo nessun prodotto con ID " + id);	//gestione errore
 	}
 	
-	//funzione per cancellare il prodotto 
-	/*
-	public void delete(Long id) throws ProductNotFoundException{
-		Long count = productRepository.countById(id); 
-		if(count == null || count == 0) {
-			throw new ProductNotFoundException("Non troviamo nessun prodotto con ID " + id);	//gestione errore
-		}
-		productRepository.deleteById(id);
-	}
-	*/
-
+	/**
+	 * metodo per avere tutti i prodotti dato una certa keyword
+	 * @param keyword per cercare il prodotto
+	 * @return lista con nome keyword
+	 * */
 	public List<Product> listAll(String keyword){
 		 if(keyword != null) {
 			 return this.productRepository.findAllWithThatKeyword(keyword);
@@ -58,6 +63,10 @@ public class ProductService {
 		 return this.listAll();
 	}
 	
+	/**
+	 * metodo per contare tutti i prodotti dell'azienda
+	 * @param id del prodotto
+	 * */
 	public int numeroProdotti(Integer id) {
 		return this.productRepository.countById(id);
 	}
