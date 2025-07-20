@@ -13,31 +13,30 @@ import it.uniroma3.Ecommerce.repository.CredentialsRepository;
 import it.uniroma3.Ecommerce.repository.UserRepository;
 
 /**
- * QUESTA CLASSE E' UTILE PER OTTENERE I DATI DALL'UTENTE AUTENTICATO
- * QUESTO CI SERVIRA' PER ASPETTI LOGICI 
- * COME USARLO? 
- * NEI VARI CONTROLLER INSERIRE COME VARIABILI D'ISTANZA 
+ * QUESTA CLASSE E' UTILE PER OTTENERE I DATI DALL'UTENTE AUTENTICATO QUESTO CI
+ * SERVIRA' PER ASPETTI LOGICI COME USARLO? NEI VARI CONTROLLER INSERIRE COME
+ * VARIABILI D'ISTANZA
+ * 
  * @Autowired private SessionData session;
  */
-
-
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class SessionData {
 
+	@Autowired
+	private CredentialsRepository credRepo;
+	
 	private User user;
 	private Credentials credenziali;
-	@Autowired private CredentialsRepository credRepo;
-	@Autowired private UserRepository userRepo;
 
 	public Credentials getLoggedCredentials() {
-		if(this.credenziali == null)
+		if (this.credenziali == null)
 			this.updtade();
 		return this.credenziali;
 	}
 
 	public User getLoggedUser() {
-		if(this.user == null)
+		if (this.user == null)
 			this.updtade();
 		return this.user;
 	}
@@ -45,25 +44,21 @@ public class SessionData {
 	private void updtade() {
 		Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		UserDetails userLoggato = (UserDetails) obj;
-		
+
 		this.credenziali = this.credRepo.findByUsername(userLoggato.getUsername()).get();
 		this.credenziali.setPassword("[PROTECTED]");
 		this.user = this.credenziali.getUser();
 	}
 
-	
 	public UserDetails getUserDetails() {
 		Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		UserDetails userLoggato = (UserDetails) obj;
 		return userLoggato;
 	}
-	
+
 	public Object getUserDetailsObject() {
 		Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		return obj;
 	}
 
 }
-
-
-

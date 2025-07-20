@@ -1,4 +1,4 @@
-package it.uniroma3.Ecommerce.model;
+package it.uniroma3.Ecommerce.DTOmodel;
 
 import java.util.Date;
 
@@ -6,11 +6,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public class ProductDto {
-
-
 	
 	@NotEmpty(message = "Inserisci il nome")
 	private String name; 
@@ -28,6 +27,7 @@ public class ProductDto {
 	@Size(max = 2000, message = "La descrizione non può contenere più di 2000 caratteri")
 	private String description; 
 	
+	@NotNull(message = "Devi caricare almeno una immagine")
 	private MultipartFile imageFile;
 
 	

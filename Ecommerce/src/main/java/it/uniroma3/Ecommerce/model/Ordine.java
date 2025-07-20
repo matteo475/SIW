@@ -36,41 +36,44 @@ public class Ordine {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
 	@NotNull
 	private LocalDate dataOrdine;
+	
 	@NotNull
 	@PositiveOrZero
 	private BigDecimal totale;
+	
 	@Enumerated(EnumType.STRING)
 	private StatoOrdine statoDellOrdine;
+	
 	@ManyToOne
 	@JoinColumn(name = "utente_id")
 	private User utente;
+	
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "ordine_id")
 	private List<VoceOrdine> vociDellOrdine;
 
+    //costruttore
 	public Ordine() {
 		this.dataOrdine = LocalDate.now();
 		this.statoDellOrdine = StatoOrdine.CONFERMATO;
 		this.totale = BigDecimal.ZERO;
 	}
 
-
+	//metodi getter e setter
 	public Long getId() {
 		return id;
 	}
-
-
+	
 	public void setId(Long id) {
 		this.id = id;
 	}
 
-
 	public LocalDate getDataOrdine() {
 		return dataOrdine;
 	}
-
 
 	public void setDataOrdine(LocalDate dataOrdine) {
 		this.dataOrdine = dataOrdine;
@@ -81,26 +84,21 @@ public class Ordine {
 		return totale;
 	}
 
-
 	public void setTotale(BigDecimal totale) {
 		this.totale = totale;
 	}
-
 
 	public StatoOrdine getStatoDellOrdine() {
 		return statoDellOrdine;
 	}
 
-
 	public void setStatoDellOrdine(StatoOrdine statoDellOrdine) {
 		this.statoDellOrdine = statoDellOrdine;
 	}
 
-
 	public User getUtente() {
 		return utente;
 	}
-
 
 	public void setUtente(User utente) {
 		this.utente = utente;
@@ -118,5 +116,4 @@ public class Ordine {
 	public int hashCode() {
 		return Objects.hash(id);
 	}
-
 }

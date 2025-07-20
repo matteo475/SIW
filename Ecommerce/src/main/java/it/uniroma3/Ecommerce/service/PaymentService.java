@@ -6,9 +6,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import it.uniroma3.Ecommerce.DTOmodel.PaymentDTO;
 import it.uniroma3.Ecommerce.model.Address;
 import it.uniroma3.Ecommerce.model.Payment;
-import it.uniroma3.Ecommerce.model.PaymentDTO;
 import it.uniroma3.Ecommerce.model.User;
 import it.uniroma3.Ecommerce.repository.PaymentRepository;
 import it.uniroma3.Ecommerce.repository.UserRepository;

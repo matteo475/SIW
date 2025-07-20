@@ -27,14 +27,16 @@ public class Carrello {
 
 	private double spesaTotale = 0;
 
-	// Nuovo mapping bidirezionale verso User
+	// nuovo mapping bidirezionale verso User
 	@OneToOne
 	@JoinColumn(name = "user_id", nullable = false, unique = true)
 	private User user;
 
+	//costruttore
 	public Carrello() {
 	}
 
+	//metodi getter e setter
 	public Long getId() {
 		return id;
 	}
@@ -55,12 +57,22 @@ public class Carrello {
 		this.user = user;
 	}
 
+	/**
+	 * metodo per aggiungere un prodotto al carrello
+	 * @param prodotto da aggiungere
+	 * @return prodotto inserito nella lista dei prodotti del carrello 
+	 * @return calcolo della spesa totale
+	 **/
 	public void addProdottoCarrello(CarrelloItem prodotto) {
 		prodotto.setCarrello(this);
 		this.prodotti.add(prodotto);
 		this.calcolaSpesaTotale();
 	}
 
+	/**
+	 * metodo per rimuovere un prodotto dal carrello 
+	 * @param prodotto da rimuovere 
+	 **/
 	public void rimuoviProdottoDalCarrello(CarrelloItem item) {
 		this.prodotti.remove(item);
 		item.setCarrello(null);

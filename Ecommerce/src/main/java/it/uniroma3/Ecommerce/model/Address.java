@@ -20,7 +20,7 @@ public class Address {
 
 	private String city; 
 	private String way;	//rappresenta la via 
-	private Integer house_number;	//numero civico
+	private Integer house_number; //numero civico
 	private Integer cap;
 	
 	// lato “molti” del rapporto verso User

@@ -8,5 +8,4 @@ public class Utilita {
 		String UrlSito = request.getRequestURL().toString();
 		return UrlSito.replace(request.getServletPath(), "");
 	}
-
 }

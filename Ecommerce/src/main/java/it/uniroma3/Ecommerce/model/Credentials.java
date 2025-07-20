@@ -19,10 +19,12 @@ public class Credentials {	//gestisce le credenziali di accesso al sito
 	@Id 
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id; 
+	
 	private String username; 
 	private String password; 
 	private String role; 
 	private String gender;
+	
 	@Column(name ="reset_passwors_token")
 	private String resetPasswordToken;
 	
@@ -31,6 +33,7 @@ public class Credentials {	//gestisce le credenziali di accesso al sito
     @JoinColumn(name = "user_id", referencedColumnName = "id")
 	private User user;
 
+	//metodi getter e setter
 	public String getUsername() {
 		return username;
 	}
@@ -86,7 +89,4 @@ public class Credentials {	//gestisce le credenziali di accesso al sito
 	public void setResetPasswordToken(String resetPasswordToken) {
 		this.resetPasswordToken = resetPasswordToken;
 	}
-	
-	
-	
 }

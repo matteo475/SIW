@@ -15,10 +15,14 @@ public class VoceOrdine {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
 	@ManyToOne
 	@JoinColumn(name = "prodotto_id")
 	private Product prodotto;
-	private int quantita;
+	
+	private Integer quantita;
+	
+	//metodi getter e setter
 	public Long getId() {
 		return id;
 	}
@@ -31,12 +35,13 @@ public class VoceOrdine {
 	public void setProdotto(Product prodotto) {
 		this.prodotto = prodotto;
 	}
-	public int getQuantita() {
+	public Integer getQuantita() {
 		return quantita;
 	}
-	public void setQuantita(int quantita) {
+	public void setQuantita(Integer quantita) {
 		this.quantita = quantita;
 	}
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -48,7 +53,4 @@ public class VoceOrdine {
 		VoceOrdine other = (VoceOrdine) obj;
 		return this.id == other.getId();
 	}
-
-
-
 }

@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import it.uniroma3.Ecommerce.DTOmodel.AddressDTO;
 import it.uniroma3.Ecommerce.model.Address;
-import it.uniroma3.Ecommerce.model.AddressDTO;
 import it.uniroma3.Ecommerce.model.Product;
 import it.uniroma3.Ecommerce.model.User;
 import it.uniroma3.Ecommerce.repository.AddressRepository;

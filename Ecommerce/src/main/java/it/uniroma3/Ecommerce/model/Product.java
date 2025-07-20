@@ -33,6 +33,7 @@ public class Product {
 	
 	private Date createdAt; 
 	private String imageFileName;
+	
 	@ManyToOne
 	@JoinColumn(name ="azienda_id")
     private Company azienda;
@@ -93,6 +94,7 @@ public class Product {
 	public void setAzienda(Company azienda) {
 		this.azienda = azienda;
 	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if(obj == null || this.getClass() != obj.getClass())

@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import it.uniroma3.Ecommerce.DTOmodel.AddressDTO;
 import it.uniroma3.Ecommerce.model.Address;
-import it.uniroma3.Ecommerce.model.AddressDTO;
 import it.uniroma3.Ecommerce.model.Credentials;
 import it.uniroma3.Ecommerce.model.User;
 import it.uniroma3.Ecommerce.service.AddressService;

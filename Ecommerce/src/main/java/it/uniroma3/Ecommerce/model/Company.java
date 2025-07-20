@@ -15,9 +15,11 @@ public class Company {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
 	private String name; 
 	private Integer p_iva; 	//per la partita iva
 	private Integer num_employee; //numero di dipendenti 
+	
 	@OneToMany(mappedBy= "azienda")
 	private List<Product> prodotti;
 	
@@ -57,6 +59,11 @@ public class Company {
 		this.prodotti = prodotti;
 	}
 	
+	/**
+	 * metodo per aggiungere un prodotto alla lista dei prodotti dell'azienda
+	 * @param prodotto da aggiungere
+	 * @return prodotto aggiunto alla lista dei prodotti dell'azienda 
+	 **/
 	public void addProdotto(Product p) {
 	    p.setAzienda(this);
 		this.prodotti.add(p);

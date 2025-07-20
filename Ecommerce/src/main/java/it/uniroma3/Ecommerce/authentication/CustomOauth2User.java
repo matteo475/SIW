@@ -16,19 +16,16 @@ public class CustomOauth2User implements OAuth2User {
 	
 	@Override
 	public Map<String, Object> getAttributes() {
-		// TODO Auto-generated method stub
 		return this.oauth.getAttributes();
 	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// TODO Auto-generated method stub
 		return this.oauth.getAuthorities();
 	}
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
 		return this.oauth.getAttribute("name");
 	}
 	

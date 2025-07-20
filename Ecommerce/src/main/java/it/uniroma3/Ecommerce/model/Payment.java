@@ -20,6 +20,7 @@ public class Payment {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id; 
+	
 	private String expiration;
 	private String cardnumber;
 	private Integer cvv; 
@@ -29,7 +30,6 @@ public class Payment {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", nullable = false)
     private User user;
-	
 	
 	//metodi setter e getter
 	public Long getId() {

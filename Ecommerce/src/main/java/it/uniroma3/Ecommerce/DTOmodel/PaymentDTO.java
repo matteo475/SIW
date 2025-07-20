@@ -1,6 +1,10 @@
-package it.uniroma3.Ecommerce.model;
+package it.uniroma3.Ecommerce.DTOmodel;
 
 import java.util.Objects;
+
+import it.uniroma3.Ecommerce.model.Payment;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 
 public class PaymentDTO {
 
@@ -8,10 +12,14 @@ public class PaymentDTO {
 	private Long id;
 	private String expiration;
 	private String cardnumber;
+	
+	@Min(0)
 	private Integer cvv;
+	
+	@NotBlank(message = "Il campo Intestatario non può essere vuoto")
 	private String cardholder;
 	
-	
+	//costruttori
 	public PaymentDTO() {}
 	
 	public PaymentDTO(Long id, String expiration, String cardnumber, Integer cvv, String cardholder) {
@@ -21,7 +29,6 @@ public class PaymentDTO {
 		this.cvv = cvv; 
 		this.cardholder = cardholder;
 	}
-	
 	
 	
 	//metodi getter e setter
@@ -73,7 +80,4 @@ public class PaymentDTO {
 		p.setExpiration(this.expiration);
 		return p;
 	}
-	
-	
-	
 }

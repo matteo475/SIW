@@ -13,10 +13,9 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 
-
+import it.uniroma3.Ecommerce.DTOmodel.PaymentDTO;
 import it.uniroma3.Ecommerce.model.Credentials;
 import it.uniroma3.Ecommerce.model.Payment;
-import it.uniroma3.Ecommerce.model.PaymentDTO;
 import it.uniroma3.Ecommerce.model.User;
 import it.uniroma3.Ecommerce.service.CredentialsService;
 import it.uniroma3.Ecommerce.service.PaymentService;

@@ -23,11 +23,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import it.uniroma3.Ecommerce.DTOmodel.ProductDto;
 import it.uniroma3.Ecommerce.authentication.ProductNotFoundException;
 import it.uniroma3.Ecommerce.authentication.SessionData;
 import it.uniroma3.Ecommerce.model.Company;
 import it.uniroma3.Ecommerce.model.Product;
-import it.uniroma3.Ecommerce.model.ProductDto;
 import it.uniroma3.Ecommerce.repository.CompanyRepository;
 import it.uniroma3.Ecommerce.repository.ProductRepository;
 import it.uniroma3.Ecommerce.service.CompanyService;
