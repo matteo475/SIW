@@ -16,12 +16,10 @@
 		<div class="nav-links">
 			<a href="/">Home</a>
 			<a href="/carrello">Prodotti</a>
-			
+
 			<!--PER FARE LA RICERCA FILTRATA-->
 			<a href="/ricercafiltro">Ricerca Filtrata</a>
 			<a href="#">Contatti</a>
-			
-			<!--<a href="/ricercafiltro">ricerca filtrata</a>-->
 
 			<!--rappresenta il menù a tendina -->
 			<div class="dropdown">
@@ -52,10 +50,10 @@
 			<a href="/logout">Logout</a>
 		</div>
 		<div th:if="${userDetails == null and googleDetails != null}" class="auth-links">
-		   <a th:href="@{/profile}">
-			  <span th:text="${googleDetails}"></span>
-		  </a>
-		  <a href="/logout">Logout</a>
+			<a th:href="@{/profile}">
+				<span th:text="${googleDetails}"></span>
+			</a>
+			<a href="/logout">Logout</a>
 		</div>
 		<div th:if="${userDetails == null && googleDetails == null}" class="auth-links">
 			<a href="/login">Login</a>
@@ -72,22 +70,21 @@
 	</div>
 
 	<div class="products" id="abbigliamento">
-		<h2>Elettronica</h2>
+		<h2>Abbigliamento</h2>
 		<ul class="product-list">
 			<th:block th:if="${products} and ${products.size() > 0}">
-				<li th:each="product : ${products} ">
-					<th:block th:if="${product.category}=='abbigliamento'">
-						<div class="product-item">
-							<a th:href="@{/prodotto/{id}(id=${product.id})}">
-								<img th:src="@{/images/{image}(image=${product.imageFileName})}"
-									th:alt="${product.name}" /></a>
-							<h3 th:text="${product.name}">Nome prodotto</h3>
-							<p th:text="${product.description}">Descrizione del prodotto</p>
-							<p class="price" th:text="${#numbers.formatDecimal(product.price, 1, 2, 'POINT')}">Prezzo
-							</p>
-							<a th:href="@{/prodotto/{id}(id=${product.id})}" class="read-more">Acquista ora</a>
-						</div>
-					</th:block>
+				<li th:each="product : ${products}"
+					th:if="${#strings.equalsIgnoreCase(product.category, 'Abbigliamento')}">
+					<div class="product-item">
+						<a th:href="@{/prodotto/{id}(id=${product.id})}">
+							<img th:src="@{/images/{image}(image=${product.imageFileName})}"
+								th:alt="${product.name}" /></a>
+						<h3 th:text="${product.name}">Nome prodotto</h3>
+						<p th:text="${product.description}">Descrizione del prodotto</p>
+						<p class="price" th:text="${#numbers.formatDecimal(product.price, 1, 2, 'POINT')}">Prezzo
+						</p>
+						<a th:href="@{/prodotto/{id}(id=${product.id})}" class="read-more">Acquista ora</a>
+					</div>
 				</li>
 			</th:block>
 
@@ -103,19 +100,18 @@
 		<h2>Elettronica</h2>
 		<ul class="product-list">
 			<th:block th:if="${products} and ${products.size() > 0}">
-				<li th:each="product : ${products} ">
-					<th:block th:if="${product.category}=='Elettronica'">
-						<div class="product-item">
-							<a th:href="@{/prodotto/{id}(id=${product.id})}">
-								<img th:src="@{/images/{image}(image=${product.imageFileName})}"
-									th:alt="${product.name}" /></a>
-							<h3 th:text="${product.name}">Nome prodotto</h3>
-							<p th:text="${product.description}">Descrizione del prodotto</p>
-							<p class="price" th:text="${#numbers.formatDecimal(product.price, 1, 2, 'POINT')}">Prezzo
-							</p>
-							<a th:href="@{/product/{id}(id=${product.id})}" class="read-more">Acquista ora</a>
-						</div>
-					</th:block>
+				<li th:each="product : ${products}"
+					th:if="${#strings.equalsIgnoreCase(product.category, 'Elettronica')}">
+					<div class="product-item">
+						<a th:href="@{/prodotto/{id}(id=${product.id})}">
+							<img th:src="@{/images/{image}(image=${product.imageFileName})}"
+								th:alt="${product.name}" /></a>
+						<h3 th:text="${product.name}">Nome prodotto</h3>
+						<p th:text="${product.description}">Descrizione del prodotto</p>
+						<p class="price" th:text="${#numbers.formatDecimal(product.price, 1, 2, 'POINT')}">Prezzo
+						</p>
+						<a th:href="@{/product/{id}(id=${product.id})}" class="read-more">Acquista ora</a>
+					</div>
 				</li>
 			</th:block>
 
@@ -127,7 +123,7 @@
 		</ul>
 	</div>
 
-	
+
 	<!--div per i prodotti con offerte speciali, i prodotti scorrono orizzontalmente-->
 	<div class="products" id="offerte-speciali">
 		<h2>Offerte Speciali</h2>

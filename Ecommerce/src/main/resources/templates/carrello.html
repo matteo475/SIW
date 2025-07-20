@@ -12,14 +12,14 @@
 	<div class="navbar">
 		<div class="nav-links">
 			<a href="/">Home</a>
-			<a href="/prodotti">Prodotti</a>
-			<a href="/categorie">Categorie</a>
-			<a href="/contatti">Contatti</a>
+			<a href="#">Prodotti</a>
+			<a href="#">Categorie</a>
+			<a href="#">Contatti</a>
 			<div class="dropdown">
 				<a href="#">Altro</a>
 				<div class="dropdown-content">
-					<a href="/offerte">Offerte</a>
-					<a href="/faq">FAQ</a>
+					<a href="#">Offerte</a>
+					<a href="#">FAQ</a>
 				</div>
 			</div>
 		</div>
@@ -41,69 +41,51 @@
 			<a href="/logout">Logout</a>
 		</div>
 		<div th:if="${userDetails == null && googleDetails != null}" class="auth-links">
-		   <a th:href="@{/profile}">
-			  <span th:text="${googleDetails}"></span>
-		  </a>
-		  <a href="/logout">Logout</a>
+			<a th:href="@{/profile}">
+				<span th:text="${googleDetails}"></span>
+			</a>
+			<a href="/logout">Logout</a>
 		</div>
 		<div th:if="${userDetails == null && googleDetails == null}" class="auth-links">
 			<a href="/login">Login</a>
 			<a href="/register">Registrazione</a>
 		</div>
-
+	</div>
+	
 	<div class="products" th:unless="${cartItems.isEmpty()}">
-		<h2>Il tuo Carrello</h2>
+		
+		<h2>Il tuo Carrello</h2><br>
 
-		<!-- è tipo un carosello dove ci sono tutti i prodotti"-->
+		<!-- è tipo un carosello dove ci sono tutti i prodotti -->
 		<ul class="product-list">
-			<!--
-			<li>
-				<div class="product-item">
-					<img src="/images/prodotto1.jpg" alt="Prodotto nel carrello">
-					<h3>Nome prodotto</h3>
-					<p>Descrizione breve del prodotto.</p>
-					<p class="price">&euro;59.99</p>
-					<form action="/rimuoviDalCarrello" method="post">
-						<button class="cta-button">Rimuovi</button>
-					</form>
-				</div>
-			</li>
-
-			<li>
-				<div class="product-item">
-					<img src="/images/prodotto2.jpg" alt="Altro prodotto nel carrello">
-					<h3>Secondo prodotto</h3>
-					<p>Descrizione breve.</p>
-					<p class="price">&euro;79.99</p>
-					<form action="/rimuoviDalCarrello" method="post">
-						<button class="cta-button">Rimuovi</button>
-					</form>
-				</div>
-			</li>-->
-
 			<li th:each="item : ${cartItems}">
+				
 				<!-- Ciclo sui prodotti del carrello -->
-				<div class="cart-item d-flex align-items-center">
+				<div class="product-item">
 					<img th:src="@{/images/{file}(file=${item.product.imageFileName})}" alt="Prodotto" class="me-3">
 					<div class="flex-grow-1">
 						<h5 th:text="${item.product.name}">Prodotto</h5>
 						<p class="text-muted"
-							th:text="'Prezzo unitario: €' + ${#numbers.formatDecimal(item.prezzoPerUnita, 1, 2)}">Prezzo
-							unitario</p>
-						<p class="text-muted" th:text="'Quantità: ' + ${item.quantita}">Quantità</p>
+							th:text="'Prezzo unitario: $' + ${#numbers.formatDecimal(item.prezzoPerUnita, 1, 2)}">
+							Prezzo unitario</p>
+						<p class="text-muted" th:text="'Quantit&aacute;: ' + ${item.quantita}">Quantità</p>
+						<!--
+						<div class="ms-3 text-end">
+							<p class="fw-bold"
+								th:text="'$' + ${#numbers.formatDecimal(item.prezzoPerUnita * item.quantita, 1, 2)}">
+								Subtotale</p>
+						</div>
+						-->
 						<a th:href="@{/carrello/carrelloItem/cancella/{id}(id=${item.product.id})}">
 							<button class="cta-button">Rimuovi</button>
 						</a>
 					</div>
-					<div class="ms-3 text-end">
-						<p class="fw-bold"
-							th:text="'€' + ${#numbers.formatDecimal(item.prezzoPerUnita * item.quantita, 1, 2)}">
-							Subtotale</p>
-					</div>
 				</div>
 			</li>
+
 			<!-- Aggiungi altri prodotti dinamicamente -->
 		</ul>
+		<br><br><br><br>
 		<div style="margin-top: 40px;">
 			<h3>Totale:
 				<span th:text="'$' + ${#numbers.formatDecimal(total, 1, 2)}">0.00</span>
@@ -112,7 +94,7 @@
 		</div>
 	</div>
 
-
+	
 	<!-- Messaggio se il carrello è vuoto-->
 	<div th:if="${cartItems.isEmpty()}" class="hero">
 		<p class="text-muted">Il tuo carrello &egrave; vuoto.</p>

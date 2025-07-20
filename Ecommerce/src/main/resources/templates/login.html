@@ -33,7 +33,7 @@
 				<!--bottone per fare il login-->
 				<button type="submit">Entra</button>
 				<p>
-					<a th:href="@{/password_dimenticata}">Hai dimeticato la tua password?</a>
+					<a th:href="@{/password_dimenticata}" style="color: #1c87c9;">Hai dimeticato la tua password?</a>
 				</p>
 			</form>
 		</div>
@@ -41,8 +41,8 @@
 			<button class="btn facebook" data-provider="facebook"><i
 					class="fab fa-facebook-f"></i><span>Facebook</span></button>
 			<button class="btn twitter" data-provider="twitter"><i class="fab fa-twitter"></i><span>X</span></button>
-			<button class="btn google" data-provider="google" type="submit"><i class="fab fa-google"></i><span>Google</span></button>
-		    <a th:href="@{/oauth2/authorization/google}"> entra con account google</a>
+			<button class="btn google" data-provider="google" type="submit"><i class="fab fa-google"></i>
+				<a th:href="@{/oauth2/authorization/google}">Google</a></button>
 		</div>
 	</div>
 </body>

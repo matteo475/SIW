@@ -1,3 +1,4 @@
+/* Reset e stili base */
 body {
   font-family: 'Arial', sans-serif;
   margin: 0;
@@ -6,6 +7,7 @@ body {
   color: #333;
 }
 
+/* ---------- Navbar ---------- */
 .navbar {
   background-color: #333;
   color: white;
@@ -37,38 +39,34 @@ body {
   cursor: pointer;
 }
 
-/* ------- Search bar corretto ------- */
-.navbar .search-bar form{
+/* ------- Search bar ------- */
+.navbar .search-bar form {
   display: flex;
   flex-direction: row;
   align-items: center;
-  /* puoi regolare o rimuovere questo margin-left */
-  margin:0;
+  margin: 0;
 }
 
 .navbar .search-bar form input[type="text"],
 .navbar .search-bar form button {
-  height: 40px;             /* stessa altezza */
-  margin: 0;                /* nessun gap aggiuntivo */
-  box-sizing: border-box;   /* padding incluso nell’altezza */
-  
+  height: 40px;
+  margin: 0;
+  box-sizing: border-box;
 }
 
-/* campo di testo */
-.navbar .search-bar form input[type="text"]{
-  flex: 1;                  /* riempie lo spazio disponibile */
+.navbar .search-bar form input[type="text"] {
+  flex: 1;
   padding: 0 10px;
   border: 1px solid #ccc;
-  border-right: none;       /* unisce il bordo con il button */
+  border-right: none;
   border-radius: 5px 0 0 5px;
   outline: none;
 }
 
-/* pulsante di ricerca */
 .navbar .search-bar form button {
   padding: 0 15px;
   border: 1px solid #ccc;
-  border-left: none;        /* unisce il bordo con l’input */
+  border-left: none;
   border-radius: 0 5px 5px 0;
   background-color: #ff6347;
   color: #fff;
@@ -79,8 +77,8 @@ body {
 .navbar .search-bar form button:hover {
   background-color: #ff4500;
 }
-/* ------- Fine search-bar ------- */
 
+/* ------- Dropdown ------- */
 .dropdown {
   position: relative;
   display: inline-block;
@@ -91,7 +89,7 @@ body {
   position: absolute;
   background-color: #f9f9f9;
   min-width: 160px;
-  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
   z-index: 1;
 }
 
@@ -110,6 +108,7 @@ body {
   display: block;
 }
 
+/* Responsività navbar */
 @media (max-width: 768px) {
   .navbar .nav-links,
   .navbar .auth-links {
@@ -133,6 +132,7 @@ body {
   }
 }
 
+/* ---------- Hero ---------- */
 .hero {
   background: url('hero-image.jpg') no-repeat center center/cover;
   height: 60vh;
@@ -167,6 +167,7 @@ body {
   background-color: #ff4500;
 }
 
+/* ---------- Prodotti, Categorie, Contatti ---------- */
 .products,
 .categories,
 .contact {
@@ -181,30 +182,35 @@ body {
   margin-bottom: 20px;
 }
 
+/* ---------- Lista Prodotti (grid uniforme) ---------- */
 .product-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-auto-rows: 380px;      /* ogni “cella” avrà altezza fissa */
   gap: 20px;
   padding: 0;
   margin: 0;
   list-style-type: none;
 }
 
+/* Scheda prodotto di dimensioni costanti */
 .product-item {
+  width: 80%;
+  height: 111%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   background-color: white;
   padding: 20px;
-  margin: 20px;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  display: flex;
-  align-items: center;
-  flex-direction: column;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
 .product-item img {
   width: 100%;
-  max-width: 300px;
-  border-radius: 10px;
+  height: 200px;        /* fisso, per mantenere uniformità */
+  object-fit: cover;
+  border-radius: 5px;
   margin-bottom: 10px;
 }
 
@@ -224,6 +230,7 @@ body {
   margin-bottom: 10px;
 }
 
+/* ---------- Altri elementi ---------- */
 .read-more {
   color: #ff6347;
   text-decoration: none;
@@ -234,6 +241,7 @@ body {
   text-decoration: underline;
 }
 
+/* Form generici */
 form {
   display: flex;
   flex-direction: column;
@@ -274,17 +282,14 @@ form button:hover {
 
 /* Sezione Profilo Utente */
 .user-profile {
-  /*------ DA RIVEDERE -------*/
   position: relative;
   bottom: 120px;
-  /*-------*/
-  
   background-color: white;
   padding: 30px;
   margin: 20px auto;
   max-width: 800px;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
   text-align: left;
 }
 
@@ -298,7 +303,7 @@ form button:hover {
   margin: 10px 0;
 }
 
-/* Contenitore per i pulsanti delle azioni */
+/* Pulsanti azioni profilo */
 .profile-actions {
   margin-top: 30px;
   display: flex;
@@ -314,3 +319,105 @@ form button:hover {
   text-decoration: none;
 }
 
+/* Link generici */
+a {
+  text-decoration: none;
+  color: black;
+  transition: color 0.2s;
+}
+
+a:hover {
+  color: #ff4500;
+}
+
+/* Sezioni info laterali */
+.info-sections {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 40px;
+  padding: 50px 20px;
+  background-color: #fff;
+}
+
+.info-sections > div {
+  flex: 1 1 300px;
+  max-width: 400px;
+  text-align: left;
+}
+
+.info-sections h2 {
+  font-size: 2em;
+  margin-bottom: 10px;
+}
+
+.info-sections hr {
+  margin-bottom: 20px;
+}
+
+/* Categorie */
+.categories ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.categories li {
+  margin: 10px 0;
+}
+
+.categories a {
+  color: #333;
+  text-decoration: none;
+  font-size: 1.1em;
+}
+
+.categories a:hover {
+  color: #ff6347;
+}
+
+/* Contatti */
+.contact-info p {
+  font-size: 1.1em;
+  margin: 10px 0;
+}
+
+/* Icone social, cerchietti colorati */
+.social-icons {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.social-icons a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #333;
+  color: #fff;
+  text-decoration: none;
+  transition: background-color 0.2s ease, opacity 0.2s ease;
+}
+
+.social-icons a i {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.social-icons a:hover {
+  opacity: 0.8;
+}
+
+.social-icons a.facebook {
+  background-color: #3b5998;
+}
+
+.social-icons a.instagram {
+  background-color: #E1306C;
+}
+
+.social-icons a.twitter {
+  background-color: #1DA1F2;
+}

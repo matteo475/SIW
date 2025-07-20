@@ -13,10 +13,10 @@
 	<!--il div che segue è per la barra di navigazione in alto-->
 	<div class="navbar" id="navbar">
 		<div class="nav-links">
-			<a href="/carrello">Home</a>
-			<a href="#prodotti">Prodotti</a>
+			<a href="/">Home</a>
+			<a href="#">Prodotti</a>
 			<a href="/ricercafiltro">Ricerca Filtrata</a>
-			<a href="@{/userProfile/{id}(id=${user.id})}">Contatti</a>
+			<a href="#">Contatti</a>
 
 			<!--rappresenta il menù a tendina -->
 			<div class="dropdown">
@@ -84,53 +84,7 @@
 			</th:block>
 		</ul>
 	</div>
-
-	<!--
-		
-	<div class="products" id="prodotti">
-		<h2>Prodotti in evidenza</h2>
-		<div class="product-list">
-
-			
-			<div class="product-item">
-				<img src="/images/fotoGiacca.jpeg" alt="Prodotto1">
-				<h3>Prodotto 1</h3>
-				<p>Descrizione del prodotto 1.</p>
-				<div class="price">&euro;49.99</div>
-				<a href="#prodotto1" class="read-more">Acquista ora</a>
-			</div>
-
-			
-			<div class="product-item">
-				<img src="/images/fotoGiaccaUomo.jpeg" alt="Prodotto2">
-				<h3>Prodotto 2</h3>
-				<p>Descrizione del prodotto 2.</p>
-				<div class="price">&euro;79.99</div>
-				<a href="#prodotto2" class="read-more">Acquista ora</a>
-			</div>
-
-		
-			<div class="product-item">
-				<img src="/images/fotoGiaccaPelle.jpeg" alt="Prodotto 3">
-				<h3>Prodotto 3</h3>
-				<p>Descrizione del prodotto 3.</p>
-				<div class="price">&euro;99.99</div>
-				<a href="#prodotto3" class="read-more">Acquista ora</a>
-			</div>
-
-		
-			<div class="product-item">
-				<img src="/images/fotoGiaccaBrutta.jpeg" alt="Prodotto 4">
-				<h3>Prodotto 4</h3>
-				<p>Descrizione del prodotto 4.</p>
-				<div class="price">&euro;59.99</div>
-				<a href="#prodotto4" class="read-more">Acquista ora</a>
-			</div>
-		</div>
-	</div>
-	-->
-
-
+	
 	<!--praticamente quando lo schermo diventa troppo piccolo questo script fa diminuire in automatico la navbar-->
 	<script>
 		function toggleMenu() {
