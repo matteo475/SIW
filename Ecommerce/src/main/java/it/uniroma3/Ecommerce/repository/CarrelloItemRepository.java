@@ -28,5 +28,5 @@ public interface CarrelloItemRepository extends CrudRepository<CarrelloItem, Lon
 	@Query("delete from CarrelloItem ci where ci.carrello.id =?1 and ci.prodotto.id =?2")
 	public void cancellaProdottoDalCarrello(Long carrello, Integer productId);
 	
-	 public boolean existsByCarrelloIdAndProdottoId(Long carrelloId, Integer prodottoId);
+	public boolean existsByCarrelloIdAndProdottoId(Long carrelloId, Integer prodottoId);
 }
