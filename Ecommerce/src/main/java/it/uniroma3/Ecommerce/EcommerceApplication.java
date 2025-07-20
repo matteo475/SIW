@@ -10,10 +10,4 @@ public class EcommerceApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(EcommerceApplication.class, args);
 	}
-  //COMMENTO FATTO DAL PC DI MATTEO SERRA PER PROVA
-
- //COMMENTO DAL PC DI LUCA
-//commento dopo che mi si è sminchiato tutto 
-//commento di riabilitazione gay
-//
 }

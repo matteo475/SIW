@@ -19,7 +19,7 @@
 			
 			<!--PER FARE LA RICERCA FILTRATA-->
 			<a href="/ricercafiltro">Ricerca Filtrata</a>
-			<a href="@{'/userProfile/' + ${user.id}}">Contatti</a>
+			<a href="#">Contatti</a>
 			
 			<!--<a href="/ricercafiltro">ricerca filtrata</a>-->
 
@@ -45,13 +45,13 @@
 
 
 		<!--login e registrazione in alto a destra-->
-		<div th:if="${userDetails != null && googleDetails == null}" class="auth-links">
+		<div th:if="${userDetails != null or googleDetails != null}" class="auth-links">
 			<a th:href="@{/profile}">
 				<span th:text="${userDetails.username}"></span>
 			</a>
 			<a href="/logout">Logout</a>
 		</div>
-		<div th:if="${userDetails == null && googleDetails != null}" class="auth-links">
+		<div th:if="${userDetails == null and googleDetails != null}" class="auth-links">
 		   <a th:href="@{/profile}">
 			  <span th:text="${googleDetails}"></span>
 		  </a>
@@ -61,12 +61,6 @@
 			<a href="/login">Login</a>
 			<a href="/register">Registrazione</a>
 		</div>
-		
-		
-
-		<!-- APPENA FUNZIONA IL CONTROLLO QUESTA RIGA SI TOGLIE E LOGIN E RESITRAZIONE TORANANO SULLA SINISTRA-->
-		<!--<a th:href="@{'/userProfile/1'}" class="cta-button">Visualizza Profilo (test)</a>-->
-
 		<span class="menu-icon" onclick="toggleMenu()">&#9776;</span>
 	</div>
 
@@ -105,50 +99,6 @@
 		</ul>
 	</div>
 
-	<!--
-		
-	<div class="products" id="prodotti">
-		<h2>Prodotti in evidenza</h2>
-		<div class="product-list">
-
-			
-			<div class="product-item">
-				<img src="/images/fotoGiacca.jpeg" alt="Prodotto1">
-				<h3>Prodotto 1</h3>
-				<p>Descrizione del prodotto 1.</p>
-				<div class="price">&euro;49.99</div>
-				<a href="#prodotto1" class="read-more">Acquista ora</a>
-			</div>
-
-			
-			<div class="product-item">
-				<img src="/images/fotoGiaccaUomo.jpeg" alt="Prodotto2">
-				<h3>Prodotto 2</h3>
-				<p>Descrizione del prodotto 2.</p>
-				<div class="price">&euro;79.99</div>
-				<a href="#prodotto2" class="read-more">Acquista ora</a>
-			</div>
-
-		
-			<div class="product-item">
-				<img src="/images/fotoGiaccaPelle.jpeg" alt="Prodotto 3">
-				<h3>Prodotto 3</h3>
-				<p>Descrizione del prodotto 3.</p>
-				<div class="price">&euro;99.99</div>
-				<a href="#prodotto3" class="read-more">Acquista ora</a>
-			</div>
-
-		
-			<div class="product-item">
-				<img src="/images/fotoGiaccaBrutta.jpeg" alt="Prodotto 4">
-				<h3>Prodotto 4</h3>
-				<p>Descrizione del prodotto 4.</p>
-				<div class="price">&euro;59.99</div>
-				<a href="#prodotto4" class="read-more">Acquista ora</a>
-			</div>
-		</div>
-	</div>
-	-->
 	<div class="products" id="elettronica">
 		<h2>Elettronica</h2>
 		<ul class="product-list">
@@ -177,50 +127,7 @@
 		</ul>
 	</div>
 
-	<!--
-	<div class="products" id="nuovi-prodotti">
-		<h2>Nuovi Arrivi</h2>
-
-		<div class="product-list">
-
-			primo prodotto
-			<div class="product-item">
-				<img src="/images/fotoPantaloniDonna.jpeg" alt="Nuovo Prodotto 1">
-				<h3>Nuovo Prodotto 1</h3>
-				<p>Descrizione del nuovo prodotto 1.</p>
-				<div class="price">&euro;69.99</div>
-				<a href="#nuovo-prodotto1" class="read-more">Acquista ora</a>
-			</div>
-
-			secondo prodotto
-			<div class="product-item">
-				<img src="/images/FotoTuta.jpeg" alt="Nuovo Prodotto 2">
-				<h3>Nuovo Prodotto 2</h3>
-				<p>Descrizione del nuovo prodotto 2.</p>
-				<div class="price">&euro;89.99</div>
-				<a href="#nuovo-prodotto2" class="read-more">Acquista ora</a>
-			</div>
-
-			terzo prodotto
-			<div class="product-item">
-				<img src="/images/fotoPantaloniUomo.jpeg" alt="Nuovo Prodotto 3">
-				<h3>Nuovo Prodotto 3</h3>
-				<p>Descrizione del nuovo prodotto 3.</p>
-				<div class="price">&euro;109.99</div>
-				<a href="#nuovo-prodotto3" class="read-more">Acquista ora</a>
-			</div>
-
-			
-			<div class="product-item">
-				<img src="/images/fotoPantaloniBrutti.jpeg" alt="Nuovo Prodotto 4">
-				<h3>Nuovo Prodotto 4</h3>
-				<p>Descrizione del nuovo prodotto 4.</p>
-				<div class="price">&euro;129.99</div>
-				<a href="#nuovo-prodotto4" class="read-more">Acquista ora</a>
-			</div>
-		</div>
-	</div>
--->
+	
 	<!--div per i prodotti con offerte speciali, i prodotti scorrono orizzontalmente-->
 	<div class="products" id="offerte-speciali">
 		<h2>Offerte Speciali</h2>

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -35,8 +36,8 @@ import jakarta.validation.Valid;
 
 
 /*classe che si occupa di gestire le operazioni fatte dall'azienda all'interno della sua area privata*/
-
 @Controller
+@RequestMapping("/company")
 public class CompanyController {
 
 	@Autowired
@@ -53,37 +54,57 @@ public class CompanyController {
 
 	private Company azienda;
 	
-	//per visualizzare l'home page dell'azienda
-	@GetMapping("/company/indexCompany")
+
+	/**
+	 * metodo per visualizzare la pagina esclusiva dell'azienda
+	 * @return la pagina dell'azienda
+	 * */
+	@GetMapping("/indexCompany")
 	public String showHomePageCompany(Model model){
 		model.addAttribute("userDetails", this.sessionData.getUserDetails());
 		return "/company/indexCompany.html";
 	}
 	
-	
-	//quando voglio visualizzare la lista dei prodotti inseriti
-	@GetMapping("/company/products")
+
+	/**
+	 * metodo che permette di restituire la pagina con tutti i prodotti inseriti dall'azienda
+	 * @return la pagina products.html 
+	 **/
+	@GetMapping("/products")
 	public String showProductList(Model model) {
-		List<Product> products = productRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));	//per visualizzare la lista
-		//dei prodotti ordinata per id, in modo che i prodotti più recenti siano in alto
+		
+		//per visualizzare la lista dei prodotti ordinata per id, in modo che i prodotti più recenti siano in alto
+		List<Product> products = productRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));	
+		
+		//prendo la sessione corrente
 		model.addAttribute("userDetails", this.sessionData.getUserDetails());
 		model.addAttribute("products", products); 
 		return "company/products.html";
 	}
 	
-	
-	/*devo creare un metodo che permette all'utente di accedere al form che gli permetterà di aggiungere nuovi prodotti*/
-	@GetMapping("/company/showCreateProduct")
+		
+	/**
+	 * metodo che permette di visualizzare la pagina per inserire nuovi prodotti 
+	 * @return la pagina con il form per inserire i prodotti
+	 **/
+	@GetMapping("/showCreateProduct")
 	public String showCratePage(Model model) {
 		
+		//inizzializzo il prodotto che viene passato alla pagina
 		ProductDto productDto = new ProductDto(); 
 		model.addAttribute("productDto", productDto); 	//tipo di oggetto
 		return "/company/newProduct.html";
 	}
 	
 	
-	/*dobbiamo creare un metodo che ci permette di creare un nuovo prodotto*/
-	@PostMapping("/company/showCreateProduct")
+
+	/**
+	 * metodo che gestisce la creazione di un nuovo prodotto 
+	 * @param productDTO per le informazioni transienti 
+	 * @return l'oggetto prodotto persistente
+	 * @return la pagina che visualizza i prodotti inseriti
+	 * */
+	@PostMapping("/showCreateProduct")
 	public String createProduct(@Valid @ModelAttribute ProductDto productDto, BindingResult result) {
 		
 		//verifico manualmente se è stata inserita l'immagine
@@ -91,7 +112,7 @@ public class CompanyController {
 			result.addError(new FieldError("productDto", "imageFile", "l'immagine è obbligatoria"));
 		}
 		
-		//se ci sono errori
+		//verifico se ci sono errori
 		if(result.hasErrors()) {
 			return "/company/newProduct.html";
 		}
@@ -135,14 +156,15 @@ public class CompanyController {
 	}
 	
 	
-	/**@param modello come dati da passare alla pagina di modifica del prodotto
+	/**
+	 * metodo che ci permette di modificare il prodotto 
+	 * @param modello come dati da passare alla pagina di modifica del prodotto
 	 * @param id del prodotto da modificare
 	 * @return la pagina dove posso modificare il prodotto
 	 **/
 	
-	@GetMapping("/company/edit")
+	@GetMapping("/edit")
 	public String showEditPage(Model model,@RequestParam Integer id) {
-		//Product product = productRepository.findById(id).get();	
 		try {
 			Product product = productRepository.findById(id).get();
 			model.addAttribute("product",product);
@@ -166,8 +188,13 @@ public class CompanyController {
 	}
 	
 	
-	/*che cosa faccio una volta che ho modificato il prodotto*/
-	@PostMapping("/product/edit")
+	/**
+	 * metodo che gestisce la modifica del prodotto
+	 * @param id del prodotto
+	 * @param productDTO che è l'oggetto transiente
+	 * @return a pagina che visualizza i prodotti inseriti
+	 **/
+	@PostMapping("/edit")
 	public String updateProduct(Model model, @RequestParam Integer id, @Valid @ModelAttribute ProductDto productDto,
 			BindingResult result) {
 		
@@ -175,6 +202,7 @@ public class CompanyController {
 		//prima di tutto ci dobbiamo connettere al database
 		try {
 			
+			//recupero il prodotto dato il suo id
 			Product product = productRepository.findById(id).get();
 			model.addAttribute("product", product);
 			
@@ -198,6 +226,8 @@ public class CompanyController {
 				
 				//salvo il nuovo file 
 				MultipartFile image = productDto.getImageFile();	
+				
+				//aggiorno la data di creazione del prodotto
 				Date createdAt = new Date();
 				String storageFileName = createdAt.getTime() + "_" + image.getOriginalFilename();
 				
@@ -214,9 +244,7 @@ public class CompanyController {
 			product.setPrice(productDto.getPrice());
 			product.setDescription(productDto.getDescription());
 			
-			productRepository.save(product);
-			//productService.save(product);
-			
+			productRepository.save(product);//salvo effettivamente il prodotto			
 		}catch(Exception ex){
 			System.out.println("Exception: " + ex.getMessage());
 		}
@@ -226,18 +254,25 @@ public class CompanyController {
 	
 	
 	
-	/*per cancellare un prodotto*/
-	@GetMapping("/company/delete")
+	/**
+	 * metodo che mi permette di cancellare un prodotto 
+	 * @param l'id del prodotto che dobbiamo cancellare
+	 * @return cancella il prodotto con dato id 
+	 * @return la pagina che mostra i prodotti inseriti dall'azienda 
+	 **/
+	@GetMapping("/delete")
 	public String deleteProduct(@RequestParam Integer id) {
 		
-		
 		try {
+			
+			//recupero il prodotto dato l'id inserito
 			Product product = productRepository.findById(id).get();
 			
-			//elimino l'immagine del prodotto 
+			//prendo la directory dell'immagine del dato prodotto
 			Path imagePath = Paths.get("public/images/" + product.getImageFileName());
 			
 			try {
+				//cancello l'immagine relativa al prodotto
 				Files.delete(imagePath);
 				
 			}catch(Exception ex) {
@@ -253,7 +288,4 @@ public class CompanyController {
 		
 		return "redirect:/company/products";
 	}
-	
-	
-
 }

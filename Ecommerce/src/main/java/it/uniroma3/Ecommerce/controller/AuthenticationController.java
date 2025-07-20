@@ -29,176 +29,138 @@ import jakarta.validation.Valid;
 
 @Controller
 public class AuthenticationController {
-	@Autowired 
+
+	@Autowired
 	ProductRepository productRepository;
+
 	@Autowired
 	private CredentialsService credentialsService;
+	
 	@Autowired
 	private CarrelloService carrelloService;
-	@Autowired 
+	
+	@Autowired
 	private SessionData sessionData;
-
-	//@Autowired
-	// private PasswordEncoder passwordEncoder;
 
 	@Autowired
 	private UserService userService;
 
-	@GetMapping("/login")	//praticamente gli sto dicendo cosa fare quando incotra lo /login
+	/**
+	 * metodo per visualizzare la pagina di login
+	 * @return login.html 
+	 **/
+	@GetMapping("/login") 
 	public String showLogin(Model model) {
-		return "login.html"; //la pagina html che deve ritornare
+		return "login.html"; // la pagina html che deve ritornare
 	}
+	
 
-	@GetMapping("/register") //imposto cosa deve fare quando incotro /register
+	/**
+	 * metodo per visualizzare la pagina per la registrazione
+	 * @return register.html  
+	 **/
+	@GetMapping("/register") // imposto cosa deve fare quando incotro /register
 	public String showRegister(Model model) {
-		model.addAttribute("user", new User()); 
+		model.addAttribute("user", new User());
 		model.addAttribute("credentials", new Credentials());
-
-		return "register.html"; //la pagina html che deve ritornare
+		return "register.html"; // la pagina html che deve ritornare
 	}
-
-	@GetMapping(value = "/registrazioneeffettuata")
-	public String index(Model model) {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (authentication instanceof AnonymousAuthenticationToken) {
-			return "index.html";	//mi ritorna l'homepage
-		}
-		else {
-			UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
-
-			//se il ruolo dell'utente è quello di PROVIDER vuol dire che ci dovriamo davanti a una azienda
-			if (credentials.getRole().equals(Credentials.PROVIDER_ROLE)) {
-				return "company/indexCompany.html";	//ritorno l'area riservata alle sole aziende
-			}
-			/**
-			if(credentials.getRole().equals(Credentials.NORMAL_ROLE)) {
-				return "index.html";
-			}
-			 */
-		}
-
-		return "index.html"; //torno alla homepage
-	}
-
-	@GetMapping(value = "/success")	//il login ha avuto successo
-	public String defaultAfterLogin(Model model) {
-		Object tipoDiLogin = this.sessionData.getUserDetailsObject();
-		UserDetails userDetails = null;
-
-		if(tipoDiLogin instanceof CustomOauth2User) {
-			CustomOauth2User oauth = (CustomOauth2User) tipoDiLogin;
-			this.userService.processOAuthPostLogin(oauth);
-			List <Product> a=productRepository.findAll();
-			model.addAttribute("products", a);
-			model.addAttribute("googleDetails", oauth.getName());
-			return "index.html";
-		}else {
-			userDetails = (UserDetails) tipoDiLogin;
-			Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
-			if (credentials.getRole().equalsIgnoreCase(Credentials.PROVIDER_ROLE)) {
-				model.addAttribute("userDetails", userDetails);
-				return "company/indexCompany.html";	//se ho permessi speciali allora posso accedere ad un'altra area
-			}else {
-				model.addAttribute("userDetails", userDetails);
-				List <Product> a=productRepository.findAll();
-				model.addAttribute("products", a);
-				return "index.html"; 
-			}
-		}
-		/**
-		//implementazione ruolo di defoult 
-		if(credentials.getRole().equals(Credentials.DEFAULT_ROLE)) {
-			return "index.html";
-		}
-		 **/
-		//	return "index.html"; //se mi sono autenticato e sono un utente normale torno alla homepage
-	}
-
-	/*
-	@PostMapping(value = { "/register" })
-	public String registerUser(@Valid @ModelAttribute("user") User user, BindingResult userBindingResult,
-			@Valid @ModelAttribute("credentials") Credentials credentials, BindingResult credentialsBindingResult,
-			Model model) {
-
-		// se user e credential hanno entrambi contenuti validi, memorizza User e the
-		// Credentials nel DB
-		if (!userBindingResult.hasErrors() && !credentialsBindingResult.hasErrors()) {
-			userService.saveUser(user);
-			credentials.setUser(user);
-			credentialsService.saveCredentials(credentials);
-			model.addAttribute("user", user);
-			return "registrationSuccessful.html";	//torna la pagina che mi dice che la registrazione è avvenuta con successo
-		}
-		return "register.html";	//pagina di ritorno
-	}*/
-
-	/*
+	
+	/**
+	 * metodo che gestisce cosa succede dopo la registrazione
+	 * @param le credenziali prese dal form 
+	 * @return la pagina registrationSuccessful che mi dice che la 
+	 * 		   registrazione è andata a buon fine 
+	 **/
 	@PostMapping("/register")
-	public String registerUser(@Valid @ModelAttribute("user") User user, BindingResult userBindingResult,
-			@Valid @ModelAttribute("credentials") Credentials credentials, BindingResult credentialsBindingResult,
-			Model model) {
-
-		 if (userBindingResult.hasErrors() || credentialsBindingResult.hasErrors()) {
-	            return "register";
-	        }
-
-	        // 1) Imposta la password codificata
-	        //credentials.setPassword(passwordEncoder.encode(credentials.getPassword()));
-
-	        // 2) Collega i due oggetti l’uno all’altro
-	        credentials.setUser(user);
-	        user.setCredentials(credentials);
-
-	        // 3) Salva SOLO le credentials (cascade ALL persiste anche User)
-	        credentialsService.saveCredentials(credentials);
-
-	        model.addAttribute("user", user);
-	        return "registrationSuccessful";
-
-	}
-	 */
-
-	/*
-	@PostMapping("/register")
-	public String registerUser(BindingResult userBindingResult,
-			@Valid @ModelAttribute("credentials") Credentials credentials, 
-			Model model) {
-
-		 if (userBindingResult.hasErrors()) {
-	            return "register";
-	        }
-
-	        // 1) Imposta la password codificata
-	        //credentials.setPassword(passwordEncoder.encode(credentials.getPassword()));
-
-	        // 2) Collega i due oggetti l’uno all’altro
-
-
-	        // 3) Salva SOLO le credentials (cascade ALL persiste anche User)
-	        credentialsService.saveCredentials(credentials);
-
-	        model.addAttribute("user", credentials.getUser());
-	        return "registrationSuccessful";
-
-	}
-	 */
-	@PostMapping("/register")
-	public String registerUser(
-			@Valid 
-			@ModelAttribute("credentials") Credentials credentials,  // 1) il modello
-			BindingResult bindingResult,                             // 2) subito dopo il BindingResult
-			Model model) {                                           // 3) gli altri parametri
+	public String registerUser(@Valid @ModelAttribute("credentials") Credentials credentials, BindingResult bindingResult,
+			Model model) { 
+		
+		//se ci sono errori
 		if (bindingResult.hasErrors()) {
 			return "register";
 		}
 
-		// codifica e persisti
-		// credentials.setPassword(passwordEncoder.encode(credentials.getPassword()));
+		//salvo le credenziali
 		credentialsService.saveCredentials(credentials);
 		model.addAttribute("user", credentials.getUser());
 		return "registrationSuccessful";
 	}
 
+	/**
+	 * metodo per visualizzare la pagina iniziale in maniera differenziata a seconda del ruolo dell'utente
+	 * @return indexCompany.html se l'utente ha PROVIDER_ROLE 
+	 * @return index.html se l'utente ha DEFAULT_ROLE
+	 **/
+	@GetMapping(value = "/registrazioneeffettuata")
+	public String index(Model model) {
+		
+		//prendo l'autenticazione corrente
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		
+		
+		if (authentication instanceof AnonymousAuthenticationToken) {
+			return "index.html"; // mi ritorna l'homepage
+		} else {
+			UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+					.getPrincipal();
+			Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
 
+			// se il ruolo dell'utente è quello di PROVIDER vuol dire che ci troviamo davanti a una azienda
+			if (credentials.getRole().equals(Credentials.PROVIDER_ROLE)) {
+				return "company/indexCompany.html"; // ritorno l'area riservata alle sole aziende
+			}
+		}
+		return "index.html"; // torno alla homepage
+	}
+
+	
+	/**
+	 * metodo che gestisce cosa succede dopo che il login ha avuto successo
+	 * @return indexCompany.html se l'utente ha PROVIDER_ROLE 
+	 * @return index.html se l'utente ha DEFAULT_ROLE
+	 **/
+	@GetMapping(value = "/success") 
+	public String defaultAfterLogin(Model model) {
+		
+		//recupera l'oggetto che identifica il tipo di login salvato nella sessione
+		Object tipoDiLogin = this.sessionData.getUserDetailsObject();
+		UserDetails userDetails = null;
+
+		//verifico se l'utente ha fatto il login tramite OAuth2
+		if (tipoDiLogin instanceof CustomOauth2User) {
+			CustomOauth2User oauth = (CustomOauth2User) tipoDiLogin;
+			
+			//consente di registare/processare l'utente OAuth2 al primo accesso
+			this.userService.processOAuthPostLogin(oauth);
+			
+			//carico tutti i prodotti per mostrarli nella home
+			List<Product> a = productRepository.findAll();
+			model.addAttribute("products", a);
+			
+			//aggiunge al model il nome proveniente da Google
+			model.addAttribute("googleDetails", oauth.getName());
+			return "index.html";
+		} else {
+			
+			//faccio il login tradizionale 
+			userDetails = (UserDetails) tipoDiLogin;
+			
+			//recupero le credenziali dal database
+			Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+			
+	        //se il ruolo è PROVIDER (azienda), lo manda nella sua area riservata
+			if (credentials.getRole().equalsIgnoreCase(Credentials.PROVIDER_ROLE)) {
+				model.addAttribute("userDetails", userDetails);
+				return "company/indexCompany.html"; // se ho permessi speciali allora posso accedere ad un'altra area
+				
+			} else {
+	            //utente “normale”: mostra la home con la lista prodotti
+				model.addAttribute("userDetails", userDetails);
+				List<Product> a = productRepository.findAll();
+				model.addAttribute("products", a);
+				return "index.html";
+			}
+		}
+	}
 }

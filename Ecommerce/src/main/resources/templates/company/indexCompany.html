@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="it">
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -36,10 +37,12 @@
 		</div>
 
 		<div th:if="${userDetails}" class="auth-links" )>
-			<span th:text="${userDetails.username}"></span>
+			<a th:href="@{/profile}">
+				<span th:text="${userDetails.username}"></span>
+			</a>
 			<a href="/logout">Logout</a>
 		</div>
-		
+
 		<span class="menu-icon" onclick="toggleMenu()">&#9776;</span>
 	</div>
 
@@ -61,4 +64,5 @@
 		}
 	</script>
 </body>
+
 </html>

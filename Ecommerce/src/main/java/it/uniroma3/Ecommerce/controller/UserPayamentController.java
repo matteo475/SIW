@@ -31,6 +31,10 @@ public class UserPayamentController {
 	@Autowired
 	private CredentialsService credentialsService;
 	
+	/**
+	 * metodo per visualizzare tutti i metodi di pagamento dell'utente
+	 * @return la pagina con tutti i metodi di pagamento (showPayment.html)
+	 * */
 	@GetMapping("/profile/payments")
 	public String showMyPayment(Authentication authentication, Model model) {
 		
@@ -61,13 +65,25 @@ public class UserPayamentController {
 		return "payment/showPayment";
 	}
 	
+	/**
+	 * metodo per visualizzare la pagina con il form per inserire un nuovo metodo di pagamento
+	 * @return newPayment.html
+	 **/
 	@GetMapping("/profile/newPayment")
 	public String showCreatePaymentFor(Model model) {
+		
+		//creo l'oggetto transiente che poi dovrà essere riempito
 		PaymentDTO dto = new PaymentDTO();
 		model.addAttribute("paymentDTO",dto);
 		return "/payment/newPayment.html";
 	}
 	
+	/**
+	 * metodo per processare la creazione di un nuovo metodo di pagamento dal form
+	 * @param paymentDTO
+	 * @return oggetto payment persistente 
+	 * @return pagina dove vedo tutti i metodi di pagamento (showPayment.html) 
+	 **/
 	@PostMapping("/profile/newPayment")
 	public String createPayment(@Valid @ModelAttribute PaymentDTO paymentDTO, BindingResult result, Authentication authentication) {
 		
@@ -92,11 +108,14 @@ public class UserPayamentController {
 		}
 		
 		User user = creds.getUser();
+		
+		//collego il pagamento all'utente
 		pay.setUser(user);
+		
+		//salvo il metodo di pagamento
 		paymentService.save(pay);
 		
 		return "redirect:/profile/payments";
 	}
-	
 
 }
