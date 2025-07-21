@@ -1,16 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org" lang="it">
 
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link
-		  rel="stylesheet"
-		  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-		  integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
-		  crossorigin="anonymous"
-		  referrerpolicy="no-referrer" />
-	<link href="/css/stileviewproduct.css" rel="stylesheet" type="text/css">
 	<link href="/css/stileIndex.css" rel="stylesheet" type="text/css">
 </head>
 
@@ -21,6 +14,7 @@
 			<a href="#">Prodotti</a>
 			<a href="/ricercafiltro">RicercaFiltrata</a>
 			<a href="#">Contatti</a>
+			
 			<!--rappresenta il menù a tendina -->
 			<div class="dropdown">
 				<a href="javascript:void(0)">Categorie</a>
@@ -39,7 +33,7 @@
 				<button type="submit">Cerca</button>
 			</form>
 		</div>
-		
+
 		<!-- link al carrello con icona + badge -->
 		<div class="cart-icon" style="position: relative;">
 			<a th:href="@{/carrello}" aria-label="Carrello">
@@ -48,7 +42,7 @@
 				<!-- <span class="cart-count">0</span> tocca mettere un th:text="${lista.size()}" -->
 			</a>
 		</div>
-		
+
 		<!--login e registrazione in alto a destra-->
 		<div class="auth-links">
 			<a href="/login">Login</a>
@@ -56,23 +50,21 @@
 		</div>
 		<span class="menu-icon" onclick="toggleMenu()">&#9776;</span>
 	</div>
-
-	<div class="card">
-		<div class="photo">
-			<img th:src="@{/images/{image}(image=${product.imageFileName})}" th:alt="${product.name}" />
+	
+	<!--div principale, rappresenta la prima cosa che vede l'utente quando entra-->
+	<div class="hero">
+		<h1>PAGAMENTO:</h1>
+		<div th:if="${payments.size() >= 1}">
+			<p>PAGAMENTO EFFETTUATO CON SUCCESSO</p>
+			<br><br>
+			<form th:action="@{/checkout}" method="post">
+				<button type="submit">Continua a fare acquisti</button>
+			</form>
 		</div>
-		<div class="description">
-			<h2 th:text="${product.name}">nome</h2>
-			<h4 th:text="${product.category}">categoria</h4>
-			<p th:text="${product.description}"> descrizione</p>
-			<h1 th:text="${product.price} + ' $'">prezzo:</h1>
-			Disponibilita : <span th:text="${disponibilita}"></span><br><br>
-			<button>
-				<a th:href="@{/carrello/carrelloItem/{id}(id=${product.id})}">
-					aggiungi al carrello
-				</a>
-			</button>
-			<button>altri prodotti simili</button>
+		<div th:if="${payments.isEmpty()}">
+			<p>Non &eacute; possibile effettuare il pagamento.</p>
+			<p>Inserisci un metodo di pagamento</p>
+			<a th:href="@{/profile/payments}" class="cta-button">Metodo di Pagamento</a>
 		</div>
 	</div>
 </body>

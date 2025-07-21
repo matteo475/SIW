@@ -13,14 +13,12 @@
 		<div class="navbar" id="navbar">
 			<div class="nav-links">
 				<a href="/">Home</a>
-				<a href="/carrello">Prodotti</a>
+				<a href="#">Prodotti</a>
 				
 				<!--PER FARE LA RICERCA FILTRATA-->
 				<a href="/ricercafiltro">Ricerca Filtrata</a>
-				<a href="@{'/userProfile/' + ${user.id}}">Contatti</a>
+				<a href="#">Contatti</a>
 				
-				<!--<a href="/ricercafiltro">ricerca filtrata</a>-->
-
 				<!--rappresenta il menù a tendina -->
 				<div class="dropdown">
 					<a href="javascript:void(0)">Altro</a>
@@ -41,8 +39,6 @@
 			</div>
 
 
-
-
 			<!--login e registrazione in alto a destra-->
 			<div th:if="${userDetails != null && googleDetails == null}" class="auth-links">
 				<a th:href="@{/profile}">
@@ -60,9 +56,6 @@
 				<a href="/login">Login</a>
 				<a href="/register">Registrazione</a>
 			</div>
-
-			<!-- APPENA FUNZIONA IL CONTROLLO QUESTA RIGA SI TOGLIE E LOGIN E RESITRAZIONE TORANANO SULLA SINISTRA-->
-			<!--<a th:href="@{'/userProfile/1'}" class="cta-button">Visualizza Profilo (test)</a>-->
 
 			<span class="menu-icon" onclick="toggleMenu()">&#9776;</span>
 		</div>
