@@ -58,7 +58,7 @@
 		</div>
 
 		<!--login e registrazione in alto a destra-->
-		<div th:if="${userDetails != null or googleDetails != null}" class="auth-links">
+		<div th:if="${userDetails != null and googleDetails == null}" class="auth-links">
 			<a th:href="@{/profile}">
 				<span th:text="${userDetails.username}"></span>
 			</a>
