@@ -17,6 +17,7 @@ import it.uniroma3.Ecommerce.DTOmodel.PaymentDTO;
 import it.uniroma3.Ecommerce.model.Credentials;
 import it.uniroma3.Ecommerce.model.Payment;
 import it.uniroma3.Ecommerce.model.User;
+import it.uniroma3.Ecommerce.service.CarrelloService;
 import it.uniroma3.Ecommerce.service.CredentialsService;
 import it.uniroma3.Ecommerce.service.PaymentService;
 import jakarta.validation.Valid;
@@ -29,6 +30,9 @@ public class UserPayamentController {
 	
 	@Autowired
 	private CredentialsService credentialsService;
+	
+	@Autowired
+	private CarrelloService carrelloService;
 	
 	/**
 	 * metodo per visualizzare tutti i metodi di pagamento dell'utente
@@ -116,5 +120,44 @@ public class UserPayamentController {
 		
 		return "redirect:/profile/payments";
 	}
+	
+	/**
+	 * metodo per visualizzare la pagina del pagamento effettuato
+	 * @return pagamentoEffettuato.html
+	 **/
+	@GetMapping("/checkout")
+	public String showPagamanetoEffettuato(Model model,Authentication authentication) {
+		
+		Object principal = authentication.getPrincipal();
+		String username = (principal instanceof UserDetails) ? ((UserDetails) principal).getUsername() : principal.toString();
+		
+		Credentials creds = credentialsService.getCredentials(username);
+		if(creds == null || creds.getUser() == null) {
+			return "redirect:/login?error";
+		}
+		
+		User user = creds.getUser();
+		
+		//chiamo il service per ottenere i DTO dei payment
+		List<PaymentDTO> payments = paymentService.getAllPayment(user.getId());
+		
+		model.addAttribute("payments", payments);
+		return "/payment/pagamentoEffettuato.html";
+	}
+	
+	@PostMapping("/checkout")
+	public String clearCartAndContinue(Model model, Authentication authentication) {
+		
+	    String username = authentication.getName();
+	    Credentials creds = credentialsService.getCredentials(username);
+	    if (creds == null || creds.getUser() == null) {
+	        return "redirect:/login?error";
+	    }
+	    
+	    carrelloService.deleateCart(creds.getUser().getId());
+	    return "redirect:/";   // o dove vuoi reindirizzare
+	}
+	
+
 
 }

@@ -56,6 +56,12 @@ public class User {
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<Address> indirizzi = new ArrayList<>();
 
+	/*
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	private List<Payment> pagamenti = new ArrayList<>();
+	*/
+	
+	//costruttore
 	public User() {
 	}
 
@@ -69,7 +75,7 @@ public class User {
 		}
 	}
 
-	// getter & setter essenziali
+	//getter & setter essenziali
 	public Long getId() {
 		return id;
 	}
