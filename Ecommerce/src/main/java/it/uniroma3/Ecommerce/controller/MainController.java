@@ -24,6 +24,7 @@ import it.uniroma3.Ecommerce.authentication.SessionData;
 import it.uniroma3.Ecommerce.model.*;
 import it.uniroma3.Ecommerce.repository.ProductRepository;
 import it.uniroma3.Ecommerce.repository.UserRepository;
+import it.uniroma3.Ecommerce.service.CarrelloService;
 import it.uniroma3.Ecommerce.service.CredentialsService;
 import it.uniroma3.Ecommerce.service.ProductService;
 import it.uniroma3.Ecommerce.service.UserService;
@@ -47,18 +48,23 @@ public class MainController {
 	CredentialsService credentialsService;
 
 	@Autowired
+	CarrelloService carrelloService;
+
+	@Autowired
 	private SessionData sessionData;
 
+	
 	/**
 	 * metodo di default che di permette di visualizzare la HomePage
-	 * 
 	 * @return index.html (HomePage del sito)
 	 **/
 	@GetMapping("/")
 	public String index(Model model) {
-		List<Product> products = productRepository.findAll(); // per visualizzare la lista
-		// dei prodotti ordinata per id, in modo che i prodotti più recenti siano in
-		// alto
+
+		// per visualizzare la lista dei prodotti ordinata per id, in modo che i
+		// prodotti più recenti siano in alto
+		List<Product> products = productRepository.findAll();
+
 		if (products.isEmpty()) {
 			return "redirect:/login.html";
 		}
@@ -101,7 +107,6 @@ public class MainController {
 		return "viewproduct.html";
 	}
 
-	
 	@GetMapping("/profile")
 	public String showMyProfile(Authentication authentication, Model model) {
 

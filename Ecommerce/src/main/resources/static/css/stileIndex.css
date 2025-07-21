@@ -421,3 +421,44 @@ a:hover {
 .social-icons a.twitter {
   background-color: #1DA1F2;
 }
+
+
+/* Carrello in navbar */
+.navbar {
+  position: relative;
+}
+
+/* contenitore icona */
+.cart-icon {
+  margin-left: 20px;    /* o auto per spostarlo a destra */
+  position: relative;
+  left: 160px;
+}
+
+/* link + icona */
+.cart-icon a {
+  position: relative;
+  display: inline-block;
+  color: white;
+  font-size: 1.5rem;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+/* colore icona al hover */
+.cart-icon a:hover {
+  color: #ff6347;
+}
+
+/* badge numero articoli */
+.cart-icon .cart-count {
+  position: absolute;
+  top: -6px;
+  right: -10px;
+  background-color: #ff6347;
+  color: #fff;
+  font-size: 0.75rem;
+  padding: 2px 6px;
+  border-radius: 50%;
+  line-height: 1;
+}

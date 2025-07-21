@@ -14,7 +14,7 @@
 		<!--<h1 th:text="${#fields.hasErrors()} ? 'Modifica Indirizzo' : 'Nuovo Indirizzo'"></h1>-->
 
 		<form th:action="@{/profile/newAddress}" method="POST" th:object="${addressDTO}">
-			<label for="city">Città:</label>
+			<label for="city">Citt&aacute;:</label>
 			<input type="text" id="city" th:field="*{city}" required />
 			<div th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></div>
 

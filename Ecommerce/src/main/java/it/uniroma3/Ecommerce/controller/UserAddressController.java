@@ -48,8 +48,7 @@ public class UserAddressController {
 
 		//estrai lo username
 		Object principal = authentication.getPrincipal();
-		String username = (principal instanceof UserDetails) ? ((UserDetails) principal).getUsername()
-				: principal.toString();
+		String username = (principal instanceof UserDetails) ? ((UserDetails) principal).getUsername(): principal.toString();
 
 		//recupera le Credentials e la User
 		Credentials creds = credentialsService.getCredentials(username);
@@ -120,6 +119,6 @@ public class UserAddressController {
 		//salvo l'indirizzo
 		addressService.save(address);
 		
-		return "redirect:/addresses";		
+		return "redirect:/profile/addresses";		
 	}
 }

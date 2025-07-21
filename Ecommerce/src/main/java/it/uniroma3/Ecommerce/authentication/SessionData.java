@@ -11,6 +11,7 @@ import it.uniroma3.Ecommerce.model.Credentials;
 import it.uniroma3.Ecommerce.model.User;
 import it.uniroma3.Ecommerce.repository.CredentialsRepository;
 import it.uniroma3.Ecommerce.repository.UserRepository;
+import it.uniroma3.Ecommerce.service.UserService;
 
 /**
  * QUESTA CLASSE E' UTILE PER OTTENERE I DATI DALL'UTENTE AUTENTICATO QUESTO CI
@@ -25,6 +26,9 @@ public class SessionData {
 
 	@Autowired
 	private CredentialsRepository credRepo;
+	
+	@Autowired
+	private UserService userService;
 	
 	private User user;
 	private Credentials credenziali;
@@ -60,5 +64,7 @@ public class SessionData {
 		Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		return obj;
 	}
+	
+
 
 }

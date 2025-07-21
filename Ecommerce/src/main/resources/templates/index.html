@@ -5,6 +5,12 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Benvenuti su Amazzon</title>
+	<link
+	  rel="stylesheet"
+	  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+	  integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+	  crossorigin="anonymous"
+	  referrerpolicy="no-referrer" />
 	<link href="/css/stileIndex.css" rel="stylesheet" type="text/css">
 	<meta http-equiv="refresh" content="10">
 </head>
@@ -41,6 +47,15 @@
 		</div>
 
 
+		
+		<!-- link al carrello con icona + badge -->
+		<div class="cart-icon" style="position: relative;">
+		  <a th:href="@{/carrello}" aria-label="Carrello">
+		    <i class="fas fa-shopping-cart"></i>
+		    <!-- badge: numero articoli -->
+		    <span class="cart-count">0</span> <!-- tocca mettere un th:text="${lista.size()}" -->
+		  </a>
+		</div>
 
 		<!--login e registrazione in alto a destra-->
 		<div th:if="${userDetails != null or googleDetails != null}" class="auth-links">
@@ -110,7 +125,7 @@
 						<p th:text="${product.description}">Descrizione del prodotto</p>
 						<p class="price" th:text="${#numbers.formatDecimal(product.price, 1, 2, 'POINT')}">Prezzo
 						</p>
-						<a th:href="@{/product/{id}(id=${product.id})}" class="read-more">Acquista ora</a>
+						<a th:href="@{/prodotto/{id}(id=${product.id})}" class="read-more">Acquista ora</a>
 					</div>
 				</li>
 			</th:block>

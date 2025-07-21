@@ -29,4 +29,5 @@ public interface CarrelloItemRepository extends CrudRepository<CarrelloItem, Lon
 	public void cancellaProdottoDalCarrello(Long carrello, Integer productId);
 	
 	public boolean existsByCarrelloIdAndProdottoId(Long carrelloId, Integer prodottoId);
+	
 }

@@ -8,6 +8,8 @@ import it.uniroma3.Ecommerce.repository.CarrelloRepository;
 import it.uniroma3.Ecommerce.repository.ProductRepository;
 import jakarta.transaction.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,8 @@ public class CarrelloService {
 	
 	@Autowired
 	private ProductRepository prodottoRepository;
+	
+	private final List<CarrelloItem> carrelloItem = new ArrayList<>();
 
 	/**
 	 * metodo per salvare l'oggetto carrello
@@ -34,6 +38,8 @@ public class CarrelloService {
 		return this.carrelloRepository.save(carrello);
 	}
 
+	
+	
 	/*questo carrello è quello dell' utente personale e verrà preso tramite l'oggetto SessionData*/
 	public Carrello getCarrello(Long id) {
 		return this.carrelloRepository.findById(id).orElseThrow(()-> new RuntimeException("Carrello non trovato con id:" + id));
@@ -115,5 +121,12 @@ public class CarrelloService {
 	public boolean prodottoGiaNelCarrello(Long id1,Integer id) {
 		return this.carrelloItemRepository.existsByCarrelloIdAndProdottoId(id1, id);
 	}
+	/**
+     * Restituisce la lista corrente di articoli nel carrello.
+     */
+    public List<CarrelloItem> getItems() {
+        // restituisco una copia per non esporre la lista interna
+        return new ArrayList<>(carrelloItem);
+    }
 
 }
